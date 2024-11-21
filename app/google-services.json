@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1057513755027",
+    "project_id": "tooltrip-2024",
+    "storage_bucket": "tooltrip-2024.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1057513755027:android:fd8d8b1a280d89beefd866",
+        "android_client_info": {
+          "package_name": "com.example.tooltrip"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-sQckog-4Az1VXyTsErNTwvHKxQ8kYzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
