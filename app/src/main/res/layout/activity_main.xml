@@ -1,32 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Benvenuto su Tool Trip"
-        style="@style/TitleText" />
-
-    <Button
-        android:id="@+id/primary_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Condividi un oggetto"
-        style="@style/ButtonPrimary"
-        android:layout_marginTop="16dp" />
-
-    <Button
-        android:id="@+id/secondary_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Scopri di più"
-        style="@style/ButtonSecondary"
-        android:layout_marginTop="8dp" />
-</LinearLayout>
+    tools:context=".MainActivity">
+</androidx.constraintlayout.widget.ConstraintLayout>

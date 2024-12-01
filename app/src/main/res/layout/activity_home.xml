@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aggiungi un oggetto"
+        style="@style/TitleText"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/et_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome oggetto"
+        style="@style/BodyText"
+        android:background="@color/primary"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/et_item_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descrizione"
+        style="@style/BodyText"
+        android:background="@color/primary"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/et_item_availability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Disponibilità (es. disponibile o non disponibile)"
+        style="@style/BodyText"
+        android:background="@color/primary"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btn_save_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salva Oggetto"
+        style="@style/ButtonPrimary" />
+
+</LinearLayout>
