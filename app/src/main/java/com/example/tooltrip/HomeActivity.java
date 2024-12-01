@@ -14,6 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity {
 
+    // DA CAMBIARE COMPLETAMENTE ERA SOLO PER PROVA
     private EditText etItemName, etItemDescription, etItemAvailability;
     private Button btnSaveItem;
 
