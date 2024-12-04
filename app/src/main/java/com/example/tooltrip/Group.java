@@ -66,4 +66,10 @@ public class Group {
         this.creatore = creatore;
     }
 
+
+    public List<User> getListaMembri() {
+        return membri;
+    }
+
+    public void addMembro(User m) {this.membri.add(m);}
 }

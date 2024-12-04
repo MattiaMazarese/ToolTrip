@@ -13,7 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity {
-
+/*
     // DA CAMBIARE COMPLETAMENTE ERA SOLO PER PROVA
     private EditText etItemName, etItemDescription, etItemAvailability;
     private Button btnSaveItem;
@@ -82,5 +82,5 @@ public class HomeActivity extends AppCompatActivity {
                         Toast.makeText(HomeActivity.this, "Errore nel salvataggio: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-    }
+    }*/
 }
