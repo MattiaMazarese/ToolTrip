@@ -2,22 +2,27 @@ package com.example.tooltrip;
 
 public class Item {
     private String itemId;
-    private String name;
-    private String description;
-    private String availability;
+    private String nome;
+    private String descrizione;
+    private String categoria;
+    private User possesore;
+    private Boolean pubblico;
 
     public Item() {
         // Costruttore vuoto richiesto da Firebase
     }
 
-    public Item(String itemId, String name, String description, String availability) {
+    // Costruttore con tutti i parametri
+    public Item(String itemId, String nome, String descrizione, String categoria, User possesore, Boolean pubblico) {
         this.itemId = itemId;
-        this.name = name;
-        this.description = description;
-        this.availability = availability;
+        this.nome = nome;
+        this.descrizione = descrizione;
+        this.categoria = categoria;
+        this.possesore = possesore;
+        this.pubblico = pubblico;
     }
 
-    // Getter e Setter
+    // Getter e Setter per itemId
     public String getItemId() {
         return itemId;
     }
@@ -26,27 +31,50 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public String getName() {
-        return name;
+    // Getter e Setter per nome
+    public String getNome() {
+        return nome;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getDescription() {
-        return description;
+    // Getter e Setter per descrizione
+    public String getDescrizione() {
+        return descrizione;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescrizione(String descrizione) {
+        this.descrizione = descrizione;
     }
 
-    public String getAvailability() {
-        return availability;
+    // Getter e Setter per categoria
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setAvailability(String availability) {
-        this.availability = availability;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
+
+    // Getter e Setter per possesore (oggetto User)
+    public User getPossesore() {
+        return possesore;
+    }
+
+    public void setPossesore(User possesore) {
+        this.possesore = possesore;
+    }
+
+    // Getter e Setter per pubblico
+    public Boolean getPubblico() {
+        return pubblico;
+    }
+
+    public void setPubblico(Boolean pubblico) {
+        this.pubblico = pubblico;
+    }
+
+
 }
