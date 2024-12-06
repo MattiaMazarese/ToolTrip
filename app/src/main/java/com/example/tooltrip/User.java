@@ -7,21 +7,19 @@ public class User {
     private String annoNascita;
     private Address addressID;
     private String numTelefono;
-    private Group groupID;
 
     public User(){
         // Costruttore vuoto richiesto da Firebase
     }
 
     // Costruttore con tutti i parametri
-    public User(String userID, String nome, String cognome, String annoNascita, Address address, String numTelefono, Group group) {
+    public User(String userID, String nome, String cognome, String annoNascita, Address address, String numTelefono) {
         this.userID = userID;
         this.nome = nome;
         this.cognome = cognome;
         this.annoNascita = annoNascita;
         this.addressID = address;
         this.numTelefono = numTelefono;
-        this.groupID = group;
     }
 
     // Getter e Setter per userID

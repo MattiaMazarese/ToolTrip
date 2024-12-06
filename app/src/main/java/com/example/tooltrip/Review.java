@@ -2,7 +2,6 @@ package com.example.tooltrip;
 
 public class Review {
     private String reviewID;
-    private Item itemID;
     private int stelle;
     private String descrizione;
     private User userID;
@@ -12,9 +11,8 @@ public class Review {
     }
 
     // Costruttore con tutti i parametri
-    public Review(String reviewID, Item itemID, int stelle, String descrizione, User userID) {
+    public Review(String reviewID, int stelle, String descrizione, User userID) {
         this.reviewID = reviewID;
-        this.itemID = itemID;
         this.stelle = stelle;
         this.descrizione = descrizione;
         this.userID = userID;
@@ -30,13 +28,6 @@ public class Review {
     }
 
     // Getter e Setter per itemID
-    public Item getItemID() {
-        return itemID;
-    }
-
-    public void setItemID(Item itemID) {
-        this.itemID = itemID;
-    }
 
     // Getter e Setter per stelle
     public int getStelle() {

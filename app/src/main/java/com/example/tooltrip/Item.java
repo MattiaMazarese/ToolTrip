@@ -1,5 +1,8 @@
 package com.example.tooltrip;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Item {
     private String itemId;
     private String nome;
@@ -7,6 +10,7 @@ public class Item {
     private String categoria;
     private User possesore;
     private Boolean pubblico;
+    private List<Review> recensioni;
 
     public Item() {
         // Costruttore vuoto richiesto da Firebase
@@ -20,6 +24,7 @@ public class Item {
         this.categoria = categoria;
         this.possesore = possesore;
         this.pubblico = pubblico;
+        this.recensioni = new ArrayList<>();
     }
 
     // Getter e Setter per itemId
@@ -76,5 +81,10 @@ public class Item {
         this.pubblico = pubblico;
     }
 
+    public List<Review> getListaRecensioni() {
+        return recensioni;
+    }
+
+    public void addRecensione(Review recensione) {this.recensioni.add(recensione);}
 
 }
