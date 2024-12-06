@@ -1,72 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".RegisterActivity">
+    android:padding="16dp">
 
-    <!-- Campo Nome -->
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome"
-        android:inputType="textPersonName"
-        style="@style/BodyText"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp" />
+        android:orientation="vertical">
 
-    <!-- Campo Email -->
-    <EditText
-        android:id="@+id/et_email"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        style="@style/BodyText"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintTop_toBottomOf="@id/et_name"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <!-- Nome -->
+        <EditText
+            android:id="@+id/etNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nome"
+            style="@style/BodyText"
+            android:inputType="text" />
 
-    <!-- Campo Password -->
-    <EditText
-        android:id="@+id/et_password"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        style="@style/BodyText"
-        android:backgroundTint="@color/primary"
-        app:layout_constraintTop_toBottomOf="@id/et_email"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp" />
+        <!-- Cognome -->
+        <EditText
+            android:id="@+id/etCognome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cognome"
+            style="@style/BodyText"
+            android:inputType="text" />
 
-    <!-- Pulsante di Registrazione -->
-    <Button
-        android:id="@+id/btn_register"
-        style="@style/ButtonPrimary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Registrati"
-        app:layout_constraintTop_toBottomOf="@id/et_password"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="24dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Anno di nascita -->
+        <EditText
+            android:id="@+id/etAnnoNascita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Anno di Nascita"
+            style="@style/BodyText"
+            android:inputType="number" />
+
+        <!-- Numero di telefono -->
+        <EditText
+            android:id="@+id/etNumTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Numero di Telefono"
+            style="@style/BodyText"
+            android:inputType="phone" />
+
+        <!-- Campi per l'indirizzo -->
+        <EditText
+            android:id="@+id/etCittà"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Città"
+            style="@style/BodyText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etVia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Via"
+            style="@style/BodyText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etCivico"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Civico"
+            style="@style/BodyText"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etCAP"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="CAP"
+            style="@style/BodyText"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/etProvincia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Provincia"
+            style="@style/BodyText"
+            android:inputType="text" />
+
+        <!-- Email -->
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            style="@style/BodyText"
+            android:inputType="textEmailAddress" />
+
+        <!-- Password -->
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            style="@style/BodyText"
+            android:inputType="textPassword" />
+
+        <!-- Bottone di Registrazione -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrati"
+            style="@style/ButtonPrimary"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

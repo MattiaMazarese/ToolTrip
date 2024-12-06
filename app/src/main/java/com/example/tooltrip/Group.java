@@ -6,13 +6,15 @@ import java.util.List;
 public class Group {
     private String groupID;
     private String nome;
+    private String city;  // Aggiungiamo la città per la raccomandazione
     private User creatore;
     private List<User> membri;  // Lista di membri del gruppo
 
     // Costruttore
-    public Group(String groupID, String nome, User creatore) {
+    public Group(String groupID, String nome, String city, User creatore) {
         this.groupID = groupID;
         this.nome = nome;
+        this.city = city;  // Inizializziamo la città
         this.creatore = creatore;
         this.membri = new ArrayList<>();
         this.membri.add(creatore);  // Il creatore è automaticamente un membro
@@ -66,4 +68,12 @@ public class Group {
         this.creatore = creatore;
     }
 
+    // Getter e Setter per la città
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 }

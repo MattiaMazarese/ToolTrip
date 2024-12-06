@@ -27,6 +27,7 @@
         <activity android:name=".RegisterActivity" />
         <!-- HomeActivity -->
         <activity android:name=".HomeActivity" />
+        <activity android:name=".SelectGroupActivity"/>
 
     </application>
 

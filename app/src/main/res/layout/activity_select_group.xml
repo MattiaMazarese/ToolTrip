@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Titolo per la selezione del gruppo -->
+    <TextView
+        android:id="@+id/tvSelectGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleziona il tuo gruppo"
+        android:textSize="20sp"
+        android:textColor="#424242"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Gruppo raccomandato -->
+    <TextView
+        android:id="@+id/tvRecommendedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gruppo raccomandato: "
+        android:textSize="18sp"
+        android:textColor="#388E3C"
+        android:visibility="gone"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Lista dei gruppi -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
