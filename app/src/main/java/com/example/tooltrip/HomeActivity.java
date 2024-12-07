@@ -14,6 +14,7 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Button btnLogout;
     private Button btnAggiungiTool;
+    private Button btnVisualizzaTool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
         // Troviamo il bottone di logout
         btnLogout = findViewById(R.id.btnLogout);
         btnAggiungiTool= findViewById(R.id.btnAggiungiTool);
+        btnVisualizzaTool= findViewById(R.id.btnVisualizzaTool);
 
         // Impostiamo il listener per il bottone
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +45,14 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, AggiungiToolActivity.class));
+                finish();
+            }
+        });
+
+        btnVisualizzaTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, VisualizzaToolActivity.class));
                 finish();
             }
         });

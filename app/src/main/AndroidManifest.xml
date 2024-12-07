@@ -31,6 +31,8 @@
         <activity android:name=".SelectGroupActivity"/>
         <!--AggiungiItemActivity -->
         <activity android:name=".AggiungiToolActivity"/>
+        <!--VisualizzaToolActivity -->
+        <activity android:name=".VisualizzaToolActivity"/>
     </application>
 
 </manifest>
