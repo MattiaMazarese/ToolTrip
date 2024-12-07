@@ -36,6 +36,20 @@
             android:layout_height="wrap_content"
             android:text="Pubblico" />
 
+        <ImageView
+            android:id="@+id/img_preview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="#E0E0E0"
+            android:contentDescription="Anteprima immagine" />
+
+        <Button
+            android:id="@+id/btn_seleziona_immagine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleziona Immagine" />
+
         <Button
             android:id="@+id/btn_salva_item"
             android:layout_width="match_parent"

@@ -27,8 +27,10 @@
         <activity android:name=".RegisterActivity" />
         <!-- HomeActivity -->
         <activity android:name=".HomeActivity" />
+        <!-- SelectGroupActivity -->
         <activity android:name=".SelectGroupActivity"/>
-
+        <!--AggiungiItemActivity -->
+        <activity android:name=".AggiungiToolActivity"/>
     </application>
 
 </manifest>

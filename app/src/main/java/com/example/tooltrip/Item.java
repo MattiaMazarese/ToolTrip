@@ -11,18 +11,20 @@ public class Item {
     private User possesore;
     private Boolean pubblico;
     private List<Review> recensioni;
+    private String imagePath;
 
     public Item() {
         // Costruttore vuoto richiesto da Firebase
     }
 
     // Costruttore con tutti i parametri
-    public Item(String itemId, String nome, String descrizione, String categoria, User possesore, Boolean pubblico) {
+    public Item(String itemId, String nome, String descrizione, String categoria, User possesore,String imagePath, Boolean pubblico) {
         this.itemId = itemId;
         this.nome = nome;
         this.descrizione = descrizione;
         this.categoria = categoria;
         this.possesore = possesore;
+        this.imagePath = imagePath;
         this.pubblico = pubblico;
         this.recensioni = new ArrayList<>();
     }
@@ -83,6 +85,14 @@ public class Item {
 
     public List<Review> getListaRecensioni() {
         return recensioni;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public void addRecensione(Review recensione) {this.recensioni.add(recensione);}
