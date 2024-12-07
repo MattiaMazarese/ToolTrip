@@ -22,7 +22,6 @@ import com.google.firebase.database.ValueEventListener;
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_visualizza_tool);
-            nome=findViewById(R.id.name);
 
             // Inizializzazione del riferimento al database
             mDatabase = FirebaseDatabase.getInstance().getReference("items");
