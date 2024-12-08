@@ -1,33 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:layout_height="match_parent">
 
-    <!-- Bottone di Logout -->
+    <!-- Layout principale con RelativeLayout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnAggiungiTool"
-        style="@style/ButtonPrimary"
+        <!-- TextView per il messaggio di benvenuto -->
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bentornato"
+            android:textSize="40sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/black" />
+
+        <!-- TextView per gli oggetti dell'utente -->
+        <TextView
+            android:id="@+id/txtUserObjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtWelcome"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:text="@string/oggetti"
+            android:textSize="20sp"
+            android:textColor="@android:color/black" />
+
+        <!--
+        <Button
+            android:id="@+id/btnAggiungiTool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/aggiungi_tool"
+            android:layout_below="@+id/txtUserObjects"
+            android:layout_marginTop="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp" />
+
+
+        <Button
+            android:id="@+id/btnVisualizzaTool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/visualizza_tool"
+            android:layout_below="@+id/btnAggiungiTool"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="20dp" />-->
+
+    </RelativeLayout>
+
+    <!-- Menu delle icone in fondo con colore personalizzato -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aggiungi tool" />
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:background="@color/menu_background_color"> <!-- Usa il colore personalizzato -->
 
-    <Button
-        android:id="@+id/btnVisualizzaTool"
-        style="@style/ButtonPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Visualizza tool" />
+        <!-- Icona Home -->
+        <ImageView
+            android:id="@+id/iconHome"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_home"
+            android:contentDescription="@string/home"
+            android:layout_marginEnd="20dp" />
 
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        style="@style/ButtonPrimary"/>
-</LinearLayout>
+        <!-- Icona Profilo -->
+        <ImageView
+            android:id="@+id/iconProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="@string/profilo"
+            android:layout_marginEnd="20dp" />
+
+        <!-- Icona Aggiungi Tool -->
+        <ImageView
+            android:id="@+id/iconAggiungiTool"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_tool"
+            android:contentDescription="@string/icona_ggiungi_tool" />
+
+        <!-- Icona Visualizza Tool -->
+        <ImageView
+            android:id="@+id/iconVisualizzaTool"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_showtool"
+            android:contentDescription="@string/icona_ggiungi_tool" />
+
+    </LinearLayout>
+
+</FrameLayout>
