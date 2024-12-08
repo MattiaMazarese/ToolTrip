@@ -10,6 +10,7 @@ public class Review {
         // Costruttore vuoto richiesto da Firebase
     }
 
+
     // Costruttore con tutti i parametri
     public Review(String reviewID, int stelle, String descrizione, User userID) {
         this.reviewID = reviewID;

@@ -2,7 +2,7 @@ package com.example.tooltrip;
 
 public class Address {
     private String addressID;
-    private String città;
+    private String citta;
     private String via;
     private String civico;
     private String CAP;
@@ -13,9 +13,9 @@ public class Address {
     }
 
     // Costruttore con tutti i parametri
-    public Address(String addressID, String città, String via, String civico, String CAP, String provincia) {
+    public Address(String addressID, String citta, String via, String civico, String CAP, String provincia) {
         this.addressID = addressID;
-        this.città = città;
+        this.citta = citta;
         this.via = via;
         this.civico = civico;
         this.CAP = CAP;
@@ -32,12 +32,12 @@ public class Address {
     }
 
     // Getter e Setter per città
-    public String getCittà() {
-        return città;
+    public String getCitta() {
+        return citta;
     }
 
-    public void setCittà(String città) {
-        this.città = città;
+    public void setCitta(String citta) {
+        this.citta = citta;
     }
 
     // Getter e Setter per via

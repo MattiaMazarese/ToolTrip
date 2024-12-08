@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etNome, etCognome, etAnnoNascita, etNumTelefono, etCittà, etVia, etCivico, etCAP, etProvincia, etEmail, etPassword;
     private Button btnRegister;
     private FirebaseAuth auth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference userDatabaseReference, addressDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Firebase
         auth = FirebaseAuth.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        addressDatabaseReference = FirebaseDatabase.getInstance().getReference("Addresses");
 
         // Bottone di Registrazione
         btnRegister.setOnClickListener(view -> registerUser());
@@ -53,7 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         String cognome = etCognome.getText().toString();
         String annoNascita = etAnnoNascita.getText().toString();
         String numTelefono = etNumTelefono.getText().toString();
-        String città = etCittà.getText().toString();
+        String citta = etCittà.getText().toString();
         String via = etVia.getText().toString();
         String civico = etCivico.getText().toString();
         String CAP = etCAP.getText().toString();
@@ -63,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         // Controllo campi vuoti
         if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(cognome) || TextUtils.isEmpty(annoNascita) ||
-                TextUtils.isEmpty(numTelefono) || TextUtils.isEmpty(città) || TextUtils.isEmpty(via) ||
+                TextUtils.isEmpty(numTelefono) || TextUtils.isEmpty(citta) || TextUtils.isEmpty(via) ||
                 TextUtils.isEmpty(civico) || TextUtils.isEmpty(CAP) || TextUtils.isEmpty(provincia) ||
                 TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Compila tutti i campi!", Toast.LENGTH_SHORT).show();
@@ -74,21 +75,29 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String userID = auth.getCurrentUser().getUid();
-                Address address = new Address(null, città, via, civico, CAP, provincia);
-                User user = new User(userID, nome, cognome, annoNascita, address, numTelefono, null);
 
-                // Salvataggio nel Realtime Database
-                databaseReference.child(userID).setValue(user).addOnCompleteListener(dbTask -> {
-                    if (dbTask.isSuccessful()) {
-                        Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
+                // Creazione e salvataggio del nodo Address
+                String addressID = addressDatabaseReference.push().getKey();
+                Address address = new Address(addressID, citta, via, civico, CAP, provincia);
+                addressDatabaseReference.child(addressID).setValue(address).addOnCompleteListener(addressTask -> {
+                    if (addressTask.isSuccessful()) {
+                        // Creazione e salvataggio del nodo User
+                        User user = new User(userID, nome, cognome, annoNascita, address, numTelefono);
+                        userDatabaseReference.child(userID).setValue(user).addOnCompleteListener(userTask -> {
+                            if (userTask.isSuccessful()) {
+                                Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
 
-                        // Passa alla schermata di selezione del gruppo (SelectGroupActivity)
-                        Intent intent = new Intent(RegisterActivity.this, SelectGroupActivity.class);
-                        intent.putExtra("userCity", città); // Passa la città per raccomandare un gruppo
-                        startActivity(intent); // Avvia la SelectGroupActivity
-                        finish(); // Chiudi la schermata di registrazione
+                                // Passa alla schermata di selezione del gruppo (SelectGroupActivity)
+                                Intent intent = new Intent(RegisterActivity.this, SelectGroupActivity.class);
+                                intent.putExtra("userCity", citta); // Passa la città per raccomandare un gruppo
+                                startActivity(intent); // Avvia la SelectGroupActivity
+                                finish(); // Chiudi la schermata di registrazione
+                            } else {
+                                Toast.makeText(this, "Errore nel salvataggio dell'utente!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else {
-                        Toast.makeText(this, "Errore nel salvataggio dei dati!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Errore nel salvataggio dell'indirizzo!", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -96,5 +105,4 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
 }
