@@ -8,6 +8,10 @@ public class User {
     private Address addressID;
     private String numTelefono;
 
+    public User() {
+        // Firebase richiede questo costruttore
+    }
+
     public User(String userID, String nome, String cognome, String annoNascita, Address address, String numTelefono, Object o){
         // Costruttore vuoto richiesto da Firebase
     }

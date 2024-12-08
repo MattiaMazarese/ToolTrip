@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Testa del chiodo -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M10,2h4c0.55,0 1,0.45 1,1v1c0,0.55 -0.45,1 -1,1h-4c-0.55,0 -1,-0.45 -1,-1v-1c0,-0.55 0.45,-1 1,-1z" />
+
+    <!-- Corpo del chiodo -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M11,5h2v14h-2z" />
+
+    <!-- Punta del chiodo -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M11.5,19l-2,4h4l-2,-4z" />
+</vector>
+
+
