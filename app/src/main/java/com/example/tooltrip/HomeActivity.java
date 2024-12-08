@@ -49,21 +49,15 @@ public class HomeActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        // Recupera i dati dell'utente dal database
+                        // Recupera i dati dell'utente
                         String nome = dataSnapshot.child("nome").getValue(String.class);
 
-                        // Se il nome esiste, impostiamolo, altrimenti usiamo il nome di display di Firebase Auth
+                        // Impostiamo il messaggio di benvenuto con il nome dell'utente
                         if (nome != null) {
                             txtWelcome.setText("Bentornato, " + nome + "!");
                         } else {
-                            // Usa il nome di display se il nome non è disponibile nel database
-                            String username = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "Utente";
-                            txtWelcome.setText("Bentornato, " + username + "!");
+                            txtWelcome.setText("Bentornato, Utente!");
                         }
-                    } else {
-                        // Se l'utente non esiste nel database, usa il nome di display di Firebase Auth
-                        String username = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "Utente";
-                        txtWelcome.setText("Bentornato, " + username + "!");
                     }
                 }
 
