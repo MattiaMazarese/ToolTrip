@@ -30,4 +30,10 @@
         android:textSize="12sp"
         android:textColor="#888"
         android:layout_marginTop="4dp"/>
+
+    <Button
+        android:id="@+id/btnVisualizza"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Approfondisci" />
 </LinearLayout>
