@@ -18,6 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.Button;
+
+
 public class SelectGroupActivity extends AppCompatActivity {
 
     private TextView tvRecommendedGroup;
@@ -28,6 +31,23 @@ public class SelectGroupActivity extends AppCompatActivity {
     private String userCity;
     private String recommendedGroup;
 
+    private void updateUserGroup(Group group) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // Ottieni l'ID dell'utente attuale
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+
+        // Aggiorna l'ID del gruppo selezionato nel nodo dell'utente
+        userRef.child("groupID").setValue(group.getGroupID()).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(SelectGroupActivity.this, "Gruppo aggiornato con successo!", Toast.LENGTH_SHORT).show();
+                // Puoi aggiungere un'azione, come tornare alla HomeActivity
+                finish(); // Torna alla schermata precedente
+            } else {
+                Toast.makeText(SelectGroupActivity.this, "Errore nell'aggiornamento del gruppo", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,19 +56,32 @@ public class SelectGroupActivity extends AppCompatActivity {
         tvRecommendedGroup = findViewById(R.id.tvRecommendedGroup);
         recyclerViewGroups = findViewById(R.id.recyclerViewGroups);
 
-        // Imposta RecyclerView
+        Button btnCercaGruppo = findViewById(R.id.btnCercaGruppo);
+        Button btnCreaGruppo = findViewById(R.id.btnCreaGruppo);
+
+        btnCercaGruppo.setOnClickListener(v -> {
+            Intent intent = new Intent(SelectGroupActivity.this, SearchGroupActivity.class);
+            startActivity(intent);
+        });
+
+        btnCreaGruppo.setOnClickListener(v -> {
+            Intent intent = new Intent(SelectGroupActivity.this, CreateGroupActivity.class);
+            startActivity(intent);
+        });
+
+
+        // Impostazioni RecyclerView già esistenti
         recyclerViewGroups.setLayoutManager(new LinearLayoutManager(this));
         groupAdapter = new GroupAdapter(groupList, group -> {
-            // Quando l'utente seleziona un gruppo
+            // Quando l'utente seleziona un gruppo dalla lista
             updateUserGroup(group);
         });
         recyclerViewGroups.setAdapter(groupAdapter);
 
-        // Recupera la città dell'utente (ad esempio da un campo Address)
-        userCity = getIntent().getStringExtra("userCity");  // Passato da HomeActivity o dove è disponibile
+        userCity = getIntent().getStringExtra("userCity");
         databaseReference = FirebaseDatabase.getInstance().getReference("Groups");
 
-        // Recupera tutti i gruppi dal database
+        // Recupera tutti i gruppi dal database (logica già esistente)
         databaseReference.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -57,16 +90,13 @@ public class SelectGroupActivity extends AppCompatActivity {
                     Group group = snapshot.getValue(Group.class);
                     groupList.add(group);
 
-                    // Se il gruppo è della zona dell'utente, lo mostriamo prima
                     if (group.getCity().equals(userCity)) {
                         recommendedGroup = group.getNome();
                     }
                 }
 
-                // Aggiorna la lista dei gruppi
                 groupAdapter.notifyDataSetChanged();
 
-                // Mostra il gruppo raccomandato
                 if (recommendedGroup != null) {
                     tvRecommendedGroup.setText("Gruppo raccomandato: " + recommendedGroup);
                     tvRecommendedGroup.setVisibility(View.VISIBLE);
@@ -77,20 +107,8 @@ public class SelectGroupActivity extends AppCompatActivity {
             public void onCancelled(com.google.firebase.database.DatabaseError databaseError) {
                 Toast.makeText(SelectGroupActivity.this, "Errore nel recupero dei gruppi", Toast.LENGTH_SHORT).show();
             }
-        });
-    }
 
-    private void updateUserGroup(Group group) {
-        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-        userRef.child("groupID").setValue(group.getGroupID()).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // Vai alla Home dopo aver selezionato il gruppo
-                startActivity(new Intent(SelectGroupActivity.this, HomeActivity.class));
-                finish();
-            } else {
-                Toast.makeText(SelectGroupActivity.this, "Errore nell'aggiornamento del gruppo", Toast.LENGTH_SHORT).show();
-            }
+
         });
     }
 }

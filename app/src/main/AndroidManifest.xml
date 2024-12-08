@@ -33,6 +33,10 @@
         <activity android:name=".AggiungiToolActivity"/>
         <!--VisualizzaToolActivity -->
         <activity android:name=".VisualizzaToolActivity"/>
-    </application>
 
+        <activity android:name=".SearchGroupActivity" />
+
+        <activity android:name=".CreateGroupActivity" />
+
+    </application>
 </manifest>

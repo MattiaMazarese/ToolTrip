@@ -12,6 +12,8 @@ public class User {
         // Costruttore vuoto richiesto da Firebase
     }
 
+    public User() {}
+
     // Costruttore con tutti i parametri
     public User(String userID, String nome, String cognome, String annoNascita, Address address, String numTelefono) {
         this.userID = userID;
