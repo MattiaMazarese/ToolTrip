@@ -10,10 +10,6 @@ public class Group {
     private User creatore;
     private List<User> membri;  // Lista di membri del gruppo
 
-    public Group(){
-       //richiesto da firebase
-    }
-
     // Costruttore
     public Group(String groupID, String nome, String city, User creatore) {
         this.groupID = groupID;

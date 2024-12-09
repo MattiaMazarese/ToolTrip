@@ -1,59 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    tools:context=".AggiungiToolActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/editTextNome"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:hint="Nome"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp"
+        android:padding="16dp"/>
 
-        <EditText
-            android:id="@+id/et_nome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nome"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/editTextDescrizione"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Descrizione"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextNome"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"/>
 
-        <EditText
-            android:id="@+id/et_descrizione"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Descrizione"
-            android:inputType="text" />
+    <EditText
+        android:id="@+id/editTextCategoria"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Categoria"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextDescrizione"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"/>
 
-        <EditText
-            android:id="@+id/et_categoria"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Categoria"
-            android:inputType="text" />
+    <Switch
+        android:id="@+id/switchPubblico"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pubblico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextCategoria"
+        android:layout_marginTop="16dp"/>
 
-        <Switch
-            android:id="@+id/switch_pubblico"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pubblico" />
+    <Button
+        android:id="@+id/buttonAggiungi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aggiungi"
+        app:layout_constraintTop_toBottomOf="@id/switchPubblico"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="32dp"/>
 
-        <ImageView
-            android:id="@+id/img_preview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="#E0E0E0"
-            android:contentDescription="Anteprima immagine" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/btn_seleziona_immagine"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Seleziona Immagine" />
 
-        <Button
-            android:id="@+id/btn_salva_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Salva" />
-    </LinearLayout>
-</ScrollView>
+

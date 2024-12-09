@@ -33,4 +33,17 @@
         android:id="@+id/recyclerViewGroups"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnCercaGruppo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerca Gruppo" />
+
+    <Button
+        android:id="@+id/btnCreaGruppo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crea Gruppo" />
+
 </LinearLayout>

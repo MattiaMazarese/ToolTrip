@@ -1,0 +1,39 @@
+<!-- item_tool.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/item_background"
+    android:layout_marginBottom="8dp">
+
+    <TextView
+        android:id="@+id/textViewNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#4CAF50" />
+
+    <TextView
+        android:id="@+id/textViewDescrizione"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#555"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/textViewCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#888"
+        android:layout_marginTop="4dp"/>
+
+    <Button
+        android:id="@+id/btnVisualizza"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Approfondisci" />
+</LinearLayout>
