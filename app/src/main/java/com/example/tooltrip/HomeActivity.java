@@ -22,7 +22,6 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private TextView txtUserObjects;
-    private TextView txtWelcome;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -34,48 +33,18 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         // Inizializzazione di Firebase Database
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("items");
 
         // Troviamo le TextView per il messaggio di benvenuto e gli oggetti
-        txtWelcome = findViewById(R.id.txtWelcome);
+        TextView txtWelcome = findViewById(R.id.txtWelcome);
         txtUserObjects = findViewById(R.id.txtUserObjects);
 
-        // Recuperiamo l'ID dell'utente loggato
-        String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
-
-        if (userId != null) {
-            // Ottieni i dati dell'utente dal nodo "users"
-            mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        // Recupera i dati dell'utente
-                        String nome = dataSnapshot.child("nome").getValue(String.class);
-
-                        // Impostiamo il messaggio di benvenuto con il nome dell'utente
-                        if (nome != null) {
-                            txtWelcome.setText("Bentornato, " + nome + "!");
-                        } else {
-                            txtWelcome.setText("Bentornato, Utente!");
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e("Firebase", "Errore nel recupero dati utente: " + databaseError.getMessage());
-                    txtWelcome.setText("Bentornato, Utente!");
-                }
-            });
-        }
-
-        // Aggiungiamo una riga iniziale per indicare gli oggetti
-        txtUserObjects.setText("Questi sono i tuoi oggetti:\n");
+        // Impostiamo il messaggio di benvenuto
+        String username = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "Utente";
+        txtWelcome.setText("Bentornato"+ username);
 
         // Recuperiamo gli oggetti dell'utente da Firebase
-        DatabaseReference mItemsDatabase = FirebaseDatabase.getInstance().getReference("items");
-
-        mItemsDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> userObjects = new ArrayList<>();
@@ -102,7 +71,7 @@ public class HomeActivity extends AppCompatActivity {
                 if (userObjects.isEmpty()) {
                     txtUserObjects.setText("Questi sono i tuoi oggetti:\nNon hai oggetti.");
                 } else {
-                    // Organizzo gli oggetti in coppie (due per ogni riga)
+                    // Organizziamo gli oggetti in coppie (due per ogni riga)
                     StringBuilder objectsText = new StringBuilder("Questi sono i tuoi oggetti:\n");
                     for (int i = 0; i < userObjects.size(); i++) {
                         if (i % 2 == 0) {
@@ -148,7 +117,7 @@ public class HomeActivity extends AppCompatActivity {
         // Listener per l'icona Profilo
         findViewById(R.id.iconProfile).setOnClickListener(v -> {
             // Reindirizza alla ProfileActivity (assicurati che questa activity esista)
-            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
         });
     }
 }

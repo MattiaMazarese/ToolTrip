@@ -7,4 +7,6 @@
     <string name="aggiungi_tool">Aggiungi Tool</string>
     <string name="visualizza_tool">Visualizza Tool</string>
     <string name="icona_ggiungi_tool" />
+    <string name="icona_aggiungi_tool" />
+    <string name="icona_visualizza_tool" />
 </resources>

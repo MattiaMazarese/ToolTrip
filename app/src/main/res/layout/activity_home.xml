@@ -54,49 +54,55 @@
 
     </RelativeLayout>
 
-    <!-- Menu delle icone in fondo con colore personalizzato -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:gravity="center"
         android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:background="@color/menu_background_color"> <!-- Usa il colore personalizzato -->
 
         <!-- Icona Home -->
         <ImageView
             android:id="@+id/iconHome"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_home"
             android:contentDescription="@string/home"
-            android:layout_marginEnd="20dp" />
+            android:layout_gravity="center" />
 
-        <!-- Icona Profilo -->
-        <ImageView
-            android:id="@+id/iconProfile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_profile"
-            android:contentDescription="@string/profilo"
-            android:layout_marginEnd="20dp" />
 
         <!-- Icona Aggiungi Tool -->
         <ImageView
             android:id="@+id/iconAggiungiTool"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_tool"
-            android:contentDescription="@string/icona_ggiungi_tool" />
+            android:contentDescription="@string/icona_aggiungi_tool"
+            android:layout_gravity="center" />
 
         <!-- Icona Visualizza Tool -->
         <ImageView
             android:id="@+id/iconVisualizzaTool"
-            android:layout_width="50dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
             android:src="@drawable/ic_showtool"
-            android:contentDescription="@string/icona_ggiungi_tool" />
+            android:contentDescription="@string/icona_visualizza_tool"
+            android:layout_gravity="center" />
+
+        <!-- Icona Profilo -->
+        <ImageView
+            android:id="@+id/iconProfile"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_profile"
+            android:contentDescription="@string/profilo"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 
