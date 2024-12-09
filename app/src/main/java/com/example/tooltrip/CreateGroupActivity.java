@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,7 +16,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateGroupActivity extends AppCompatActivity {
 
-    private EditText etGroupName, etGroupCity;
+    private EditText etGroupName, etGroupCode;
+    private Switch switchGroupVisibility;
     private Button btnCreateGroup;
     private DatabaseReference databaseReference, usersReference;
 
@@ -25,18 +27,35 @@ public class CreateGroupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_group);
 
         etGroupName = findViewById(R.id.etGroupName);
-        etGroupCity = findViewById(R.id.etGroupCity);
+        etGroupCode = findViewById(R.id.etGroupCode);
+        switchGroupVisibility = findViewById(R.id.switchGroupVisibility);
         btnCreateGroup = findViewById(R.id.btnCreateGroup);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Groups");
         usersReference = FirebaseDatabase.getInstance().getReference("Users");
 
+        // Mostra/nascondi il campo per il codice in base allo stato dello switch
+        switchGroupVisibility.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                etGroupCode.setVisibility(EditText.GONE); // Nascondi il campo per i gruppi pubblici
+                etGroupCode.setText(""); // Cancella il valore del codice
+            } else {
+                etGroupCode.setVisibility(EditText.VISIBLE); // Mostra il campo per i gruppi privati
+            }
+        });
+
         btnCreateGroup.setOnClickListener(v -> {
             String groupName = etGroupName.getText().toString().trim();
-            String groupCity = etGroupCity.getText().toString().trim();
+            String groupCode = etGroupCode.getText().toString().trim(); // Potrebbe essere vuoto
+            boolean isPublic = switchGroupVisibility.isChecked(); // Ottieni lo stato dello switch
 
-            if (groupName.isEmpty() || groupCity.isEmpty()) {
-                Toast.makeText(CreateGroupActivity.this, "Tutti i campi sono obbligatori", Toast.LENGTH_SHORT).show();
+            if (groupName.isEmpty()) {
+                Toast.makeText(CreateGroupActivity.this, "Inserisci il nome del gruppo", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!isPublic && groupCode.isEmpty()) {
+                Toast.makeText(CreateGroupActivity.this, "Inserisci il codice per i gruppi privati", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -52,7 +71,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                     String nome = snapshot.child("nome").getValue(String.class);
                     String cognome = snapshot.child("cognome").getValue(String.class);
                     String annoNascita = snapshot.child("annoNascita").getValue(String.class);
-                    Address address = snapshot.child("address").getValue(Address.class); // Usa Address come oggetto
+                    Address address = snapshot.child("address").getValue(Address.class);
                     String numTelefono = snapshot.child("numTelefono").getValue(String.class);
 
                     // Crea l'oggetto User con i dati recuperati
@@ -62,7 +81,10 @@ public class CreateGroupActivity extends AppCompatActivity {
                     String groupID = databaseReference.push().getKey();
 
                     // Crea il gruppo
-                    Group group = new Group(groupID, groupName, groupCity, creatore);
+                    Group group = new Group(groupID, groupName,creatore); // La città non è più usata
+                    if (!isPublic) {
+                        group.setCodice(groupCode); // Imposta il codice solo per i gruppi privati
+                    }
 
                     // Salva il gruppo nel database
                     databaseReference.child(groupID).setValue(group).addOnCompleteListener(groupTask -> {
@@ -73,7 +95,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                             Intent intent = new Intent(CreateGroupActivity.this, HomeActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            finish(); // Chiude l'attività corrente
+                            finish();
                         } else {
                             Toast.makeText(CreateGroupActivity.this, "Errore durante la creazione del gruppo", Toast.LENGTH_SHORT).show();
                         }

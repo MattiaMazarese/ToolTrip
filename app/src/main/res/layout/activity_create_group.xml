@@ -23,17 +23,24 @@
         android:hint="Nome del Gruppo"
         android:layout_marginBottom="12dp" />
 
-    <EditText
-        android:id="@+id/etGroupCity"
+    <Switch
+        android:id="@+id/switchGroupVisibility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Città"
+        android:text="Il gruppo è pubblico?"
         android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etGroupCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Codice Gruppo (solo per gruppi privati)"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone" /> <!-- Nascondi inizialmente -->
 
     <Button
         android:id="@+id/btnCreateGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:text="Crea Gruppo" />
 </LinearLayout>

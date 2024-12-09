@@ -1,8 +1,11 @@
 package com.example.tooltrip;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,12 +24,16 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private TextView txtUserObjects;
+    private Button btnLogout;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_home); // Deve essere chiamato prima di findViewById
+
+        // Inizializza il bottone Logout
+        btnLogout = findViewById(R.id.btnLogout);
 
         // Inizializzazione di Firebase Auth
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -40,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Impostiamo il messaggio di benvenuto
         String username = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "Utente";
-        txtWelcome.setText("Bentornato"+ username);
+        txtWelcome.setText("Bentornato " + username);
 
         // Recuperiamo gli oggetti dell'utente da Firebase
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,29 +102,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        /*// Listener per l'icona Home
-        findViewById(R.id.iconHome).setOnClickListener(v -> {
-            // Reindirizza all'HomeActivity (la stessa activity in questo caso)
-            startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+        // Listener per il bottone Logout
+        btnLogout.setOnClickListener(v -> {
+            // Eseguiamo il logout
+            mAuth.signOut();
+            // Torniamo alla LoginActivity dopo il logout
+            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            finish(); // Evita che l'utente ritorni alla Home
         });
-
-        // Listener per l'icona AggiungiTool
-        findViewById(R.id.iconAggiungiTool).setOnClickListener(v -> {
-            // Reindirizza alla AggiungiToolActivity (assicurati che questa activity esista)
-            startActivity(new Intent(HomeActivity.this, AggiungiToolActivity.class));
-        });
-
-        // Listener per l'icona VisualizzaTool
-        findViewById(R.id.iconVisualizzaTool).setOnClickListener(v -> {
-            // Reindirizza alla VisualizzaToolActivity (assicurati che questa activity esista)
-            startActivity(new Intent(HomeActivity.this, VisualizzaToolActivity.class));
-        });
-
-        // Listener per l'icona Profilo
-        findViewById(R.id.iconProfile).setOnClickListener(v -> {
-            // Reindirizza alla ProfileActivity (assicurati che questa activity esista)
-            startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
-        });*/
 
         // Set up the menu listeners using MenuHandler
         MenuHandler menuHandler = new MenuHandler(this);
@@ -127,6 +119,5 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.iconVisualizzaTool),
                 findViewById(R.id.iconProfile)
         );
-
     }
 }

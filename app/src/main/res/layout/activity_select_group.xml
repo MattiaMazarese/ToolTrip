@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -7,43 +6,52 @@
     android:padding="16dp"
     android:gravity="center">
 
-    <!-- Titolo per la selezione del gruppo -->
-    <TextView
-        android:id="@+id/tvSelectGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seleziona il tuo gruppo"
-        android:textSize="20sp"
-        android:textColor="#424242"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Gruppo raccomandato -->
-    <TextView
-        android:id="@+id/tvRecommendedGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gruppo raccomandato: "
-        android:textSize="18sp"
-        android:textColor="#388E3C"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp"/>
-
-    <!-- Lista dei gruppi -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGroups"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
+    <!-- Bottoni per Cerca e Crea Gruppo -->
     <Button
         android:id="@+id/btnCercaGruppo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cerca Gruppo" />
+        android:text="Cerca Gruppo"
+        android:layout_marginBottom="8dp" />
 
     <Button
         android:id="@+id/btnCreaGruppo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Crea Gruppo" />
+        android:text="Crea Gruppo"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Titolo per i gruppi raccomandati -->
+    <TextView
+        android:id="@+id/tvRecommendedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gruppi Raccomandati"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp" />
+
+    <!-- RecyclerView per i gruppi raccomandati -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRecommendedGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Titolo per tutti i gruppi -->
+    <TextView
+        android:id="@+id/tvAllGroups"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutti i Gruppi"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp" />
+
+    <!-- RecyclerView per tutti i gruppi -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewAllGroups"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
