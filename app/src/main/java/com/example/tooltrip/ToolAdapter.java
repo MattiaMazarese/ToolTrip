@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
@@ -29,6 +30,11 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
         holder.textViewDescrizione.setText(item.getDescrizione());
         holder.textViewCategoria.setText(item.getCategoria());
 
+        // Set image based on category
+        String category = item.getCategoria();
+        int categoryImage = getCategoryImage(category);
+        holder.imageViewCategory.setImageResource(categoryImage);
+
         holder.btnVisualizza.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
             intent.putExtra("itemNome", item.getNome());
@@ -38,7 +44,6 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
         });
     }
 
-
     @Override
     public int getItemCount() {
         return itemList.size();
@@ -47,6 +52,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
     public static class ToolViewHolder extends RecyclerView.ViewHolder {
         TextView textViewNome, textViewDescrizione, textViewCategoria;
         Button btnVisualizza;
+        ImageView imageViewCategory;
 
         public ToolViewHolder(View itemView) {
             super(itemView);
@@ -54,8 +60,29 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
             textViewDescrizione = itemView.findViewById(R.id.textViewDescrizione);
             textViewCategoria = itemView.findViewById(R.id.textViewCategoria);
             btnVisualizza = itemView.findViewById(R.id.btnVisualizza);
+            imageViewCategory = itemView.findViewById(R.id.imageViewCategory);
         }
     }
 
+    // Map category to image resource
+    private int getCategoryImage(String category) {
+        switch (category) {
+            case "Elettronica":
+                return R.drawable.ic_lock; // Replace with actual image resource
+            case "Meccanica":
+                return R.drawable.ic_email; // Replace with actual image resource
+            case "Informatica":
+                return R.drawable.ic_profile; // Replace with actual image resource
+            case "Altro":
+                return R.drawable.ic_home; // Replace with actual image resource
+            default:
+                return R.drawable.ic_email; // Default image if category is not found
+        }
+    }
 }
+
+
+
+
+
 

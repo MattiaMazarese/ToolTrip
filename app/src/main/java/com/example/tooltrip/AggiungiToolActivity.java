@@ -1,5 +1,6 @@
 package com.example.tooltrip;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -41,15 +42,6 @@ public class AggiungiToolActivity extends AppCompatActivity {
                 addItemToDatabase();
             }
         });
-
-        // Set up the menu listeners using MenuHandler
-        MenuHandler menuHandler = new MenuHandler(this);
-        menuHandler.setUpMenuListeners(
-                findViewById(R.id.iconHome),
-                findViewById(R.id.iconAggiungiTool),
-                findViewById(R.id.iconGroup),
-                findViewById(R.id.iconProfile)
-        );
     }
 
     private void addItemToDatabase() {
@@ -120,7 +112,6 @@ public class AggiungiToolActivity extends AppCompatActivity {
         editTextCategoria.setText("");
         switchPubblico.setChecked(false);
     }
-
 }
 
 
