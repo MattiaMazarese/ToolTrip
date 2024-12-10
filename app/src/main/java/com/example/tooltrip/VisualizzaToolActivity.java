@@ -56,7 +56,7 @@ public class VisualizzaToolActivity extends AppCompatActivity {
                 itemList.clear(); // Clear previous data
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Item item = snapshot.getValue(Item.class);
-                    if (item != null && item.getPubblico()) {
+                    if (item != null && item.isPubblico()) {
                         itemList.add(item);
                     }
                 }

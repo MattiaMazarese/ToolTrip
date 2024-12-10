@@ -56,7 +56,7 @@ public class HomeActivity extends AppCompatActivity {
                     try {
                         // Otteniamo l'oggetto da Firebase
                         Item item = snapshot.getValue(Item.class);
-                        if (item != null) {
+                        if (item != null&& item.isPubblico()) {
                             // Aggiungiamo il nome e la categoria dell'oggetto alla lista
                             String itemDetails = item.getNome() + " - " + item.getCategoria();
                             userObjects.add(itemDetails);
@@ -69,19 +69,15 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
 
-                // Se non ci sono oggetti, mostriamo un messaggio
                 if (userObjects.isEmpty()) {
-                    txtUserObjects.setText("Questi sono i tuoi oggetti:\nNon hai oggetti.");
+                    txtUserObjects.setText("Questi sono gli oggetti pubblici:\nNon ci sono oggetti pubblici disponibili.");
                 } else {
-                    // Organizziamo gli oggetti in coppie (due per ogni riga)
-                    StringBuilder objectsText = new StringBuilder("Questi sono i tuoi oggetti:\n");
+                    // Costruiamo il testo per mostrare gli oggetti, uno per ogni riga
+                    StringBuilder objectsText = new StringBuilder("Questi sono gli oggetti pubblici:\n");
                     for (int i = 0; i < userObjects.size(); i++) {
-                        if (i % 2 == 0) {
-                            objectsText.append(userObjects.get(i)); // Aggiungi il primo oggetto della coppia
-                            if (i + 1 < userObjects.size()) {
-                                objectsText.append(", ").append(userObjects.get(i + 1)); // Aggiungi il secondo oggetto della coppia
-                            }
-                            objectsText.append("\n"); // Vai a capo dopo ogni coppia
+                        objectsText.append(userObjects.get(i)); // Aggiungi il nome dell'oggetto
+                        if (i + 1 < userObjects.size()) {
+                            objectsText.append(",\n"); // Aggiungi una virgola e vai a capo
                         }
                     }
 
