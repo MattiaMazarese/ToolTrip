@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="32dp"
-        android:padding="16dp" />
+        android:padding="16dp"/>
 
     <EditText
         android:id="@+id/editTextDescrizione"
@@ -28,20 +28,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextNome"
         android:layout_marginTop="16dp"
-        android:padding="16dp" />
+        android:padding="16dp"/>
 
-    <AutoCompleteTextView
-        android:id="@+id/autoCompleteCategoria"
+    <EditText
+        android:id="@+id/editTextCategoria"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Categoria"
-        android:inputType="none"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/editTextDescrizione"
         android:layout_marginTop="16dp"
-        android:padding="16dp" />
-
+        android:padding="16dp"/>
 
     <Switch
         android:id="@+id/switchPubblico"
@@ -50,8 +49,8 @@
         android:text="Pubblico"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/autoCompleteCategoria"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintTop_toBottomOf="@id/editTextCategoria"
+        android:layout_marginTop="16dp"/>
 
     <Button
         android:id="@+id/buttonAggiungi"
@@ -61,10 +60,9 @@
         app:layout_constraintTop_toBottomOf="@id/switchPubblico"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
+        android:layout_marginTop="32dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
 
