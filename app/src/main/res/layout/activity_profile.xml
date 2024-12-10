@@ -14,9 +14,30 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="@string/Porfilo"
+            android:text="@string/Profilo"
             android:textColor="@android:color/black"
             android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/txtProfileDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Caricamento dettagli profilo..."
+            android:paddingTop="8dp" />
+
+        <!-- Nuovo elemento per mostrare Nome e Cognome -->
+        <TextView
+            android:id="@+id/txtNomeCognome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtProfilo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:text="Nome e Cognome" />
+
     </RelativeLayout>
 
     <!-- Pulsante Logout sopra il menu -->
@@ -37,10 +58,3 @@
         android:layout_gravity="bottom" />
 
 </FrameLayout>
-
-
-
-
-
-
-

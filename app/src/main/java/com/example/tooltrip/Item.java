@@ -73,7 +73,7 @@ public class Item {
     }
 
     // Getter e Setter per pubblico
-    public Boolean getPubblico() {
+    public Boolean isPubblico() {
         return pubblico;
     }
 
