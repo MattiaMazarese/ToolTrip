@@ -72,7 +72,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
             case "Informatica":
                 return R.drawable.ic_devices; // Replace with actual image resource
             case "Altro":
-                return R.drawable.ic_home; // Replace with actual image resource
+                return R.drawable.ic_altro; // Replace with actual image resource
             default:
                 return R.drawable.ic_altro; // Default image if category is not found
         }
