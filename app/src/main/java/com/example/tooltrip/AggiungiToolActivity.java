@@ -1,8 +1,9 @@
 package com.example.tooltrip;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -16,7 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AggiungiToolActivity extends AppCompatActivity {
-    private EditText editTextNome, editTextDescrizione, editTextCategoria;
+    private EditText editTextNome, editTextDescrizione;
+    private AutoCompleteTextView autoCompleteCategoria;
     private Switch switchPubblico;
     private Button buttonAggiungi;
     private DatabaseReference mDatabase;
@@ -32,38 +34,46 @@ public class AggiungiToolActivity extends AppCompatActivity {
         // Initialize views
         editTextNome = findViewById(R.id.editTextNome);
         editTextDescrizione = findViewById(R.id.editTextDescrizione);
-        editTextCategoria = findViewById(R.id.editTextCategoria);
+        autoCompleteCategoria = findViewById(R.id.autoCompleteCategoria);
         switchPubblico = findViewById(R.id.switchPubblico);
         buttonAggiungi = findViewById(R.id.buttonAggiungi);
 
-        buttonAggiungi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addItemToDatabase();
+        // Set up the dropdown menu
+        String[] categorie = {"Elettronica", "Meccanica", "Informatica", "Altro"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, categorie);
+        autoCompleteCategoria.setAdapter(adapter);
+
+        // Force the dropdown to show on click
+        autoCompleteCategoria.setOnClickListener(v -> autoCompleteCategoria.showDropDown());
+
+        // Force the dropdown to show on focus change as well
+        autoCompleteCategoria.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                autoCompleteCategoria.showDropDown();
             }
         });
+
+        // Set click listener for the button
+        buttonAggiungi.setOnClickListener(v -> addItemToDatabase());
     }
 
     private void addItemToDatabase() {
         // Get values from input fields
         String nome = editTextNome.getText().toString().trim();
         String descrizione = editTextDescrizione.getText().toString().trim();
-        String categoria = editTextCategoria.getText().toString().trim();
+        String categoria = autoCompleteCategoria.getText().toString().trim();
         boolean pubblico = switchPubblico.isChecked();
 
         // Validate input fields
         if (nome.isEmpty()) {
-            // Show error if nome is empty
             Toast.makeText(this, "Nome is required", Toast.LENGTH_SHORT).show();
             return;
         }
         if (descrizione.isEmpty()) {
-            // Show error if descrizione is empty
             Toast.makeText(this, "Descrizione is required", Toast.LENGTH_SHORT).show();
             return;
         }
         if (categoria.isEmpty()) {
-            // Show error if categoria is empty
             Toast.makeText(this, "Categoria is required", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -71,48 +81,44 @@ public class AggiungiToolActivity extends AppCompatActivity {
         // Get the currently authenticated user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // Handle the case if there is no authenticated user
             Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Create a User object with the current user's ID (you can add other details if needed)
+        // Create a User object with the current user's ID
         String userID = currentUser.getUid();
-        User possesore = new User(userID,null,null,null,null,null); // Pass the userID to your User object
+        User possesore = new User(userID, null, null, null, null, null);
 
-        // Create a unique item ID (you can use UUID or Firebase generated IDs)
+        // Create a unique item ID
         String itemId = mDatabase.push().getKey();
 
         // Create a new Item object
         Item newItem = new Item(itemId, nome, descrizione, categoria, possesore, pubblico);
 
-        // Save the item to the Firebase Realtime Database
+        // Save the item to Firebase Realtime Database
         if (itemId != null) {
             mDatabase.child("items").child(itemId).setValue(newItem).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    // If the operation is successful
                     Toast.makeText(AggiungiToolActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                    // Optionally, clear fields after successful submission
                     clearFields();
                 } else {
-                    // If the operation failed
                     Toast.makeText(AggiungiToolActivity.this, "Failed to add item. Please try again.", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            // Handle the case if itemId is null
             Toast.makeText(this, "Failed to generate item ID", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void clearFields() {
-        // Clear input fields after successful submission
         editTextNome.setText("");
         editTextDescrizione.setText("");
-        editTextCategoria.setText("");
+        autoCompleteCategoria.setText("");
         switchPubblico.setChecked(false);
     }
 }
+
+
 
 
 
