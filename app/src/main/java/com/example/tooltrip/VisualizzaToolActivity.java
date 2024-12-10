@@ -35,6 +35,18 @@ public class VisualizzaToolActivity extends AppCompatActivity {
         recyclerView.setAdapter(toolAdapter);
 
         loadItemsFromDatabase();
+
+        // Set up the menu listeners using MenuHandler
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
+
+
+
     }
 
     private void loadItemsFromDatabase() {

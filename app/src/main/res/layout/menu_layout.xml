@@ -30,11 +30,11 @@
 
         <!-- Icona Visualizza Tool -->
         <ImageView
-            android:id="@+id/iconVisualizzaTool"
+            android:id="@+id/iconGroup"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_showtool"
+            android:src="@drawable/ic_group"
             android:contentDescription="@string/icona_visualizza_tool"
             android:layout_gravity="center" />
 

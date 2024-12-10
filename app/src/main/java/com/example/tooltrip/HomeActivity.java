@@ -1,10 +1,8 @@
 package com.example.tooltrip;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -32,8 +30,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home); // Deve essere chiamato prima di findViewById
 
-        // Inizializza il bottone Logout
-        btnLogout = findViewById(R.id.btnLogout);
 
         // Inizializzazione di Firebase Auth
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -102,21 +98,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Listener per il bottone Logout
-        btnLogout.setOnClickListener(v -> {
-            // Eseguiamo il logout
-            mAuth.signOut();
-            // Torniamo alla LoginActivity dopo il logout
-            startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-            finish(); // Evita che l'utente ritorni alla Home
-        });
+
 
         // Set up the menu listeners using MenuHandler
         MenuHandler menuHandler = new MenuHandler(this);
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),
-                findViewById(R.id.iconVisualizzaTool),
+                findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
     }

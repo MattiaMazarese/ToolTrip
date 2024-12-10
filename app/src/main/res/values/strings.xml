@@ -9,4 +9,6 @@
     <string name="icona_ggiungi_tool" />
     <string name="icona_aggiungi_tool" />
     <string name="icona_visualizza_tool" />
+    <string name="logout">Logout</string>
+    <string name="Porfilo" />
 </resources>
