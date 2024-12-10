@@ -39,14 +39,6 @@
             android:textColor="#555"
             android:layout_marginTop="4dp"/>
 
-        <TextView
-            android:id="@+id/textViewCategoria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textColor="#888"
-            android:layout_marginTop="4dp"/>
-
         <!-- Button under Name, Description, and Category -->
         <Button
             android:id="@+id/btnVisualizza"

@@ -28,7 +28,6 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
         Item item = itemList.get(position);
         holder.textViewNome.setText(item.getNome());
         holder.textViewDescrizione.setText(item.getDescrizione());
-        holder.textViewCategoria.setText(item.getCategoria());
 
         // Set image based on category
         String category = item.getCategoria();
@@ -50,7 +49,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
     }
 
     public static class ToolViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNome, textViewDescrizione, textViewCategoria;
+        TextView textViewNome, textViewDescrizione;
         Button btnVisualizza;
         ImageView imageViewCategory;
 
@@ -58,7 +57,6 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
             super(itemView);
             textViewNome = itemView.findViewById(R.id.textViewNome);
             textViewDescrizione = itemView.findViewById(R.id.textViewDescrizione);
-            textViewCategoria = itemView.findViewById(R.id.textViewCategoria);
             btnVisualizza = itemView.findViewById(R.id.btnVisualizza);
             imageViewCategory = itemView.findViewById(R.id.imageViewCategory);
         }
