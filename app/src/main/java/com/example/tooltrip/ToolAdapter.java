@@ -66,15 +66,15 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
     private int getCategoryImage(String category) {
         switch (category) {
             case "Elettronica":
-                return R.drawable.ic_lock; // Replace with actual image resource
+                return R.drawable.ic_elettronica; // Replace with actual image resource
             case "Meccanica":
-                return R.drawable.ic_email; // Replace with actual image resource
+                return R.drawable.ic_gear; // Replace with actual image resource
             case "Informatica":
-                return R.drawable.ic_profile; // Replace with actual image resource
+                return R.drawable.ic_devices; // Replace with actual image resource
             case "Altro":
                 return R.drawable.ic_home; // Replace with actual image resource
             default:
-                return R.drawable.ic_email; // Default image if category is not found
+                return R.drawable.ic_altro; // Default image if category is not found
         }
     }
 }
