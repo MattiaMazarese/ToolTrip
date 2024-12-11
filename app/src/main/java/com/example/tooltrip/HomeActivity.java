@@ -1,6 +1,7 @@
 package com.example.tooltrip;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -9,12 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +47,37 @@ public class HomeActivity extends AppCompatActivity {
         TextView txtWelcome = findViewById(R.id.txtWelcome);
         txtUserObjects = findViewById(R.id.txtUserObjects);
 
-        // Impostiamo il messaggio di benvenuto
-        String username = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getDisplayName() : "Utente";
-        txtWelcome.setText("Bentornato " + username);
+        // Ottieni l'UID dell'utente
+        String userID = mAuth.getCurrentUser().getUid();
+
+// Ottieni una referenza al database Realtime
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+// Esegui una query per ottenere i dati dell'utente
+        database.child("Users").child(userID).child("nome").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Controlla se i dati esistono
+                if (dataSnapshot.exists()) {
+                    // Ottieni il nome dell'utente
+                    String userName = dataSnapshot.getValue(String.class);
+
+                    // Imposta il nome dell'utente nel TextView
+                    txtWelcome.setText("Bentornato " + userName);
+                } else {
+                    // Se i dati non esistono
+                    txtWelcome.setText("Utente non trovato");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // In caso di errore nella lettura
+                txtWelcome.setText("Errore nel recupero dei dati");
+            }
+        });
+
+
 
         // Recuperiamo gli oggetti dell'utente da Firebase
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {

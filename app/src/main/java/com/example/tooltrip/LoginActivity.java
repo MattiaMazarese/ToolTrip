@@ -1,6 +1,7 @@
 package com.example.tooltrip;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -154,9 +155,11 @@ public class LoginActivity extends AppCompatActivity {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
+
                         // Login riuscito
                         Toast.makeText(LoginActivity.this, "Accesso effettuato!", Toast.LENGTH_SHORT).show();
                         // Avvia l'attività HomeActivity (ad esempio la home dell'app)
+
                         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                         finish();
                     } else {
