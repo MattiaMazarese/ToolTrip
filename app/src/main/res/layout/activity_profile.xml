@@ -1,60 +1,146 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/background">
 
-    <!-- Layout principale con RelativeLayout -->
-    <RelativeLayout
+    <!-- Contenuto principale con padding -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/menuLayout"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/txtProfilo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="@string/Profilo"
-            android:textColor="@android:color/black"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/txtProfileDetails"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="Caricamento dettagli profilo..."
-            android:paddingTop="8dp" />
+            android:orientation="vertical"
+            android:background="@color/menu_background_color"
+            android:padding="16dp"
+            android:elevation="4dp">
 
-        <!-- Nuovo elemento per mostrare Nome e Cognome -->
-        <TextView
-            android:id="@+id/txtNomeCognome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtProfilo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            android:text="Nome e Cognome" />
+            <!-- Titolo del Profilo centrato -->
+            <TextView
+                android:id="@+id/txtProfilo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profilo"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="@color/textPrimary"
+                android:layout_marginBottom="24dp"
+                android:layout_gravity="center_horizontal" />
 
-    </RelativeLayout>
+            <!-- Nome e Cognome -->
+            <TextView
+                android:id="@+id/txtNomeCognome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome Cognome"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/textSecondary"
+                android:layout_marginBottom="16dp" />
 
-    <!-- Pulsante Logout sopra il menu -->
-    <Button
-        android:id="@+id/btnLogout"
-        style="@style/ButtonPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginBottom="110dp"
-        android:text="@string/logout" />
+            <!-- Numero di Telefono -->
+            <TextView
+                android:id="@+id/txtNumeroTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Numero di Telefono"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/textSecondary"
+                android:layout_marginBottom="16dp" />
 
-    <!-- Menu Layout incluso -->
+            <!-- Indirizzo -->
+            <TextView
+                android:id="@+id/txtIndirizzo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Indirizzo"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/textSecondary"
+                android:layout_marginBottom="16dp" />
+
+
+            <TextView
+                android:id="@+id/txtModifica"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vuoi modificare il numero di telefono o l'indirizzo?"
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:padding="16dp"
+                android:textStyle="bold"
+                android:gravity="center" />
+
+            <EditText
+                android:id="@+id/editTextTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nuovo numero di telefono"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/editTextIndirizzo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Via"
+                android:inputType="text" />
+            <EditText
+                android:id="@+id/editTextCivico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Civico" />
+
+            <EditText
+                android:id="@+id/editTextCitta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Città" />
+
+            <EditText
+                android:id="@+id/editTextProvincia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Provincia" />
+
+            <EditText
+                android:id="@+id/editTextCAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CAP" />
+
+            <Button
+                android:id="@+id/btnSalva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Salva modifiche" />
+
+
+            <!-- Bottone Logout -->
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Logout"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="24dp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Menu ancorato al fondo senza padding -->
     <include
+        android:id="@+id/menuLayout"
         layout="@layout/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:layout_alignParentBottom="true"
+        android:layout_margin="0dp" />
 
-</FrameLayout>
+</RelativeLayout>
