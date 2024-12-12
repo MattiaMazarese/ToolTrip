@@ -1,65 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Layout principale con RelativeLayout -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- TextView per il messaggio di benvenuto -->
+        <!-- Messaggio di benvenuto -->
         <TextView
             android:id="@+id/txtWelcome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black" />
+            android:text="Bentornato!"/>
 
-        <!-- TextView per gli oggetti dell'utente -->
+        <!-- Sezione Oggetti Pubblici -->
         <TextView
-            android:id="@+id/txtUserObjects"
+            android:id="@+id/txtPublicObjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtWelcome"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:text="@string/oggetti"
+            android:text="Oggetti Pubblici"
             android:textSize="20sp"
-            android:textColor="@android:color/black" />
+            android:textStyle="bold"
+            android:layout_below="@id/txtWelcome"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/black"/>
 
-        <!--
-        <Button
-            android:id="@+id/btnAggiungiTool"
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:id="@+id/gridPublicObjects"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/aggiungi_tool"
-            android:layout_below="@+id/txtUserObjects"
+            android:layout_below="@id/txtPublicObjects"
             android:layout_marginTop="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp" />
+            android:columnCount="2"
+            android:padding="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+        </GridLayout>
 
 
-        <Button
-            android:id="@+id/btnVisualizzaTool"
+    <!-- Sezione I Miei Oggetti -->
+        <TextView
+            android:id="@+id/txtMyObjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/visualizza_tool"
-            android:layout_below="@+id/btnAggiungiTool"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="20dp" />-->
+            android:text="I Miei Oggetti"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@id/gridPublicObjects"
+            android:layout_marginTop="30dp"
+            android:textColor="@android:color/black"/>
 
-        <!--<Button
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:id="@+id/gridMyObjects"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            style="@style/ButtonPrimary"/>-->
+            android:layout_below="@id/txtMyObjects"
+            android:layout_marginTop="20dp"
+            android:columnCount="2"
+            android:padding="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+        </GridLayout>
 
-    </RelativeLayout>
+</RelativeLayout>
 
     <include layout="@layout/menu_layout" />
 

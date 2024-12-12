@@ -1,41 +1,33 @@
 package com.example.tooltrip;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView txtUserObjects;
-    private Button btnLogout;
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home); // Deve essere chiamato prima di findViewById
-
+        setContentView(R.layout.activity_home);
 
         // Inizializzazione di Firebase Auth
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -43,17 +35,16 @@ public class HomeActivity extends AppCompatActivity {
         // Inizializzazione di Firebase Database
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("items");
 
-        // Troviamo le TextView per il messaggio di benvenuto e gli oggetti
+        // Troviamo la TextView per il messaggio di benvenuto
         TextView txtWelcome = findViewById(R.id.txtWelcome);
-        txtUserObjects = findViewById(R.id.txtUserObjects);
 
         // Ottieni l'UID dell'utente
         String userID = mAuth.getCurrentUser().getUid();
 
-// Ottieni una referenza al database Realtime
+        // Ottieni una referenza al database Realtime
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
-// Esegui una query per ottenere i dati dell'utente
+        // Esegui una query per ottenere i dati dell'utente
         database.child("Users").child(userID).child("nome").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,60 +68,50 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        // Troviamo i GridLayout per oggetti pubblici e privati
+        GridLayout gridPublicObjects = findViewById(R.id.gridPublicObjects);
+        GridLayout gridMyObjects = findViewById(R.id.gridMyObjects);
 
-
-        // Recuperiamo gli oggetti dell'utente da Firebase
+        // Recuperiamo gli oggetti dal database
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> userObjects = new ArrayList<>();
+                List<Item> publicObjects = new ArrayList<>();
+                List<Item> myObjects = new ArrayList<>();
 
-                // Scorriamo tutti gli oggetti
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     try {
-                        // Otteniamo l'oggetto da Firebase
                         Item item = snapshot.getValue(Item.class);
-                        if (item != null&& item.isPubblico()) {
-                            // Aggiungiamo il nome e la categoria dell'oggetto alla lista
-                            String itemDetails = item.getNome() + " - " + item.getCategoria();
-                            userObjects.add(itemDetails);
-                            Log.d("Firebase", "Oggetto recuperato: " + itemDetails);
-                        } else {
-                            Log.d("Firebase", "Oggetto vuoto trovato");
+                        if (item != null) {
+                            if (item.isPubblico()) {
+                                publicObjects.add(item);
+                            } else if (item.getPossesore().equals(userID)) {
+                                myObjects.add(item);
+                            }
                         }
                     } catch (Exception e) {
                         Log.e("Firebase", "Errore nel recupero dell'oggetto: " + e.getMessage());
                     }
                 }
 
-                if (userObjects.isEmpty()) {
-                    txtUserObjects.setText("Questi sono gli oggetti pubblici:\nNon ci sono oggetti pubblici disponibili.");
-                } else {
-                    // Costruiamo il testo per mostrare gli oggetti, uno per ogni riga
-                    StringBuilder objectsText = new StringBuilder("Questi sono gli oggetti pubblici:\n");
-                    for (int i = 0; i < userObjects.size(); i++) {
-                        objectsText.append(userObjects.get(i)); // Aggiungi il nome dell'oggetto
-                        if (i + 1 < userObjects.size()) {
-                            objectsText.append(",\n"); // Aggiungi una virgola e vai a capo
-                        }
-                    }
+                // Aggiungi gli oggetti pubblici
+                for (Item item : publicObjects) {
+                    addItemToGrid(gridPublicObjects, item);
+                }
 
-                    // Impostiamo il testo degli oggetti
-                    txtUserObjects.setText(objectsText.toString());
-                    Log.d("Firebase", "Oggetti visualizzati: " + objectsText);
+                // Aggiungi i miei oggetti
+                for (Item item : myObjects) {
+                    addItemToGrid(gridMyObjects, item);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Firebase", "Errore nel recupero dati: " + databaseError.getMessage());
-                txtUserObjects.setText("Errore nel recupero degli oggetti.");
             }
         });
 
-
-
-        // Set up the menu listeners using MenuHandler
+        // Configurazione del menu tramite MenuHandler
         MenuHandler menuHandler = new MenuHandler(this);
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
@@ -139,4 +120,25 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
     }
+
+    // Metodo per aggiungere un oggetto al GridLayout
+    private void addItemToGrid(GridLayout grid, Item item) {
+        // Inflating a custom view for each item (CardView)
+        View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
+
+        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
+        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
+
+        // Impostare il nome dell'oggetto
+        txtItemName.setText(item.getNome());
+
+        // Aggiungere il click listener al pulsante
+        btnDiscover.setOnClickListener(v -> {
+            Log.d("GridLayout", "Scopri cliccato per: " + item.getNome());
+        });
+
+        // Aggiungere la vista al GridLayout
+        grid.addView(itemView);
+    }
 }
+
