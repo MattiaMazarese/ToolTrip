@@ -121,24 +121,27 @@ public class HomeActivity extends AppCompatActivity {
         );
     }
 
-    // Metodo per aggiungere un oggetto al GridLayout
-    private void addItemToGrid(GridLayout grid, Item item) {
-        // Inflating a custom view for each item (CardView)
-        View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
+        // Metodo per aggiungere un oggetto al GridLayout
+        private void addItemToGrid(GridLayout grid, Item item) {
+            // Inflating a custom view for each item (CardView)
+            View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
 
-        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
-        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
+            TextView txtItemName = itemView.findViewById(R.id.txtItemName);
+            Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
 
-        // Impostare il nome dell'oggetto
-        txtItemName.setText(item.getNome());
+            // Impostare il nome dell'oggetto
+            txtItemName.setText(item.getNome());
 
-        // Aggiungere il click listener al pulsante
-        btnDiscover.setOnClickListener(v -> {
-            Log.d("GridLayout", "Scopri cliccato per: " + item.getNome());
-        });
+            // Aggiungere il click listener al pulsante
+            btnDiscover.setOnClickListener(v -> {
+                Log.d("GridLayout", "Scopri cliccato per: " + item.getNome());
+            });
 
-        // Aggiungere la vista al GridLayout
-        grid.addView(itemView);
+            // Aggiungere la vista al GridLayout
+            grid.addView(itemView);
+        }
     }
-}
+
+
+
 
