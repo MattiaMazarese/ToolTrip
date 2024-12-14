@@ -1,6 +1,7 @@
 package com.example.tooltrip;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -85,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
                         if (item != null) {
                             if (item.isPubblico()) {
                                 publicObjects.add(item);
-                            } else if (item.getPossesore().equals(userID)) {
+                            } else if (item.getPossesore().getUserID().equals(userID)) {
                                 myObjects.add(item);
                             }
                         }
@@ -132,10 +133,17 @@ public class HomeActivity extends AppCompatActivity {
             // Impostare il nome dell'oggetto
             txtItemName.setText(item.getNome());
 
-            // Aggiungere il click listener al pulsante
             btnDiscover.setOnClickListener(v -> {
-                Log.d("GridLayout", "Scopri cliccato per: " + item.getNome());
+                // Creare un Intent per aprire VisualizzaProdottoSingolo
+                Intent intent = new Intent(itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
+
+                intent.putExtra("itemNome", item.getNome());
+                intent.putExtra("itemDescrizione", item.getDescrizione());
+                intent.putExtra("itemCategoria", item.getCategoria());
+                itemView.getContext().startActivity(intent);
             });
+
+
 
             // Aggiungere la vista al GridLayout
             grid.addView(itemView);

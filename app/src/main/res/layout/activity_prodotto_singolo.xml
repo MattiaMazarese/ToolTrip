@@ -1,93 +1,113 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!-- Contenuto scrollabile -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="61dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"> <!-- Spazio per il menu fisso -->
 
-        <TextView
-            android:id="@+id/central_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:text="Prodotto"
-            android:textColor="@color/primary"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <!-- Nome Section -->
-    <LinearLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="61dp">
+
+                <TextView
+                    android:id="@+id/central_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:text="Prodotto"
+                    android:textColor="@color/primary"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <!-- Nome Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/labelNome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nome:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/textViewNome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <!-- Descrizione Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/labelDescrizione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descrizione:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/textViewDescrizione"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Categoria Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:id="@+id/labelCategoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categoria:"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:id="@+id/textViewCategoria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Menu fisso in basso -->
+    <include
+        android:id="@+id/menuLayout"
+        layout="@layout/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:layout_gravity="bottom" />
 
-        <TextView
-            android:id="@+id/labelNome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nome:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/textViewNome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp" />
-    </LinearLayout>
-
-    <!-- Descrizione Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:id="@+id/labelDescrizione"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descrizione:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/textViewDescrizione"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <!-- Categoria Section -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:id="@+id/labelCategoria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Categoria:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginEnd="8dp" />
-
-        <TextView
-            android:id="@+id/textViewCategoria"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp" />
-    </LinearLayout>
-</LinearLayout>
-
+</FrameLayout>

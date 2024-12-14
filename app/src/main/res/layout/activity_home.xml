@@ -1,77 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <!-- ScrollView per il contenuto scrollabile -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/menuLayout"
+        android:fillViewport="true">
 
-        <!-- Messaggio di benvenuto -->
-        <TextView
-            android:id="@+id/txtWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="40sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="Bentornato!"/>
-
-        <!-- Sezione Oggetti Pubblici -->
-        <TextView
-            android:id="@+id/txtPublicObjects"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Oggetti Pubblici"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="20dp"
-            android:layout_below="@id/txtWelcome"
-            android:layout_marginTop="30dp"
-            android:textColor="@android:color/black"/>
-
-        <GridLayout
-            android:id="@+id/gridPublicObjects"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtPublicObjects"
-            android:layout_marginTop="20dp"
-            android:columnCount="2"
-            android:padding="16dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-        </GridLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
 
+            <!-- Messaggio di benvenuto -->
+            <TextView
+                android:id="@+id/txtWelcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="Bentornato!"/>
 
-    <!-- Sezione I Miei Oggetti -->
-        <TextView
-            android:id="@+id/txtMyObjects"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="I Miei Oggetti"
-            android:textSize="20sp"
-            android:layout_marginStart="20dp"
-            android:textStyle="bold"
-            android:layout_below="@id/gridPublicObjects"
-            android:layout_marginTop="30dp"
-            android:textColor="@android:color/black"/>
+            <!-- Sezione Oggetti Pubblici -->
+            <TextView
+                android:id="@+id/txtPublicObjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Oggetti Pubblici"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="30dp"
+                android:layout_marginStart="20dp"
+                android:textColor="@android:color/black"/>
 
-        <GridLayout
-            android:id="@+id/gridMyObjects"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtMyObjects"
-            android:layout_marginTop="20dp"
-            android:columnCount="2"
-            android:padding="16dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-        </GridLayout>
+            <GridLayout
+                android:id="@+id/gridPublicObjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:columnCount="2"
+                android:padding="16dp"
+                android:gravity="center">
+            </GridLayout>
+
+            <!-- Sezione I Miei Oggetti -->
+            <TextView
+                android:id="@+id/txtMyObjects"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I Miei Oggetti"
+                android:textSize="20sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+            <GridLayout
+                android:id="@+id/gridMyObjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:columnCount="2"
+                android:padding="16dp"
+                android:gravity="center">
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Menu fisso incluso in basso -->
+    <include
+        android:id="@+id/menuLayout"
+        layout="@layout/menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
 
-    <include layout="@layout/menu_layout" />
-
-</FrameLayout>

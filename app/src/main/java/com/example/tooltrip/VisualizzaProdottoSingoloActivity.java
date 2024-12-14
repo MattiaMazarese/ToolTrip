@@ -23,5 +23,16 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         textViewNome.setText(nome);
         textViewDescrizione.setText(descrizione);
         textViewCategoria.setText(categoria);
+
+
+        // Configurazione del menu tramite MenuHandler
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
     }
 }
+
