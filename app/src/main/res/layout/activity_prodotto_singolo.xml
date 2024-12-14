@@ -99,6 +99,11 @@
                     android:layout_height="wrap_content"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonPrestito"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

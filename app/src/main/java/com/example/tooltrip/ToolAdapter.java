@@ -39,6 +39,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
             intent.putExtra("itemNome", item.getNome());
             intent.putExtra("itemDescrizione", item.getDescrizione());
             intent.putExtra("itemCategoria", item.getCategoria());
+            intent.putExtra("itemID", item.getItemId());
             holder.itemView.getContext().startActivity(intent);
         });
     }
