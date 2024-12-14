@@ -54,7 +54,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/autoCompleteCategoria"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:padding="12dp" /> <!-- Add padding for larger touch target -->
 
     <Button
         android:id="@+id/buttonAggiungi"
