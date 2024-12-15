@@ -12,4 +12,7 @@
     <string name="logout">Logout</string>
     <string name="Porfilo" />
     <string name="Profilo" />
+    <string name="i_miei_tool">I Miei Tool</string>
+    <string name="crea_nuovo_tool">Crea Nuovo Tool</string>
+    <string name="my_tools">My tool</string>
 </resources>

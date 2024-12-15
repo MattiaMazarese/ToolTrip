@@ -1,6 +1,8 @@
 package com.example.tooltrip;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,10 +23,13 @@ import java.util.Objects;
 public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
 
     private TextView textViewNome, textViewDescrizione, textViewCategoria;
-    private Button buttonPrestito;
+    private Button buttonPrestito,buttonInvisibile;
     private DatabaseReference mDatabase;
     private String prestitoId = null;
     private String prestitoUserID = null;
+
+    private String itemID = null;
+    private String possessoreID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +43,14 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         textViewDescrizione = findViewById(R.id.textViewDescrizione);
         textViewCategoria = findViewById(R.id.textViewCategoria);
         buttonPrestito = findViewById(R.id.buttonPrestito);
+        buttonInvisibile=findViewById(R.id.buttonInvisibile);
 
         // Ottieni i dati passati dall'intent
         String nome = getIntent().getStringExtra("itemNome");
         String descrizione = getIntent().getStringExtra("itemDescrizione");
         String categoria = getIntent().getStringExtra("itemCategoria");
-        String itemID = getIntent().getStringExtra("itemID");
+        itemID = getIntent().getStringExtra("itemID");
+        possessoreID=getIntent().getStringExtra("possessoreID");
 
         // Ottieni il prestito dal database
         DatabaseReference prestitoRef = FirebaseDatabase.getInstance().getReference("Prestito");
@@ -62,7 +69,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                 }
 
                 // Dopo aver trovato il prestitoId, imposta il comportamento del pulsante
-                setButtonAction(itemID); // Aggiungi questa riga per chiamare il metodo che gestisce il bottone
+                setButtonAction(); // Aggiungi questa riga per chiamare il metodo che gestisce il bottone
             } else {
                 // Gestione errori nel caso la richiesta fallisca
                 Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Errore durante il recupero dei dati: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -84,20 +91,82 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         );
     }
 
-    private void setButtonAction(String itemID) {
+    private void setButtonAction() {
         // Imposta il comportamento del pulsante dopo che prestitoId è stato aggiornato
-        if (itemPrestato()) {
-            if (utentePrestitoItem()) {
-                buttonPrestito.setText("Restituisci tool");
-                buttonPrestito.setOnClickListener(v -> remouvePrestitoFromDatabase());
-            } else {
-                buttonPrestito.setText("tool non disponibile");
-                buttonPrestito.setOnClickListener(v -> messaggioFinePrestito());
-            }
-        } else {
-            buttonPrestito.setText("Prendi in prestito il tool");
-            buttonPrestito.setOnClickListener(v -> addPrestitoToDatabase(itemID));
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
+        String userID = currentUser.getUid();
+        if(!Objects.equals(this.possessoreID, userID)) {
+            if (itemPrestato()) {
+                if (utentePrestitoItem()) {
+                    buttonPrestito.setText("Restituisci tool");
+                    buttonPrestito.setOnClickListener(v -> remouvePrestitoFromDatabase());
+                } else {
+                    buttonPrestito.setText("tool non disponibile");
+                    buttonPrestito.setOnClickListener(v -> messaggioFinePrestito());
+                }
+            } else {
+                buttonPrestito.setText("Prendi in prestito il tool");
+                buttonPrestito.setOnClickListener(v -> addPrestitoToDatabase(this.itemID));
+            }
+        }else{
+            if(itemPrestato()){
+                buttonPrestito.setText("Tool attualmente prestato");
+            }else{
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child("pubblico");
+                databaseReference.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Boolean valorePubblico = task.getResult().getValue(Boolean.class);
+                        if(valorePubblico.equals(true)){
+                            buttonPrestito.setText("Rendi tool privato");
+                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(false));
+                        }else{
+                            buttonPrestito.setText("Rendi tool pubblico");
+                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(true));
+                        }
+                    } else {
+                        Log.e("Error", "Errore nel recupero del valore", task.getException());
+                    }
+                });
+                buttonInvisibile.setVisibility(View.VISIBLE);
+                buttonInvisibile.setClickable(true);
+                buttonInvisibile.setText(("Rimuovi tool"));
+                buttonInvisibile.setOnClickListener(v -> rimuoviTool());
+            }
+        }
+    }
+
+    private void rimuoviTool() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID);
+        databaseReference.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "tool rimosso successfully", Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Failed to rimuovere tool. Please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void rendiToolPrivato(boolean val) {
+        // Verifica il valore prima di scrivere nel database
+        Log.d("RendiToolPrivato", "Valore che stai cercando di settare: " + val);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child("pubblico");
+        databaseReference.setValue(val).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                if(val){
+                    Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Tool diventato pubblico successfully", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Tool diventato privato successfully", Toast.LENGTH_SHORT).show();
+                }
+                recreate();
+            } else {
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Failed to privatizzare tool. Please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void messaggioFinePrestito() {

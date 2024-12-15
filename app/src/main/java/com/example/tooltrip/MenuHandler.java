@@ -20,7 +20,7 @@ public class MenuHandler {
 
         // Listener per l'icona AggiungiTool
         addToolIcon.setOnClickListener(v -> {
-            context.startActivity(new Intent(context, AggiungiToolActivity.class));
+            context.startActivity(new Intent(context, VisualizzaToolActivity.class));
         });
 
         // Listener per l'icona VisualizzaTool
