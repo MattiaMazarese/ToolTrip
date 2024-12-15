@@ -5,48 +5,50 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder> {
 
-    private List<Group> groupList;
-    private OnGroupClickListener listener;
+    private List<Group> groups;
 
-    public GroupAdapter(List<Group> groupList, OnGroupClickListener listener) {
-        this.groupList = groupList;
-        this.listener = listener;
+    public GroupAdapter(List<Group> groups) {
+        this.groups = groups;
     }
 
+    public void updateGroups(List<Group> newGroups) {
+        this.groups = newGroups;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
     @Override
-    public GroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
+    public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_group, parent, false);
         return new GroupViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(GroupViewHolder holder, int position) {
-        Group group = groupList.get(position);
-        holder.groupName.setText(group.getNome());
-        holder.itemView.setOnClickListener(v -> listener.onGroupClick(group));
+    public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
+        Group group = groups.get(position);
+        holder.tvGroupName.setText("Nome: " + group.getNome());
+        holder.tvGroupDetails.setText("Creatore: " + group.getCreatoreID());
     }
 
     @Override
     public int getItemCount() {
-        return groupList.size();
+        return groups.size();
     }
 
-    public interface OnGroupClickListener {
-        void onGroupClick(Group group);
-    }
+    static class GroupViewHolder extends RecyclerView.ViewHolder {
+        TextView tvGroupName, tvGroupDetails;
 
-    public static class GroupViewHolder extends RecyclerView.ViewHolder {
-        TextView groupName;
-
-        public GroupViewHolder(View itemView) {
+        public GroupViewHolder(@NonNull View itemView) {
             super(itemView);
-            groupName = itemView.findViewById(android.R.id.text1);
+            tvGroupName = itemView.findViewById(R.id.tvGroupName);
+            tvGroupDetails = itemView.findViewById(R.id.tvGroupDetails);
         }
     }
 }

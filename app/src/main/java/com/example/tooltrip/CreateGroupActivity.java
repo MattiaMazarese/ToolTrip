@@ -23,6 +23,9 @@ public class CreateGroupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Toast.makeText(CreateGroupActivity.this, "Inserisci il codice per i gruppi privati", Toast.LENGTH_SHORT).show();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 

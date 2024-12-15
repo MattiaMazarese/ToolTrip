@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:gravity="center">
 
-    <TextView
-        android:id="@+id/tvSearchGroupTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tutti i Gruppi"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginBottom="16dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewGroups"
+    <Button
+        android:id="@+id/btnCreaGruppo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:text="Crea Gruppo"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:id="@+id/btnRicerca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ricerca"
+        android:layout_marginBottom="16dp" />
 </LinearLayout>

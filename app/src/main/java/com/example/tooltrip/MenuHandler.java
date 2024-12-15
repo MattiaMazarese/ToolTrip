@@ -25,7 +25,7 @@ public class MenuHandler {
 
         // Listener per l'icona VisualizzaTool
         viewToolIcon.setOnClickListener(v -> {
-            context.startActivity(new Intent(context, VisualizzaToolActivity.class));
+            context.startActivity(new Intent(context, MyGroupActivity.class));
         });
 
         // Listener per l'icona Profilo
