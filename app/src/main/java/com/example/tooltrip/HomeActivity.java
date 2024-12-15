@@ -69,40 +69,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Troviamo i GridLayout per oggetti pubblici e privati
+        // Troviamo il GridLayout per oggetti pubblici
         GridLayout gridPublicObjects = findViewById(R.id.gridPublicObjects);
-        GridLayout gridMyObjects = findViewById(R.id.gridMyObjects);
 
-        // Recuperiamo gli oggetti dal database
+        // Recuperiamo solo gli oggetti pubblici dal database
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Item> publicObjects = new ArrayList<>();
-                List<Item> myObjects = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     try {
                         Item item = snapshot.getValue(Item.class);
-                        if (item != null) {
-                            if (item.isPubblico()) {
-                                publicObjects.add(item);
-                            } else if (item.getPossesore().getUserID().equals(userID)) {
-                                myObjects.add(item);
-                            }
+                        if (item != null && item.isPubblico()) { // Verifica solo gli oggetti pubblici
+                            publicObjects.add(item);
                         }
                     } catch (Exception e) {
                         Log.e("Firebase", "Errore nel recupero dell'oggetto: " + e.getMessage());
                     }
                 }
 
-                // Aggiungi gli oggetti pubblici
+                // Aggiungi gli oggetti pubblici al GridLayout
                 for (Item item : publicObjects) {
+                    Log.d("PublicObjects", "Numero di oggetti pubblici: " + publicObjects.size());
+                    Log.d("PublicObjects", "Aggiungo oggetto: " + item.getNome());
                     addItemToGrid(gridPublicObjects, item);
-                }
-
-                // Aggiungi i miei oggetti
-                for (Item item : myObjects) {
-                    addItemToGrid(gridMyObjects, item);
                 }
             }
 
@@ -122,33 +113,39 @@ public class HomeActivity extends AppCompatActivity {
         );
     }
 
-        // Metodo per aggiungere un oggetto al GridLayout
-        private void addItemToGrid(GridLayout grid, Item item) {
-            // Inflating a custom view for each item (CardView)
-            View itemView = getLayoutInflater().inflate(R.layout.item_layout, null);
+    private void addItemToGrid(GridLayout grid, Item item) {
+        // Inflate il layout della card
+        View itemView = getLayoutInflater().inflate(R.layout.item_layout, grid, false);
 
-            TextView txtItemName = itemView.findViewById(R.id.txtItemName);
-            Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
+        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
+        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
 
-            // Impostare il nome dell'oggetto
-            txtItemName.setText(item.getNome());
+        // Imposta i dati nella card
+        txtItemName.setText(item.getNome());
 
-            btnDiscover.setOnClickListener(v -> {
-                // Creare un Intent per aprire VisualizzaProdottoSingolo
-                Intent intent = new Intent(itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
+        btnDiscover.setOnClickListener(v -> {
+            Intent intent = new Intent(itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
+            intent.putExtra("itemNome", item.getNome());
+            intent.putExtra("itemDescrizione", item.getDescrizione());
+            intent.putExtra("itemCategoria", item.getCategoria());
+            itemView.getContext().startActivity(intent);
+        });
 
-                intent.putExtra("itemNome", item.getNome());
-                intent.putExtra("itemDescrizione", item.getDescrizione());
-                intent.putExtra("itemCategoria", item.getCategoria());
-                itemView.getContext().startActivity(intent);
-            });
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.width = GridLayout.LayoutParams.MATCH_PARENT; // Occupa tutta la larghezza
+        layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.setMargins(8, 8, 8, 8); // Aggiungi margini per spaziatura
+
+        itemView.setLayoutParams(layoutParams);
 
 
-
-            // Aggiungere la vista al GridLayout
-            grid.addView(itemView);
-        }
+        // Aggiungi la vista al GridLayout
+        grid.addView(itemView);
     }
+
+
+}
+
 
 
 
