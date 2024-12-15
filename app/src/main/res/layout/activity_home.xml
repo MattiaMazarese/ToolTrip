@@ -46,31 +46,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:columnCount="2"
+                android:columnCount="1"
                 android:padding="16dp"
-                android:gravity="center">
-            </GridLayout>
-
-            <!-- Sezione I Miei Oggetti -->
-            <TextView
-                android:id="@+id/txtMyObjects"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="I Miei Oggetti"
-                android:textSize="20sp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="30dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"/>
-
-            <GridLayout
-                android:id="@+id/gridMyObjects"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:columnCount="2"
-                android:padding="16dp"
-                android:gravity="center">
+                android:gravity="center_horizontal">
             </GridLayout>
 
         </LinearLayout>
@@ -85,4 +63,3 @@
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
-
