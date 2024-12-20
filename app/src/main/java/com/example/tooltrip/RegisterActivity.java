@@ -88,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
 
                                 // Passa alla schermata di selezione del gruppo (SelectGroupActivity)
-                                Intent intent = new Intent(RegisterActivity.this, SelectGroupActivity.class);
+                                Intent intent = new Intent(RegisterActivity.this,HomeActivity.class);
                                 intent.putExtra("userCity", citta); // Passa la città per raccomandare un gruppo
                                 startActivity(intent); // Avvia la SelectGroupActivity
                                 finish(); // Chiudi la schermata di registrazione

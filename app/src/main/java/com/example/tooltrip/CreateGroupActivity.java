@@ -24,14 +24,13 @@ public class CreateGroupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Toast.makeText(CreateGroupActivity.this, "Inserisci il codice per i gruppi privati", Toast.LENGTH_SHORT).show();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
         etGroupName = findViewById(R.id.etGroupName);
         etGroupCode = findViewById(R.id.etGroupCode);
         switchGroupVisibility = findViewById(R.id.switchGroupVisibility);
+        switchGroupVisibility.setChecked(true);
         btnCreateGroup = findViewById(R.id.btnCreateGroup);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Groups");
@@ -69,7 +68,7 @@ public class CreateGroupActivity extends AppCompatActivity {
             usersReference.child(currentUserId).get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult() != null) {
                     DataSnapshot snapshot = task.getResult();
-
+                    /*
                     // Recupera i dati dell'utente
                     String nome = snapshot.child("nome").getValue(String.class);
                     String cognome = snapshot.child("cognome").getValue(String.class);
@@ -79,12 +78,13 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                     // Crea l'oggetto User con i dati recuperati
                     User creatore = new User(currentUserId, nome, cognome, annoNascita, address, numTelefono);
+                    */
 
                     // Crea un ID univoco per il gruppo
                     String groupID = databaseReference.push().getKey();
 
                     // Crea il gruppo
-                    Group group = new Group(groupID, groupName,creatore); // La città non è più usata
+                    Group group = new Group(groupID, groupName,currentUserId); // La città non è più usata
                     if (!isPublic) {
                         group.setCodice(groupCode); // Imposta il codice solo per i gruppi privati
                     }
@@ -95,7 +95,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                             Toast.makeText(CreateGroupActivity.this, "Gruppo creato con successo!", Toast.LENGTH_SHORT).show();
 
                             // Apri la schermata Home
-                            Intent intent = new Intent(CreateGroupActivity.this, HomeActivity.class);
+                            Intent intent = new Intent(CreateGroupActivity.this, MyGroupActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                             finish();

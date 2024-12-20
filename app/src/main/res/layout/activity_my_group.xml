@@ -1,54 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@android:color/background_light">
+
+        <Button
+            android:id="@+id/btn_crea_gruppo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Crea Gruppo"
+            android:backgroundTint="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:elevation="2dp" />
 
         <TextView
-            android:id="@+id/tvGroupName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nome Gruppo:"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:text="I miei gruppi:"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textColor="@android:color/black" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_miei_gruppi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white" />
+
+        <Button
+            android:id="@+id/btn_cerca_gruppo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Cerca Gruppo"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:textColor="@android:color/white"
+            android:elevation="2dp" />
 
         <TextView
-            android:id="@+id/tvGroupCreator"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Creatore ID:"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="16dp"
+            android:text="Gruppi aggiunti:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/tvGroupCode"
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_gruppi_aggiunti"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Codice:"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
+            android:background="@android:color/white" />
 
-        <TextView
-            android:id="@+id/tvGroupCity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Città:"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tvGroupProvince"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Provincia:"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp" />
     </LinearLayout>
+
 </ScrollView>
+
+
+

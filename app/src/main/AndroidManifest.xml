@@ -34,6 +34,7 @@
         <activity android:name=".CreateGroupActivity" />
         <activity android:name=".VisualizzaProdottoSingoloActivity" />
         <activity android:name=".ToolPersonaliUtente" />
+        <activity android:name=".MyGroupActivity"/>
     </application>
 
 </manifest>

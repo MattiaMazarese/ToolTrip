@@ -62,8 +62,6 @@ public class VisualizzaToolActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
 
-
-
     }
 
     private void loadItemsFromDatabase() {

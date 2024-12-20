@@ -1,82 +1,109 @@
 package com.example.tooltrip;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class MyGroupActivity extends AppCompatActivity {
 
-    private TextView tvGroupName, tvGroupCreator, tvGroupCode, tvGroupCity, tvGroupProvince;
-    private DatabaseReference groupRef;
-    private String currentUserId;
+    private Button creaGruppo;
+    private Button cercaGruppo;
+    private RecyclerView cardMieiGruppi;
+    private RecyclerView cardGruppiAggiunti;
+    private List<Group> mieiGroupCreatiList,mieiGroupAggiuntiList;
+    private GroupAdapter groupAdapterCreati,groupAdapterAggiunti;
+    private String currentUserID;
+    private DatabaseReference mDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_group);
 
-        // Collegamento ai componenti UI
-        tvGroupName = findViewById(R.id.tvGroupName);
-        tvGroupCreator = findViewById(R.id.tvGroupCreator);
-        tvGroupCode = findViewById(R.id.tvGroupCode);
-        tvGroupCity = findViewById(R.id.tvGroupCity);
-        tvGroupProvince = findViewById(R.id.tvGroupProvince);
+        creaGruppo=findViewById(R.id.btn_crea_gruppo);
+        creaGruppo.setOnClickListener(v -> {
+            Intent intent = new Intent(MyGroupActivity.this, CreateGroupActivity.class);
+            startActivity(intent);
+        });
+        cercaGruppo=findViewById(R.id.btn_cerca_gruppo);
+        cercaGruppo.setOnClickListener(v -> {
+            // Apri MyToolsActivity
+            //Intent intent = new Intent(MyGroupActivity.this, ToolPersonaliUtente.class);
+            //startActivity(intent);
+        });
 
-        // Firebase reference
-        groupRef = FirebaseDatabase.getInstance().getReference("Groups");
-        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        cardMieiGruppi = findViewById(R.id.recycler_miei_gruppi);
+        cardMieiGruppi.setLayoutManager(new LinearLayoutManager(this));
 
-        // Carica il gruppo
-        loadMyGroup();
-    }
+        cardGruppiAggiunti = findViewById(R.id.recycler_gruppi_aggiunti);
+        cardGruppiAggiunti.setLayoutManager(new LinearLayoutManager(this));
 
-    private void loadMyGroup() {
-        groupRef.orderByChild("creatoreID").equalTo(currentUserId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
-                                Group group = groupSnapshot.getValue(Group.class);
-                                if (group != null) {
-                                    displayGroupData(group);
-                                    return; // Esci dopo aver trovato il primo gruppo
-                                }
-                            }
-                        } else {
-                            Toast.makeText(MyGroupActivity.this, "Nessun gruppo trovato", Toast.LENGTH_SHORT).show();
-                        }
-                    }
+        mieiGroupCreatiList = new ArrayList<>();
+        mieiGroupAggiuntiList = new ArrayList<>();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(MyGroupActivity.this, "Errore nel caricamento: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+        mDatabase = FirebaseDatabase.getInstance().getReference("Groups");
 
-    private void displayGroupData(Group group) {
-        tvGroupName.setText("Nome Gruppo: " + group.getNome());
-        tvGroupCreator.setText("Creatore ID: " + group.getCreatoreID());
-        tvGroupCode.setText("Codice: " + (group.getCodice() != null ? group.getCodice() : "Nessuno"));
+        groupAdapterCreati = new GroupAdapter(mieiGroupCreatiList);
+        groupAdapterAggiunti = new GroupAdapter(mieiGroupAggiuntiList);
 
-        // Mostra città e provincia se disponibili
-        if (group.getCreatore() != null && group.getCreatore().getAddress() != null) {
-            tvGroupCity.setText("Città: " + group.getCreatore().getAddress().getCitta());
-            tvGroupProvince.setText("Provincia: " + group.getCreatore().getAddress().getProvincia());
-        } else {
-            tvGroupCity.setText("Città: Non disponibile");
-            tvGroupProvince.setText("Provincia: Non disponibile");
+        cardMieiGruppi.setAdapter(groupAdapterCreati);
+        cardGruppiAggiunti.setAdapter(groupAdapterAggiunti);
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
         }
+        currentUserID = currentUser.getUid();
+
+        loadItemsFromDatabase();
+
     }
+
+    private void loadItemsFromDatabase() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mieiGroupCreatiList.clear(); // Clear previous data
+                mieiGroupAggiuntiList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Group group = snapshot.getValue(Group.class);
+                    if (group != null && Objects.equals(group.getCreatoreID(), currentUserID)) {
+                        mieiGroupCreatiList.add(group);
+                    }
+                    if (group != null && group.getMembri().contains(currentUserID)) {
+                        mieiGroupAggiuntiList.add(group);
+                    }
+                }
+                groupAdapterCreati.notifyDataSetChanged();
+                groupAdapterAggiunti.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(MyGroupActivity.this, "Failed to load items.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
