@@ -13,28 +13,29 @@
         android:theme="@style/Theme.ToolTrip"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileActivity"
+            android:name="login.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- LoginActivity -->
-        <activity android:name=".LoginActivity" /> <!-- RegisterActivity -->
-        <activity android:name=".RegisterActivity" /> <!-- HomeActivity -->
-        <activity android:name=".HomeActivity" /> <!-- SelectGroupActivity -->
-        <activity android:name=".SelectGroupActivity" /> <!-- AggiungiItemActivity -->
-        <activity android:name=".AggiungiToolActivity" /> <!-- VisualizzaToolActivity -->
-        <activity android:name=".VisualizzaToolActivity" />
-        <activity android:name=".SearchGroupActivity" />
-        <activity android:name=".CreateGroupActivity" />
-        <activity android:name=".VisualizzaProdottoSingoloActivity" />
-        <activity android:name=".ToolPersonaliUtente" />
-        <activity android:name=".MyGroupActivity"/>
+        </activity>
+        <activity android:name="login.LoginActivity" />
+        <activity android:name="login.RegisterActivity" />
+        <activity android:name="menù.HomeActivity" />
+        <activity android:name="item.AggiungiToolActivity" />
+        <activity android:name="item.VisualizzaToolActivity" />
+        <activity android:name="item.VisualizzaProdottoSingoloActivity" />
+        <activity android:name="item.ToolPersonaliUtente" />
+        <activity android:name="group.MyGroupActivity"/>
+        <activity android:name="group.VisualizzaGruppoSingoloActivity" />
+        <activity android:name="group.SearchGroupActivity" />
+        <activity android:name="group.CreateGroupActivity" />
+        <activity android:name="group.SelectGroupActivity" />
     </application>
 
 </manifest>
