@@ -95,5 +95,10 @@
             android:text="N/A"
             android:textSize="16sp"
             android:paddingBottom="16dp" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/bottoneIscrizione"
+            android:text="N/A"/>
     </LinearLayout>
 </ScrollView>
