@@ -75,7 +75,6 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
             membri.add(currentUserId());
         }
         if(membri != null) {
-            Toast.makeText(VisualizzaGruppoSingoloActivity.this, "entrato "+ membri.get(0), Toast.LENGTH_SHORT).show();
             /*mDatabase.child("Groups").child("membri").setValue(membri).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
                     Toast.makeText(VisualizzaGruppoSingoloActivity.this, "Iscrizione added successfully", Toast.LENGTH_SHORT).show();
