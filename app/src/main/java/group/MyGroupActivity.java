@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import menù.MenuHandler;
+
 public class MyGroupActivity extends AppCompatActivity {
 
     private Button creaGruppo;
@@ -101,6 +103,14 @@ public class MyGroupActivity extends AppCompatActivity {
                 Toast.makeText(MyGroupActivity.this, "Failed to load items.", Toast.LENGTH_SHORT).show();
             }
         });
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
+
     }
 
 

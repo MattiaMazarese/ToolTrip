@@ -1,104 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <!-- ScrollView per le informazioni del gruppo -->
+    <ScrollView
+        android:id="@+id/groupInfoLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_alignParentTop="true"
+        android:padding="16dp">
 
-        <!-- ID del Gruppo -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID del Gruppo"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvGroupIDValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textSize="16sp"
-            android:paddingBottom="16dp" />
-
-        <!-- Nome del Gruppo -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nome del Gruppo"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvGroupNameValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textSize="16sp"
-            android:paddingBottom="16dp" />
-
-        <!-- ID del Creatore -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ID del Creatore"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvCreatoreIDValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textSize="16sp"
-            android:paddingBottom="16dp" />
-
-        <!-- Membri -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Membri del Gruppo"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvMembriValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textSize="16sp"
-            android:paddingBottom="16dp" />
-
-        <!-- Codice del Gruppo -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Codice del Gruppo"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:paddingBottom="4dp" />
-
-        <TextView
-            android:id="@+id/tvCodiceValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N/A"
-            android:textSize="16sp"
-            android:paddingBottom="16dp" />
-        <Button
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/bottoneIscrizione"
-            android:text="N/A"/>
-    </LinearLayout>
-</ScrollView>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <!-- ID del Gruppo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID del Gruppo"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvGroupIDValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="16sp"
+                android:paddingBottom="16dp" />
+
+            <!-- Nome del Gruppo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nome del Gruppo"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvGroupNameValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="16sp"
+                android:paddingBottom="16dp" />
+
+            <!-- ID del Creatore -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID del Creatore"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvCreatoreIDValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="16sp"
+                android:paddingBottom="16dp" />
+
+            <!-- Membri -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Membri del Gruppo"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvMembriValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="16sp"
+                android:paddingBottom="16dp" />
+
+            <!-- Codice del Gruppo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Codice del Gruppo"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvCodiceValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="N/A"
+                android:textSize="16sp"
+                android:paddingBottom="16dp" />
+
+            <!-- Bottone di Iscrizione -->
+            <Button
+                android:id="@+id/bottoneIscrizione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Iscriviti"
+                android:layout_marginTop="16dp" />
+
+            <Button
+                android:id="@+id/btnGroupChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chat di gruppo"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
+    <!-- Menu inferiore -->
+    <include
+        android:id="@+id/menuLayout"
+        layout="@layout/menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

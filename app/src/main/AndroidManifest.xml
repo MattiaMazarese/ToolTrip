@@ -36,6 +36,7 @@
         <activity android:name="group.SearchGroupActivity" />
         <activity android:name="group.CreateGroupActivity" />
         <activity android:name="group.SelectGroupActivity" />
+        <activity android:name="group.GroupChatActivity" />
     </application>
 
 </manifest>
