@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+import menù.MenuHandler;
+
 public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
 
     private TextView groupIDTextView;
@@ -70,12 +72,23 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
+
         setButtonAction();
 
 
     }
 
     private void setButtonAction() {
+
+
+
         if (membri.contains(currentUserId())) {
             btnIscriviti.setText("Disiscrivi");
             btnIscriviti.setOnClickListener(v -> aggiornaIscrizione(true));
