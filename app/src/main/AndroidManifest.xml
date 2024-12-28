@@ -38,5 +38,6 @@
         <activity android:name="group.SelectGroupActivity" />
         <activity android:name="group.GroupChatActivity" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

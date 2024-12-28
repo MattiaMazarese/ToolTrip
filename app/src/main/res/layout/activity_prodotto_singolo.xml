@@ -105,14 +105,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="null" />
+
             <Button
                 android:id="@+id/buttonInvisibile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Invisible Button"
                 android:visibility="gone"
-                android:clickable="false"
-            />
+                android:clickable="false" />
+
+            <!-- RecyclerView per le recensioni -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewRecensione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </ScrollView>

@@ -1,32 +1,45 @@
 package item;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import menù.MenuHandler;
 import com.example.tooltrip.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
 
     private TextView textViewNome, textViewDescrizione, textViewCategoria;
     private Button buttonPrestito,buttonInvisibile;
+    private RecyclerView recyclerViewRecensione;
+    private List<Recensione> recensioneList;
+
+    private RecensioneAdapter recensioneAdapter;
     private DatabaseReference mDatabase;
     private String prestitoId = null;
+    private String recensioneId =null;
     private String prestitoUserID = null;
-
     private String itemID = null;
     private String possessoreID = null;
 
@@ -35,14 +48,22 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prodotto_singolo);
 
-        // Inizializza Firebase Database reference
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-
         textViewNome = findViewById(R.id.textViewNome);
         textViewDescrizione = findViewById(R.id.textViewDescrizione);
         textViewCategoria = findViewById(R.id.textViewCategoria);
         buttonPrestito = findViewById(R.id.buttonPrestito);
         buttonInvisibile=findViewById(R.id.buttonInvisibile);
+        recyclerViewRecensione=findViewById(R.id.recyclerViewRecensione);
+
+        recyclerViewRecensione.setLayoutManager(new LinearLayoutManager(this));
+        recensioneList = new ArrayList<>();
+        mDatabase = FirebaseDatabase.getInstance().getReference("Recensioni");
+        recensioneAdapter = new RecensioneAdapter(recensioneList);
+        recyclerViewRecensione.setAdapter(recensioneAdapter);
+
+        loadRecensioniFromDatabase();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         // Ottieni i dati passati dall'intent
         String nome = getIntent().getStringExtra("itemNome");
@@ -50,6 +71,8 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         String categoria = getIntent().getStringExtra("itemCategoria");
         itemID = getIntent().getStringExtra("itemID");
         possessoreID=getIntent().getStringExtra("possessoreID");
+
+
 
         // Ottieni il prestito dal database
         DatabaseReference prestitoRef = FirebaseDatabase.getInstance().getReference("Prestito");
@@ -88,6 +111,27 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                 findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
+    }
+
+    private void loadRecensioniFromDatabase() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                recensioneList.clear(); // Clear previous data
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Recensione recensione = snapshot.getValue(Recensione.class);
+                    if (recensione != null && recensione.getIdOggetto().equals(itemID)) {
+                        recensioneList.add(recensione);
+                    }
+                }
+                recensioneAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Failed to load items.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setButtonAction() {
@@ -230,13 +274,65 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prestito").child(prestitoId);
         databaseReference.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Prestito rimosso successfully", Toast.LENGTH_SHORT).show();
-                recreate();
+                // Mostra un dialogo per aggiungere una recensione
+                mostraDialogoRecensione();
             } else {
                 Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Failed to rimuovere prestito. Please try again.", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
+
+    private void addRecensioneToDatabase(String recensioneText) {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(this, "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        recensioneId = mDatabase.push().getKey();
+        String userID = currentUser.getUid();
+        Recensione newRecensione = new Recensione(recensioneId, userID, itemID, recensioneText);
+
+        if (recensioneId != null) {
+            mDatabase.child("Recensioni").child(recensioneId).setValue(newRecensione).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Recensione aggiunta con successo", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Errore nell'aggiungere la recensione. Riprova.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Errore nella generazione dell'ID recensione", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void mostraDialogoRecensione() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Aggiungi Recensione");
+
+        // Configura un EditText per inserire la recensione
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+        builder.setView(input);
+
+        // Configura i pulsanti
+        builder.setPositiveButton("Invia", (dialog, which) -> {
+            String recensioneText = input.getText().toString().trim();
+            if (!recensioneText.isEmpty()) {
+                addRecensioneToDatabase(recensioneText);
+            } else {
+                Toast.makeText(this, "Recensione vuota non aggiunta.", Toast.LENGTH_SHORT).show();
+            }
+            recreate();
+        });
+
+        builder.setNegativeButton("Annulla", (dialog, which) -> {
+            dialog.cancel();
+            recreate();
+        });
+
+        builder.show();
+    }
+
 }
 
