@@ -64,61 +64,89 @@
                 android:textColor="@color/textSecondary"
                 android:layout_marginBottom="16dp" />
 
-
-            <TextView
-                android:id="@+id/txtModifica"
+            <!-- Area modifica nascosta di default -->
+            <LinearLayout
+                android:id="@+id/editLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Vuoi modificare il numero di telefono o l'indirizzo?"
-                android:textSize="20sp"
-                android:textColor="#000000"
-                android:padding="16dp"
-                android:textStyle="bold"
-                android:gravity="center" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <EditText
-                android:id="@+id/editTextTelefono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nuovo numero di telefono"
-                android:inputType="phone" />
+                <TextView
+                    android:id="@+id/txtModifica"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vuoi modificare il numero di telefono o l'indirizzo?"
+                    android:textSize="20sp"
+                    android:textColor="#000000"
+                    android:padding="16dp"
+                    android:textStyle="bold"
+                    android:gravity="center" />
 
-            <EditText
-                android:id="@+id/editTextIndirizzo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Via"
-                android:inputType="text" />
-            <EditText
-                android:id="@+id/editTextCivico"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Civico" />
+                <EditText
+                    android:id="@+id/editTextTelefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nuovo numero di telefono"
+                    android:inputType="phone" />
 
-            <EditText
-                android:id="@+id/editTextCitta"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Città" />
+                <EditText
+                    android:id="@+id/editTextIndirizzo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Via"
+                    android:inputType="text" />
+                <EditText
+                    android:id="@+id/editTextCivico"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Civico" />
 
-            <EditText
-                android:id="@+id/editTextProvincia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Provincia" />
+                <EditText
+                    android:id="@+id/editTextCitta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Città" />
 
-            <EditText
-                android:id="@+id/editTextCAP"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="CAP" />
+                <EditText
+                    android:id="@+id/editTextProvincia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Provincia" />
 
+                <EditText
+                    android:id="@+id/editTextCAP"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CAP" />
+
+                <Button
+                    android:id="@+id/btnSalva"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salva modifiche"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <!-- Pulsante Modifica -->
             <Button
-                android:id="@+id/btnSalva"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnModifica"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Salva modifiche" />
+                android:text="@string/modifica"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp" />
 
+            <!-- Bottone Cancella Account (Rosso e dimensioni simili a Modifica e Logout) -->
+            <Button
+                android:id="@+id/btnDeleteAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cancella_account"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp" />
 
             <!-- Bottone Logout -->
             <Button
@@ -128,8 +156,7 @@
                 android:text="Logout"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:layout_marginTop="24dp" />
-
+                android:layout_marginTop="16dp" />
 
         </LinearLayout>
     </ScrollView>
@@ -142,5 +169,4 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="0dp" />
-
 </RelativeLayout>
