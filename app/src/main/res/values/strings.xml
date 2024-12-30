@@ -17,4 +17,5 @@
     <string name="my_tools">My tool</string>
     <string name="cancella_account">Cancella Account</string>
     <string name="modifica">Modifica</string>
+    <string name="add_button">Aggiungi elemento</string>
 </resources>

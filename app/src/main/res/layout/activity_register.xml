@@ -1,116 +1,174 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Titolo -->
+        <TextView
+            android:id="@+id/tvRegisterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crea un Account"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="16dp"
+            android:textColor="@color/primary" />
+
         <!-- Nome -->
-        <EditText
-            android:id="@+id/etNome"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nome"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Cognome -->
-        <EditText
-            android:id="@+id/etCognome"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cognome"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCognome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Anno di nascita -->
-        <EditText
-            android:id="@+id/etAnnoNascita"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Anno di Nascita"
-            style="@style/BodyText"
-            android:inputType="number" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etAnnoNascita"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Numero di telefono -->
-        <EditText
-            android:id="@+id/etNumTelefono"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Numero di Telefono"
-            style="@style/BodyText"
-            android:inputType="phone" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNumTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campi per l'indirizzo -->
-        <EditText
-            android:id="@+id/etCittà"
+        <!-- Indirizzo (Città, Via, Civico, CAP, Provincia) -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Città"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCittà"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etVia"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Via"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etVia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etCivico"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Civico"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCivico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etCAP"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="CAP"
-            style="@style/BodyText"
-            android:inputType="number" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCAP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/etProvincia"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Provincia"
-            style="@style/BodyText"
-            android:inputType="text" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etProvincia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Email -->
-        <EditText
-            android:id="@+id/etEmail"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            style="@style/BodyText"
-            android:inputType="textEmailAddress" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Password -->
-        <EditText
-            android:id="@+id/etPassword"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            style="@style/BodyText"
-            android:inputType="textPassword" />
+            android:layout_marginTop="8dp">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Bottone di Registrazione -->
-        <Button
+        <!-- Bottone Registrati -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Registrati"
-            style="@style/ButtonPrimary"
-            android:layout_marginTop="16dp" />
+            android:backgroundTint="@color/primary"
+            android:textColor="@android:color/white"
+            style="@style/Widget.MaterialComponents.Button" />
     </LinearLayout>
 </ScrollView>

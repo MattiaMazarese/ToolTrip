@@ -1,13 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <!-- ScrollView per il contenuto scrollabile -->
+    <!-- Toolbar superiore -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:elevation="4dp"
+        android:layout_alignParentTop="true"
+        android:padding="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- ScrollView per contenuti scrollabili -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
         android:layout_above="@id/menuLayout"
         android:fillViewport="true">
 
@@ -15,44 +35,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
             <!-- Messaggio di benvenuto -->
             <TextView
                 android:id="@+id/txtWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="40sp"
-                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:textSize="32sp"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="@android:color/black"
-                android:gravity="center"
-                android:layout_marginTop="30dp"
-                android:text="Bentornato!"/>
-
-            <!-- Sezione Oggetti Pubblici -->
-            <TextView
-                android:id="@+id/txtPublicObjects"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Oggetti Pubblici"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginTop="30dp"
-                android:layout_marginStart="20dp"
-                android:textColor="@android:color/black"/>
+                android:layout_marginTop="16dp"
+                android:text="Bentornato!"
+                android:gravity="center" />
 
             <GridLayout
                 android:id="@+id/gridPublicObjects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:columnCount="1"
-                android:padding="16dp"
-                android:gravity="center_horizontal">
+                android:columnCount="2"
+                android:padding="8dp">
             </GridLayout>
-
         </LinearLayout>
     </ScrollView>
+
+    <!-- Pulsante Azione Fluttuante -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/add_button"
+        android:backgroundTint="?attr/colorPrimary"
+        android:elevation="6dp" />
 
     <!-- Menu fisso incluso in basso -->
     <include
@@ -60,6 +77,5 @@
         layout="@layout/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
-
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>

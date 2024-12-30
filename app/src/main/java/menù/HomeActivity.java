@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -19,13 +20,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import item.Item;
-import item.VisualizzaProdottoSingoloActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import item.Item;
+import item.VisualizzaProdottoSingoloActivity;
+import menù.MenuHandler;
+
 public class HomeActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
+    private TextView txtWelcome;
+    private GridLayout gridPublicObjects;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -33,80 +41,113 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Inizializzazione di Firebase Auth
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        // Inizializzazione Firebase
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference("items");
 
-        // Inizializzazione di Firebase Database
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("items");
+        // Inizializzazione layout
+        txtWelcome = findViewById(R.id.txtWelcome);
+        gridPublicObjects = findViewById(R.id.gridPublicObjects);
 
-        // Troviamo la TextView per il messaggio di benvenuto
-        TextView txtWelcome = findViewById(R.id.txtWelcome);
+        // Carica dati utente e oggetti pubblici
+        loadUserData();
+        loadPublicObjects();
 
-        // Ottieni l'UID dell'utente
+        // Configura il menu
+        setupMenu();
+    }
+
+    /**
+     * Carica il nome utente dal database e aggiorna il messaggio di benvenuto.
+     */
+    private void loadUserData() {
         String userID = mAuth.getCurrentUser().getUid();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("nome");
 
-        // Ottieni una referenza al database Realtime
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
-        // Esegui una query per ottenere i dati dell'utente
-        database.child("Users").child(userID).child("nome").addValueEventListener(new ValueEventListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Controlla se i dati esistono
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Ottieni il nome dell'utente
                     String userName = dataSnapshot.getValue(String.class);
-
-                    // Imposta il nome dell'utente nel TextView
                     txtWelcome.setText("Bentornato " + userName);
                 } else {
-                    // Se i dati non esistono
                     txtWelcome.setText("Utente non trovato");
                 }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // In caso di errore nella lettura
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 txtWelcome.setText("Errore nel recupero dei dati");
+                Log.e("HomeActivity", "Errore caricamento nome utente: " + databaseError.getMessage());
             }
         });
+    }
 
-        // Troviamo il GridLayout per oggetti pubblici
-        GridLayout gridPublicObjects = findViewById(R.id.gridPublicObjects);
-
-        // Recuperiamo solo gli oggetti pubblici dal database
+    /**
+     * Carica gli oggetti pubblici dal database e li aggiunge al GridLayout.
+     */
+    private void loadPublicObjects() {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<Item> publicObjects = new ArrayList<>();
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     try {
                         Item item = snapshot.getValue(Item.class);
-                        if (item != null && item.isPubblico()) { // Verifica solo gli oggetti pubblici
+                        if (item != null && item.isPubblico()) {
                             publicObjects.add(item);
                         }
                     } catch (Exception e) {
-                        Log.e("Firebase", "Errore nel recupero dell'oggetto: " + e.getMessage());
+                        Log.e("HomeActivity", "Errore nel recupero dell'oggetto: " + e.getMessage());
                     }
                 }
 
-                // Aggiungi gli oggetti pubblici al GridLayout
                 for (Item item : publicObjects) {
-                    Log.d("PublicObjects", "Numero di oggetti pubblici: " + publicObjects.size());
-                    Log.d("PublicObjects", "Aggiungo oggetto: " + item.getNome());
-                    addItemToGrid(gridPublicObjects, item);
+                    addItemToGrid(item);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Firebase", "Errore nel recupero dati: " + databaseError.getMessage());
+                Log.e("HomeActivity", "Errore caricamento oggetti pubblici: " + databaseError.getMessage());
             }
         });
+    }
 
-        // Configurazione del menu tramite MenuHandler
+    /**
+     * Aggiunge un oggetto al GridLayout.
+     *
+     * @param item L'oggetto da aggiungere.
+     */
+    private void addItemToGrid(Item item) {
+        View itemView = LayoutInflater.from(this).inflate(R.layout.item_layout, gridPublicObjects, false);
+
+        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
+        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
+
+        txtItemName.setText(item.getNome());
+
+        btnDiscover.setOnClickListener(v -> {
+            Intent intent = new Intent(this, VisualizzaProdottoSingoloActivity.class);
+            intent.putExtra("itemNome", item.getNome());
+            intent.putExtra("itemDescrizione", item.getDescrizione());
+            intent.putExtra("itemCategoria", item.getCategoria());
+            startActivity(intent);
+        });
+
+        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
+        layoutParams.width = GridLayout.LayoutParams.MATCH_PARENT;
+        layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
+        layoutParams.setMargins(8, 8, 8, 8);
+
+        itemView.setLayoutParams(layoutParams);
+        gridPublicObjects.addView(itemView);
+    }
+
+    /**
+     * Configura i listener per il menu.
+     */
+    private void setupMenu() {
         MenuHandler menuHandler = new MenuHandler(this);
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
@@ -115,41 +156,4 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
     }
-
-    private void addItemToGrid(GridLayout grid, Item item) {
-        // Inflate il layout della card
-        View itemView = getLayoutInflater().inflate(R.layout.item_layout, grid, false);
-
-        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
-        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
-
-        // Imposta i dati nella card
-        txtItemName.setText(item.getNome());
-
-        btnDiscover.setOnClickListener(v -> {
-            Intent intent = new Intent(itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
-            intent.putExtra("itemNome", item.getNome());
-            intent.putExtra("itemDescrizione", item.getDescrizione());
-            intent.putExtra("itemCategoria", item.getCategoria());
-            itemView.getContext().startActivity(intent);
-        });
-
-        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-        layoutParams.width = GridLayout.LayoutParams.MATCH_PARENT; // Occupa tutta la larghezza
-        layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-        layoutParams.setMargins(8, 8, 8, 8); // Aggiungi margini per spaziatura
-
-        itemView.setLayoutParams(layoutParams);
-
-
-        // Aggiungi la vista al GridLayout
-        grid.addView(itemView);
-    }
-
-
 }
-
-
-
-
-

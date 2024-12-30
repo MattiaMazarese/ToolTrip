@@ -52,18 +52,17 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser() {
-        // Raccolta dati utente
-        String nome = etNome.getText().toString();
-        String cognome = etCognome.getText().toString();
-        String annoNascita = etAnnoNascita.getText().toString();
-        String numTelefono = etNumTelefono.getText().toString();
-        String citta = etCittà.getText().toString();
-        String via = etVia.getText().toString();
-        String civico = etCivico.getText().toString();
-        String CAP = etCAP.getText().toString();
-        String provincia = etProvincia.getText().toString();
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
+        String nome = etNome.getText().toString().trim();
+        String cognome = etCognome.getText().toString().trim();
+        String annoNascita = etAnnoNascita.getText().toString().trim();
+        String numTelefono = etNumTelefono.getText().toString().trim();
+        String citta = etCittà.getText().toString().trim();
+        String via = etVia.getText().toString().trim();
+        String civico = etCivico.getText().toString().trim();
+        String CAP = etCAP.getText().toString().trim();
+        String provincia = etProvincia.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
         // Controllo campi vuoti
         if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(cognome) || TextUtils.isEmpty(annoNascita) ||
@@ -71,6 +70,32 @@ public class RegisterActivity extends AppCompatActivity {
                 TextUtils.isEmpty(civico) || TextUtils.isEmpty(CAP) || TextUtils.isEmpty(provincia) ||
                 TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Compila tutti i campi!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Controllo specifici
+        if (!annoNascita.matches("\\d{4}")) {
+            etAnnoNascita.setError("Inserisci un anno valido (es: 1990)");
+            return;
+        }
+        if (!numTelefono.matches("\\d{10}")) {
+            etNumTelefono.setError("Inserisci un numero di telefono valido (10 cifre)");
+            return;
+        }
+        if (!CAP.matches("\\d{5}")) {
+            etCAP.setError("Inserisci un CAP valido (5 cifre)");
+            return;
+        }
+        if (!civico.matches("\\d+")) {
+            etCivico.setError("Inserisci un numero valido per il civico");
+            return;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            etEmail.setError("Inserisci un'email valida");
+            return;
+        }
+        if (password.length() < 6) {
+            etPassword.setError("La password deve avere almeno 6 caratteri");
             return;
         }
 
