@@ -68,6 +68,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
                 findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
+
     }
 
     private void loadCategoriesFromDatabase() {
@@ -168,4 +169,6 @@ public class AggiungiToolActivity extends AppCompatActivity {
         autoCompleteCategoria.setText("");
         switchPubblico.setChecked(false);
     }
+
+
 }

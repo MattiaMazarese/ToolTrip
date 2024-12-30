@@ -52,8 +52,16 @@ public class HomeActivity extends AppCompatActivity {
         loadPublicObjects();
 
         // Configura il menu
-        setupMenu();
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
     }
+
+
 
     private void loadUserData() {
         String userID = mAuth.getCurrentUser().getUid();
@@ -129,16 +137,5 @@ public class HomeActivity extends AppCompatActivity {
         gridPublicObjects.addView(itemView);
     }
 
-    /**
-     * Configura i listener per il menu.
-     */
-    private void setupMenu() {
-        MenuHandler menuHandler = new MenuHandler(this);
-        menuHandler.setUpMenuListeners(
-                findViewById(R.id.iconHome),
-                findViewById(R.id.iconAggiungiTool),
-                findViewById(R.id.iconGroup),
-                findViewById(R.id.iconProfile)
-        );
-    }
+
 }
