@@ -10,7 +10,7 @@ public class Item {
     private String itemId;
     private String nome;
     private String descrizione;
-    private String categoria;
+    private String categoriaId; // Cambiato da "categoria" a "categoriaId"
     private User possesore;
     private Boolean pubblico;
     private List<Review> recensioni;
@@ -20,11 +20,11 @@ public class Item {
     }
 
     // Costruttore con tutti i parametri
-    public Item(String itemId, String nome, String descrizione, String categoria, User possesore, Boolean pubblico) {
+    public Item(String itemId, String nome, String descrizione, String categoriaId, User possesore, Boolean pubblico) {
         this.itemId = itemId;
         this.nome = nome;
         this.descrizione = descrizione;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
         this.possesore = possesore;
         this.pubblico = pubblico;
         this.recensioni = new ArrayList<>();
@@ -57,13 +57,13 @@ public class Item {
         this.descrizione = descrizione;
     }
 
-    // Getter e Setter per categoria
-    public String getCategoria() {
-        return categoria;
+    // Getter e Setter per categoriaId
+    public String getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(String categoriaId) {
+        this.categoriaId = categoriaId;
     }
 
     // Getter e Setter per possesore (oggetto User)
@@ -87,6 +87,8 @@ public class Item {
     public List<Review> getListaRecensioni() {
         return recensioni;
     }
-    public void addRecensione(Review recensione) {this.recensioni.add(recensione);}
 
+    public void addRecensione(Review recensione) {
+        this.recensioni.add(recensione);
+    }
 }

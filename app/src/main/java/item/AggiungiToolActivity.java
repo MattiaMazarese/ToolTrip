@@ -15,8 +15,12 @@ import com.example.tooltrip.R;
 import login.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AggiungiToolActivity extends AppCompatActivity {
     private EditText editTextNome, editTextDescrizione;
@@ -40,10 +44,8 @@ public class AggiungiToolActivity extends AppCompatActivity {
         switchPubblico = findViewById(R.id.switchPubblico);
         buttonAggiungi = findViewById(R.id.buttonAggiungi);
 
-        // Set up the dropdown menu
-        String[] categorie = {"Elettronica", "Meccanica", "Informatica", "Altro"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, categorie);
-        autoCompleteCategoria.setAdapter(adapter);
+        // Load categories from database
+        loadCategoriesFromDatabase();
 
         // Force the dropdown to show on click
         autoCompleteCategoria.setOnClickListener(v -> autoCompleteCategoria.showDropDown());
@@ -68,11 +70,32 @@ public class AggiungiToolActivity extends AppCompatActivity {
         );
     }
 
+    private void loadCategoriesFromDatabase() {
+        DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference("categories");
+        categoryRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<String> categorie = new ArrayList<>();
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    Category category = snapshot.getValue(Category.class);
+                    if (category != null && category.getNome() != null) {
+                        categorie.add(category.getNome());
+                    }
+                }
+
+                // Set up the adapter for the AutoCompleteTextView
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.select_dialog_item, categorie);
+                autoCompleteCategoria.setAdapter(adapter);
+            } else {
+                Toast.makeText(this, "Failed to load categories.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void addItemToDatabase() {
         // Get values from input fields
         String nome = editTextNome.getText().toString().trim();
         String descrizione = editTextDescrizione.getText().toString().trim();
-        String categoria = autoCompleteCategoria.getText().toString().trim();
+        String categoriaNome = autoCompleteCategoria.getText().toString().trim();
         boolean pubblico = switchPubblico.isChecked();
 
         // Validate input fields
@@ -84,7 +107,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
             Toast.makeText(this, "Descrizione is required", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (categoria.isEmpty()) {
+        if (categoriaNome.isEmpty()) {
             Toast.makeText(this, "Categoria is required", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -96,29 +119,47 @@ public class AggiungiToolActivity extends AppCompatActivity {
             return;
         }
 
-        // Create a User object with the current user's ID
-        String userID = currentUser.getUid();
-        User possesore = new User(userID, null, null, null, null, null);
-
-        // Create a unique item ID
-        String itemId = mDatabase.push().getKey();
-
-        // Create a new Item object
-        Item newItem = new Item(itemId, nome, descrizione, categoria, possesore, pubblico);
-
-        // Save the item to Firebase Realtime Database
-        if (itemId != null) {
-            mDatabase.child("items").child(itemId).setValue(newItem).addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    Toast.makeText(AggiungiToolActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
-                    clearFields();
-                } else {
-                    Toast.makeText(AggiungiToolActivity.this, "Failed to add item. Please try again.", Toast.LENGTH_SHORT).show();
+        // Map categoriaNome -> categoriaId
+        DatabaseReference categoryRef = FirebaseDatabase.getInstance().getReference("categories");
+        categoryRef.orderByChild("nome").equalTo(categoriaNome).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().exists()) {
+                String categoriaId = null;
+                for (DataSnapshot snapshot : task.getResult().getChildren()) {
+                    categoriaId = snapshot.getKey();
+                    break;
                 }
-            });
-        } else {
-            Toast.makeText(this, "Failed to generate item ID", Toast.LENGTH_SHORT).show();
-        }
+
+                if (categoriaId != null) {
+                    // Create a User object with the current user's ID
+                    String userID = currentUser.getUid();
+                    User possesore = new User(userID, null, null, null, null, null);
+
+                    // Create a unique item ID
+                    String itemId = mDatabase.push().getKey();
+
+                    // Create a new Item object
+                    Item newItem = new Item(itemId, nome, descrizione, categoriaId, possesore, pubblico);
+
+                    // Save the item to Firebase Realtime Database
+                    if (itemId != null) {
+                        mDatabase.child("items").child(itemId).setValue(newItem).addOnCompleteListener(itemTask -> {
+                            if (itemTask.isSuccessful()) {
+                                Toast.makeText(AggiungiToolActivity.this, "Item added successfully", Toast.LENGTH_SHORT).show();
+                                clearFields();
+                            } else {
+                                Toast.makeText(AggiungiToolActivity.this, "Failed to add item. Please try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(this, "Failed to generate item ID", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Invalid category selected.", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "Category does not exist.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void clearFields() {
@@ -128,9 +169,3 @@ public class AggiungiToolActivity extends AppCompatActivity {
         switchPubblico.setChecked(false);
     }
 }
-
-
-
-
-
-

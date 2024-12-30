@@ -58,6 +58,7 @@
                 android:padding="8dp">
             </GridLayout>
         </LinearLayout>
+
     </ScrollView>
 
     <!-- Pulsante Azione Fluttuante -->

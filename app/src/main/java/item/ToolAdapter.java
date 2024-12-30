@@ -32,8 +32,14 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
         holder.textViewNome.setText(item.getNome());
         holder.textViewDescrizione.setText(item.getDescrizione());
 
-        // Set image based on category
-        String category = item.getCategoria();
+        // Verifica che la categoria non sia null o vuota
+        String category = item.getCategoriaId(); // Usa il metodo corretto della classe Item
+        if (category == null || category.isEmpty()) {
+            category = "Altro"; // Imposta un valore predefinito
+        }
+
+        final String finalCategory = category;
+
         int categoryImage = getCategoryImage(category);
         holder.imageViewCategory.setImageResource(categoryImage);
 
@@ -41,7 +47,7 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
             Intent intent = new Intent(holder.itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
             intent.putExtra("itemNome", item.getNome());
             intent.putExtra("itemDescrizione", item.getDescrizione());
-            intent.putExtra("itemCategoria", item.getCategoria());
+            intent.putExtra("itemCategoria", finalCategory); // Usa la variabile locale "category"
             intent.putExtra("itemID", item.getItemId());
             intent.putExtra("possessoreID", item.getPossesore().getUserID());
             holder.itemView.getContext().startActivity(intent);
@@ -69,23 +75,22 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
 
     // Map category to image resource
     private int getCategoryImage(String category) {
+        if (category == null || category.isEmpty()) {
+            // Categoria sconosciuta o non specificata, restituisci un'icona predefinita
+            return R.drawable.ic_altro;
+        }
+
         switch (category) {
             case "Elettronica":
-                return R.drawable.ic_elettronica; // Replace with actual image resource
+                return R.drawable.ic_elettronica; // Sostituisci con il nome corretto della risorsa
             case "Meccanica":
-                return R.drawable.ic_gear; // Replace with actual image resource
+                return R.drawable.ic_gear; // Sostituisci con il nome corretto della risorsa
             case "Informatica":
-                return R.drawable.ic_devices; // Replace with actual image resource
+                return R.drawable.ic_devices; // Sostituisci con il nome corretto della risorsa
             case "Altro":
-                return R.drawable.ic_altro; // Replace with actual image resource
+                return R.drawable.ic_altro; // Sostituisci con il nome corretto della risorsa
             default:
-                return R.drawable.ic_altro; // Default image if category is not found
+                return R.drawable.ic_altro; // Default image se la categoria non è riconosciuta
         }
     }
 }
-
-
-
-
-
-

@@ -4,46 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
     tools:context="item.AggiungiToolActivity">
 
-    <!-- Two buttons at the top -->
+    <!-- Two buttons at the top with better spacing and style -->
     <Button
         android:id="@+id/buttonMyTool"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="16dp"
         android:text="@string/i_miei_tool"
+        android:backgroundTint="@color/primaryColor"
+        android:textColor="@color/white"
+        android:elevation="4dp"
         app:layout_constraintEnd_toStartOf="@id/buttonCreateTool"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- RecyclerView -->
 
     <Button
         android:id="@+id/buttonCreateTool"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_margin="16dp"
         android:text="@string/crea_nuovo_tool"
+        android:backgroundTint="@color/primaryColor"
+        android:textColor="@color/white"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/buttonMyTool"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Included layout -->
+    <!-- Dropdown menu for category filter -->
+    <Spinner
+        android:id="@+id/spinnerCategoryFilter"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/lightGray"
+        android:spinnerMode="dropdown"
+        android:popupBackground="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonCreateTool" />
+
+    <!-- RecyclerView with improved padding -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="16dp"
+        android:clipToPadding="false"
+        android:background="@color/cardBackground"
         app:layout_constraintBottom_toTopOf="@id/menuLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonMyTool"
+        app:layout_constraintTop_toBottomOf="@id/spinnerCategoryFilter"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/item_layout" />
 
+    <!-- Bottom navigation bar -->
     <include
         layout="@layout/menu_layout"
         android:id="@+id/menuLayout"
@@ -54,6 +74,3 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-

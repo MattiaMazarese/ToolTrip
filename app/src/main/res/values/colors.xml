@@ -14,4 +14,9 @@
     <color name="gray">#9E9E9E</color>
     <color name="light_gray">#F5F5F5</color>
     <color name="dark_gray">#616161</color>
+    <color name="primaryColor">#6200EA</color>
+    <color name="secondaryColor">#03DAC6</color>
+    <color name="backgroundColor">#F5F5F5</color>
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="lightGray">#E0E0E0</color>
 </resources>

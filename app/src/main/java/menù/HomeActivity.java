@@ -3,7 +3,6 @@ package menù;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import item.Item;
 import item.VisualizzaProdottoSingoloActivity;
-import menù.MenuHandler;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -57,9 +55,6 @@ public class HomeActivity extends AppCompatActivity {
         setupMenu();
     }
 
-    /**
-     * Carica il nome utente dal database e aggiorna il messaggio di benvenuto.
-     */
     private void loadUserData() {
         String userID = mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userID).child("nome");
@@ -78,14 +73,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 txtWelcome.setText("Errore nel recupero dei dati");
-                Log.e("HomeActivity", "Errore caricamento nome utente: " + databaseError.getMessage());
             }
         });
     }
 
-    /**
-     * Carica gli oggetti pubblici dal database e li aggiunge al GridLayout.
-     */
     private void loadPublicObjects() {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -98,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
                             publicObjects.add(item);
                         }
                     } catch (Exception e) {
-                        Log.e("HomeActivity", "Errore nel recupero dell'oggetto: " + e.getMessage());
+                        e.printStackTrace();
                     }
                 }
 
@@ -109,16 +100,10 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("HomeActivity", "Errore caricamento oggetti pubblici: " + databaseError.getMessage());
             }
         });
     }
 
-    /**
-     * Aggiunge un oggetto al GridLayout.
-     *
-     * @param item L'oggetto da aggiungere.
-     */
     private void addItemToGrid(Item item) {
         View itemView = LayoutInflater.from(this).inflate(R.layout.item_layout, gridPublicObjects, false);
 
@@ -131,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, VisualizzaProdottoSingoloActivity.class);
             intent.putExtra("itemNome", item.getNome());
             intent.putExtra("itemDescrizione", item.getDescrizione());
-            intent.putExtra("itemCategoria", item.getCategoria());
+            intent.putExtra("itemCategoria", item.getCategoriaId()); // Usa il metodo corretto
             startActivity(intent);
         });
 
