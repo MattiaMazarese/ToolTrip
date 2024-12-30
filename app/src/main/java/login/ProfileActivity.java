@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private LinearLayout editLayout;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private ImageView imgIconaProfilo;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -57,6 +59,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Imposta il titolo della pagina
         txtProfilo.setText("Profilo");
+
+        imgIconaProfilo = findViewById(R.id.imgIconaProfilo);
 
         // Inizializzazione di Firebase Auth e Database
         mAuth = FirebaseAuth.getInstance();
@@ -159,6 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
             }
+            btnModifica.setText("Modifica");
         });
 
         // Aggiungi comportamento per il pulsante Logout
@@ -244,5 +249,15 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Utente non autenticato", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // Configurazione del menu tramite MenuHandler
+        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler.setUpMenuListeners(
+                findViewById(R.id.iconHome),
+                findViewById(R.id.iconAggiungiTool),
+                findViewById(R.id.iconGroup),
+                findViewById(R.id.iconProfile)
+        );
+
     }
 }

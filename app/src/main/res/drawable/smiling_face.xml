@@ -1,0 +1,48 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Manico del martello (color legno con ombra) -->
+    <path
+        android:fillColor="#8B5A2B"
+        android:pathData="M10,2L14,2L14,20L10,20Z" />
+
+    <!-- Dettaglio manico (linee orizzontali per effetto legno) -->
+    <path
+        android:fillColor="#6E4B3A"
+        android:pathData="M10,6L14,6M10,10L14,10M10,14L14,14M10,18L14,18"
+        android:strokeWidth="0.5"
+        android:strokeColor="#4B3621"/>
+
+    <!-- Testa del martello (grigia metallica) -->
+    <path
+        android:fillColor="#B0B0B0"
+        android:pathData="M7,2L17,2L17,6L7,6Z" />
+
+    <!-- Dettagli della testa del martello (parte superiore, grigia scura con ombra) -->
+    <path
+        android:fillColor="#808080"
+        android:pathData="M7,6L17,6L17,7L7,7Z" />
+
+    <!-- Dettaglio laterale della testa del martello (linea di separazione) -->
+    <path
+        android:fillColor="#696969"
+        android:pathData="M7,7L7,6L17,6L17,7Z" />
+
+    <!-- Parte inferiore della testa (dettagli metallici) -->
+    <path
+        android:fillColor="#A9A9A9"
+        android:pathData="M7,7L17,7L17,8L7,8Z" />
+
+    <!-- Dettaglio di fondo del manico (parte finale in legno chiaro) -->
+    <path
+        android:fillColor="#D2B48C"
+        android:pathData="M9,20L15,20L15,22L9,22Z" />
+
+    <!-- Ombra inferiore del manico -->
+    <path
+        android:fillColor="#3E2723"
+        android:pathData="M9,22L15,22L15,24L9,24Z" />
+</vector>

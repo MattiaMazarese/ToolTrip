@@ -31,6 +31,18 @@
                 android:layout_marginBottom="24dp"
                 android:layout_gravity="center_horizontal" />
 
+            <!-- Icona del profilo -->
+            <ImageView
+                android:id="@+id/imgIconaProfilo"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/smiling_face"
+                android:contentDescription="@string/icona_del_profilo"
+                android:scaleType="centerInside"
+                android:background="@drawable/circle_shape"
+                android:layout_marginBottom="16dp" />
+
             <!-- Nome e Cognome -->
             <TextView
                 android:id="@+id/txtNomeCognome"
@@ -161,12 +173,12 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Menu ancorato al fondo senza padding -->
+    <!-- Menu fisso incluso in basso -->
     <include
         android:id="@+id/menuLayout"
         layout="@layout/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="0dp" />
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>
