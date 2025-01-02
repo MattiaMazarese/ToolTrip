@@ -71,6 +71,7 @@ public class GroupChatActivity extends AppCompatActivity {
                 for (DataSnapshot messageSnapshot : snapshot.getChildren()) {
                     Message message = messageSnapshot.getValue(Message.class);
                     if (message != null) {
+                        // Aggiungi direttamente il messaggio alla lista
                         messageList.add(message);
                     }
                 }
@@ -85,6 +86,7 @@ public class GroupChatActivity extends AppCompatActivity {
         });
     }
 
+
     private void sendMessage() {
         String text = editTextMessage.getText().toString().trim();
         if (text.isEmpty()) return;
@@ -97,14 +99,33 @@ public class GroupChatActivity extends AppCompatActivity {
             return;
         }
 
-        long timestamp = System.currentTimeMillis();
-        Message message = new Message(userId, text, timestamp);
+        // Recupera il nome dell'utente corrente
+        DatabaseReference userReference = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String senderName = snapshot.child("nome").getValue(String.class); // Recupera il nome
+                if (senderName == null) {
+                    Toast.makeText(GroupChatActivity.this, "Errore nel recupero del nome utente.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-        String messageID = chatReference.push().getKey();
-        chatReference.child(messageID).setValue(message);
+                long timestamp = System.currentTimeMillis();
+                Message message = new Message(userId, senderName, text, timestamp); // Aggiungi il nome
 
-        editTextMessage.setText(""); // Resetta il campo di testo
+                String messageID = chatReference.push().getKey();
+                chatReference.child(messageID).setValue(message);
+
+                editTextMessage.setText(""); // Resetta il campo di testo
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(GroupChatActivity.this, "Errore nel recupero dei dati dell'utente.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     private String currentUserId() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();

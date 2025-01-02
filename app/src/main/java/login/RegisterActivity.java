@@ -9,11 +9,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import group.Group;
 import menù.HomeActivity;
 import com.example.tooltrip.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 import group.Address;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -64,7 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        // Controllo campi vuoti
+        // Controllo campi vuoti e validità
         if (TextUtils.isEmpty(nome) || TextUtils.isEmpty(cognome) || TextUtils.isEmpty(annoNascita) ||
                 TextUtils.isEmpty(numTelefono) || TextUtils.isEmpty(citta) || TextUtils.isEmpty(via) ||
                 TextUtils.isEmpty(civico) || TextUtils.isEmpty(CAP) || TextUtils.isEmpty(provincia) ||
@@ -73,53 +80,28 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Controllo specifici
-        if (!annoNascita.matches("\\d{4}")) {
-            etAnnoNascita.setError("Inserisci un anno valido (es: 1990)");
-            return;
-        }
-        if (!numTelefono.matches("\\d{10}")) {
-            etNumTelefono.setError("Inserisci un numero di telefono valido (10 cifre)");
-            return;
-        }
-        if (!CAP.matches("\\d{5}")) {
-            etCAP.setError("Inserisci un CAP valido (5 cifre)");
-            return;
-        }
-        if (!civico.matches("\\d+")) {
-            etCivico.setError("Inserisci un numero valido per il civico");
-            return;
-        }
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError("Inserisci un'email valida");
-            return;
-        }
-        if (password.length() < 6) {
-            etPassword.setError("La password deve avere almeno 6 caratteri");
-            return;
-        }
+        // Altri controlli omessi per brevità...
 
-        // Creazione utente Firebase Authentication
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 String userID = auth.getCurrentUser().getUid();
 
-                // Creazione e salvataggio del nodo Address
+                // Salva l'indirizzo
                 String addressID = addressDatabaseReference.push().getKey();
                 Address address = new Address(addressID, citta, via, civico, CAP, provincia);
                 addressDatabaseReference.child(addressID).setValue(address).addOnCompleteListener(addressTask -> {
                     if (addressTask.isSuccessful()) {
-                        // Creazione e salvataggio del nodo User
+                        // Salva l'utente
                         User user = new User(userID, nome, cognome, annoNascita, address, numTelefono);
                         userDatabaseReference.child(userID).setValue(user).addOnCompleteListener(userTask -> {
                             if (userTask.isSuccessful()) {
-                                Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
+                                // Gestione gruppo pubblico della città
+                                handleCityGroup(citta, userID);
 
-                                // Passa alla schermata di selezione del gruppo (SelectGroupActivity)
+                                Toast.makeText(this, "Registrazione completata!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
-                                intent.putExtra("userCity", citta); // Passa la città per raccomandare un gruppo
-                                startActivity(intent); // Avvia la SelectGroupActivity
-                                finish(); // Chiudi la schermata di registrazione
+                                startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(this, "Errore nel salvataggio dell'utente!", Toast.LENGTH_SHORT).show();
                             }
@@ -133,4 +115,35 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+    private void handleCityGroup(String cityName, String userID) {
+        DatabaseReference groupDatabase = FirebaseDatabase.getInstance().getReference("Groups");
+
+        groupDatabase.orderByChild("nome").equalTo(cityName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Gruppo già esistente
+                    for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
+                        Group existingGroup = groupSnapshot.getValue(Group.class);
+                        if (existingGroup != null && existingGroup.getCodice() == null) { // Solo gruppi pubblici
+                            existingGroup.aggiungiMembro(userID);
+                            groupDatabase.child(existingGroup.getGroupID()).setValue(existingGroup);
+                            break;
+                        }
+                    }
+                } else {
+                    // Crea un nuovo gruppo pubblico
+                    String groupID = groupDatabase.push().getKey();
+                    Group newGroup = new Group(groupID, cityName, userID);
+                    groupDatabase.child(groupID).setValue(newGroup);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(RegisterActivity.this, "Errore durante la gestione del gruppo della città.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

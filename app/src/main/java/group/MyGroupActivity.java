@@ -1,10 +1,12 @@
 package group;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,7 @@ public class MyGroupActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+
         cardMieiGruppi = findViewById(R.id.recycler_miei_gruppi);
         cardMieiGruppi.setLayoutManager(new LinearLayoutManager(this));
 
@@ -81,8 +84,9 @@ public class MyGroupActivity extends AppCompatActivity {
 
     private void loadItemsFromDatabase() {
         mDatabase.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mieiGroupCreatiList.clear(); // Clear previous data
                 mieiGroupAggiuntiList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {

@@ -45,17 +45,31 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
                 .format(new Date(message.getTimestamp()));
 
         if (message.getSender().equals(currentUserID)) {
+            // Messaggi inviati dall'utente corrente
             holder.layoutMessageSelf.setVisibility(View.VISIBLE);
             holder.layoutMessageOther.setVisibility(View.GONE);
+
             holder.textViewMessageSelf.setText(message.getText());
             holder.textViewTimestampSelf.setText(formattedTimestamp);
+
+            // Nascondi il nome per i propri messaggi (opzionale)
+            holder.textViewSenderNameSelf.setVisibility(View.GONE);
         } else {
+            // Messaggi inviati da altri
             holder.layoutMessageSelf.setVisibility(View.GONE);
             holder.layoutMessageOther.setVisibility(View.VISIBLE);
+
             holder.textViewMessage.setText(message.getText());
             holder.textViewTimestamp.setText(formattedTimestamp);
+
+            // Mostra il nome del mittente sopra i messaggi di altri
+            holder.textViewSenderNameOther.setVisibility(View.VISIBLE);
+            holder.textViewSenderNameOther.setText(message.getSenderName() != null ? message.getSenderName() : "Sconosciuto");
         }
     }
+
+
+
 
     @Override
     public int getItemCount() {
@@ -69,6 +83,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         TextView textViewMessageSelf;
         TextView textViewTimestamp;
         TextView textViewTimestampSelf;
+        TextView textViewSenderNameOther; // Nome del mittente per messaggi altrui
+        TextView textViewSenderNameSelf;  // Nome del mittente per i propri messaggi (opzionale)
 
         public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,8 +94,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             textViewMessageSelf = itemView.findViewById(R.id.textViewMessageSelf);
             textViewTimestamp = itemView.findViewById(R.id.textViewTimestamp);
             textViewTimestampSelf = itemView.findViewById(R.id.textViewTimestampSelf);
+            textViewSenderNameOther = itemView.findViewById(R.id.textViewSenderNameOther);
+            textViewSenderNameSelf = itemView.findViewById(R.id.textViewSenderNameSelf); // Facoltativo
         }
     }
-
 
 }

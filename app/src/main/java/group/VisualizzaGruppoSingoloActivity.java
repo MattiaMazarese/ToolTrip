@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
     private TextView membriTextView;
     private TextView codeTextView;
     private Button btnIscriviti;
+    private View btnGroupChat; // Aggiunto come variabile di classe
 
     private DatabaseReference mDatabase;
 
@@ -46,6 +48,7 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
         membriTextView = findViewById(R.id.tvMembriValue);
         codeTextView = findViewById(R.id.tvCodiceValue);
         btnIscriviti = findViewById(R.id.bottoneIscrizione);
+        btnGroupChat = findViewById(R.id.btnGroupChat); // Collegamento
 
         mDatabase = FirebaseDatabase.getInstance().getReference("Groups");
 
@@ -61,15 +64,19 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
         groupNameTextView.setText(groupName != null ? groupName : "N/A");
         creatorIDTextView.setText(creatorID != null ? creatorID : "N/A");
         membriTextView.setText(membri != null ? membri.toString() : "N/A");
-        codeTextView.setText(code != null ? code : "N/A");
+        codeTextView.setVisibility(View.GONE);
 
-        View btnGroupChat = findViewById(R.id.btnGroupChat);
-        
-        // Imposta il listener per il pulsante "Chat di Gruppo"
+        // Listener sempre attivo per il pulsante "Chat di Gruppo"
         btnGroupChat.setOnClickListener(v -> {
-            Intent intent = new Intent(VisualizzaGruppoSingoloActivity.this, GroupChatActivity.class);
-            intent.putExtra("groupID", groupID); // Passa l'ID del gruppo
-            startActivity(intent);
+            if (membri != null && membri.contains(currentUserId())) {
+                // Apri la chat del gruppo solo se l'utente è iscritto
+                Intent intent = new Intent(VisualizzaGruppoSingoloActivity.this, GroupChatActivity.class);
+                intent.putExtra("groupID", groupID);
+                startActivity(intent);
+            } else {
+                // Mostra un messaggio se l'utente non è iscritto
+                Toast.makeText(this, "Devi iscriverti al gruppo per accedere alla chat.", Toast.LENGTH_SHORT).show();
+            }
         });
 
         MenuHandler menuHandler = new MenuHandler(this);
@@ -80,23 +87,59 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
 
+        // Imposta il comportamento dei bottoni
         setButtonAction();
-
-
     }
 
     private void setButtonAction() {
+        boolean isUserMember = membri != null && membri.contains(currentUserId());
 
-
-
-        if (membri.contains(currentUserId())) {
+        if (isUserMember) {
             btnIscriviti.setText("Disiscrivi");
             btnIscriviti.setOnClickListener(v -> aggiornaIscrizione(true));
+            codeTextView.setVisibility(View.VISIBLE);
+            codeTextView.setText(code != null ? code : "N/A");
         } else {
             btnIscriviti.setText("Iscriviti");
-            btnIscriviti.setOnClickListener(v -> aggiornaIscrizione(false));
+            btnIscriviti.setOnClickListener(v -> {
+                if (code != null && !code.isEmpty()) {
+                    showCodeInputDialog(); // Mostra il dialogo per inserire il codice
+                } else {
+                    aggiornaIscrizione(false); // Iscriviti direttamente se non c'è codice
+                }
+            });
+            codeTextView.setVisibility(View.GONE);
         }
+
+        // Aggiorna lo stato visivo del pulsante "Chat di Gruppo"
+        btnGroupChat.setEnabled(isUserMember);
     }
+
+    private void showCodeInputDialog() {
+        // Crea il layout per l'input del codice
+        final EditText inputCode = new EditText(this);
+        inputCode.setHint("Inserisci il codice del gruppo");
+
+        // Crea il dialogo
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Codice del Gruppo")
+                .setMessage("Questo gruppo richiede un codice per l'iscrizione.")
+                .setView(inputCode)
+                .setPositiveButton("Conferma", (dialog, which) -> {
+                    String enteredCode = inputCode.getText().toString().trim();
+
+                    if (enteredCode.equals(code)) {
+                        aggiornaIscrizione(false); // Iscriviti se il codice è corretto
+                    } else {
+                        Toast.makeText(this, "Codice non corretto. Riprova.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
+
+
 
     private void aggiornaIscrizione(boolean iscritto) {
         String userId = currentUserId();
@@ -116,11 +159,10 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
 
         mDatabase.child(groupID).child("membri").setValue(membri).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Torna alla schermata MyGroupActivity
                 Intent intent = new Intent(VisualizzaGruppoSingoloActivity.this, MyGroupActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish(); // Chiudi l'attività corrente
+                finish();
             } else {
                 Toast.makeText(this, "Errore durante l'aggiornamento dell'iscrizione.", Toast.LENGTH_SHORT).show();
             }
