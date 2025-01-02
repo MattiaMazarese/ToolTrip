@@ -9,6 +9,7 @@ public class Prestito {
     private String idOggetto;
     private LocalDate dataInizio;
     private LocalDate dataFine;
+    private Boolean accettazione;
 
     public Prestito(){
 
@@ -20,6 +21,7 @@ public class Prestito {
         this.idOggetto = idOggetto;
         this.dataInizio = LocalDate.now(); // Data corrente al momento della creazione
         this.dataFine = dataInizio.plusDays(7);
+        this.accettazione=false;
     }
 
     public String getPrestitoID() {
@@ -61,6 +63,14 @@ public class Prestito {
 
     public void setDataFine(LocalDate dataFine) {
         this.dataFine = dataFine;
+    }
+
+    public Boolean getAccettazione() {
+        return accettazione;
+    }
+
+    public void setAccettazione(Boolean accettazione) {
+        this.accettazione = accettazione;
     }
 }
 

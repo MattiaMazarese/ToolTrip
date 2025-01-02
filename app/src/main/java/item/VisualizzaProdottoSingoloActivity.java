@@ -42,6 +42,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
     private String prestitoUserID = null;
     private String itemID = null;
     private String possessoreID = null;
+    private Boolean accettazionePrestito;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                     if (Objects.equals(prestitoSnapshot.child("idOggetto").getValue(String.class), getIntent().getStringExtra("itemID"))) {
                         prestitoId = prestitoSnapshot.child("prestitoID").getValue(String.class);
                         prestitoUserID=prestitoSnapshot.child("idUtente").getValue(String.class);
+                        accettazionePrestito=prestitoSnapshot.child("accettazione").getValue(Boolean.class);
                         break;  // Esci dal ciclo una volta trovato il prestito
                     }
                 }
@@ -143,8 +145,11 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         String userID = currentUser.getUid();
         if(!Objects.equals(this.possessoreID, userID)) {
             if (itemPrestato()) {
-                if (utentePrestitoItem()) {
+                if (utentePrestitoItem() && accettazionePrestito) {
                     buttonPrestito.setText("Restituisci tool");
+                    buttonPrestito.setOnClickListener(v -> remouvePrestitoFromDatabase());
+                } else if(utentePrestitoItem() && !accettazionePrestito){
+                    buttonPrestito.setText("Annulla richiesta prestito");
                     buttonPrestito.setOnClickListener(v -> remouvePrestitoFromDatabase());
                 } else {
                     buttonPrestito.setText("tool non disponibile");
@@ -155,7 +160,10 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                 buttonPrestito.setOnClickListener(v -> addPrestitoToDatabase(this.itemID));
             }
         }else{
-            if(itemPrestato()){
+            if(itemPrestato() && !accettazionePrestito){
+                buttonPrestito.setText("Accetta richiesta prestito");
+                buttonPrestito.setOnClickListener(v -> accettaPrestito());
+            }else if(itemPrestato() && accettazionePrestito){
                 buttonPrestito.setText("Tool attualmente prestato");
             }else{
                 DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child("pubblico");
@@ -179,6 +187,35 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                 buttonInvisibile.setOnClickListener(v -> rimuoviTool());
             }
         }
+    }
+
+    private void accettaPrestito() {
+        DatabaseReference prestitoRef = FirebaseDatabase.getInstance().getReference("Prestito");
+        prestitoRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DataSnapshot dataSnapshot = task.getResult();
+                // Ciclo attraverso tutti gli elementi di "Prestito"
+                for (DataSnapshot prestitoSnapshot : dataSnapshot.getChildren()) {
+                    // Ottieni i dati dai campi del prestito
+                    if (Objects.equals(prestitoSnapshot.child("prestitoID").getValue(String.class), prestitoId)) {
+                        // Modifica il valore di "accettazione"
+                        prestitoSnapshot.getRef().child("accettazione").setValue(true)
+                                .addOnCompleteListener(updateTask -> {
+                                    if (updateTask.isSuccessful()) {
+                                        Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Prestito accettato!", Toast.LENGTH_SHORT).show();
+                                        recreate();
+                                    } else {
+                                        Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Errore durante l'aggiornamento: " + updateTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        break;  // Esci dal ciclo una volta trovato il prestito
+                    }
+                }
+            } else {
+                // Gestione errori nel caso la richiesta fallisca
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Errore durante il recupero dei dati: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void rimuoviTool() {
@@ -273,9 +310,12 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
     private void remouvePrestitoFromDatabase() {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prestito").child(prestitoId);
         databaseReference.removeValue().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful() && accettazionePrestito) {
                 // Mostra un dialogo per aggiungere una recensione
                 mostraDialogoRecensione();
+            } else if (task.isSuccessful()) {
+                Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Richiesta rimossa con successo", Toast.LENGTH_SHORT).show();
+                recreate();
             } else {
                 Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Failed to rimuovere prestito. Please try again.", Toast.LENGTH_SHORT).show();
             }
