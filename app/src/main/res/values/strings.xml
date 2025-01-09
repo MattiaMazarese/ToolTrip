@@ -19,4 +19,6 @@
     <string name="modifica">Modifica</string>
     <string name="add_button">Aggiungi elemento</string>
     <string name="icona_del_profilo">Icona del profilo</string>
+    <string name="modifica_i_tuoi_dati">modifica i tuoi dati</string>
+    <string name="Modifica_i_tuoi_dati">Modifica_i_tuoi_dati</string>
 </resources>

@@ -109,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
                 btnModifica.setText("Annulla Modifiche");
             } else {
                 editLayout.setVisibility(View.GONE);
-                btnModifica.setText("Modifica");
+                btnModifica.setText("Modifica i tuoi dati");
             }
         });
 
