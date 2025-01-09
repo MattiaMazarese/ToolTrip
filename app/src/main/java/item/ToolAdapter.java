@@ -1,6 +1,7 @@
 package item;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,20 +78,24 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
     private int getCategoryImage(String category) {
         if (category == null || category.isEmpty()) {
             // Categoria sconosciuta o non specificata, restituisci un'icona predefinita
-            return R.drawable.ic_altro;
+            return R.drawable.ic_altro; // Immagine predefinita
         }
+
+        Log.d("ToolAdapter", "Categoria trovata: " + category);
 
         switch (category) {
             case "Elettronica":
-                return R.drawable.ic_elettronica; // Sostituisci con il nome corretto della risorsa
+                return R.drawable.ic_elettronica; // Verifica che il nome sia corretto
             case "Meccanica":
-                return R.drawable.ic_gear; // Sostituisci con il nome corretto della risorsa
+                return R.drawable.ic_gear; // Verifica che il nome sia corretto
             case "Informatica":
-                return R.drawable.ic_devices; // Sostituisci con il nome corretto della risorsa
+                return R.drawable.ic_devices; // Verifica che il nome sia corretto
             case "Altro":
-                return R.drawable.ic_altro; // Sostituisci con il nome corretto della risorsa
+                return R.drawable.ic_altro; // Verifica che il nome sia corretto
             default:
-                return R.drawable.ic_altro; // Default image se la categoria non è riconosciuta
+                Log.w("ToolAdapter", "Categoria sconosciuta: " + category);
+                return R.drawable.ic_altro; // Default se la categoria non è riconosciuta
         }
     }
+
 }

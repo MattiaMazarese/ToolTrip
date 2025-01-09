@@ -1,128 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgroundColor"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".group.VisualizzaGruppoSingoloActivity">
 
-    <!-- ScrollView per le informazioni del gruppo -->
-    <ScrollView
-        android:id="@+id/groupInfoLayout"
-        android:layout_width="match_parent"
+    <!-- Group Name as a Large Central Title -->
+    <TextView
+        android:id="@+id/tvGroupNameTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="16dp">
+        android:text="Nome del Gruppo"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        android:layout_centerHorizontal="true" />
+
+    <!-- ScrollView for Members and Tools -->
+    <ScrollView
+        android:id="@+id/scrollViewContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/tvGroupNameTitle"
+        android:layout_above="@+id/buttonContainer"
+        android:layout_marginTop="16dp"
+        android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="16dp">
 
-            <!-- ID del Gruppo -->
+            <!-- Membri del Gruppo Label -->
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID del Gruppo"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingBottom="4dp" />
-
-            <TextView
-                android:id="@+id/tvGroupIDValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
-
-            <!-- Nome del Gruppo -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nome del Gruppo"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingBottom="4dp" />
-
-            <TextView
-                android:id="@+id/tvGroupNameValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
-
-            <!-- ID del Creatore -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ID del Creatore"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:paddingBottom="4dp" />
-
-            <TextView
-                android:id="@+id/tvCreatoreIDValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
-
-            <!-- Membri -->
-            <TextView
+                android:id="@+id/tvMembriLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Membri del Gruppo"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:paddingBottom="4dp" />
+                android:layout_marginBottom="8dp" />
 
+            <!-- List of Group Members -->
+            <ListView
+                android:id="@+id/listViewMembri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/lightGray"
+                android:dividerHeight="1dp" />
+
+            <!-- Tools Label -->
             <TextView
-                android:id="@+id/tvMembriValue"
+                android:id="@+id/tvToolsLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
-
-            <!-- Codice del Gruppo -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Codice del Gruppo"
+                android:text="Tool disponibili per questo gruppo"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:paddingBottom="4dp" />
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="8dp"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tvCodiceValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="N/A"
-                android:textSize="16sp"
-                android:paddingBottom="16dp" />
-
-            <!-- Bottone di Iscrizione -->
-            <Button
-                android:id="@+id/bottoneIscrizione"
+            <!-- RecyclerView for Group Tools -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewGroupTools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Iscriviti"
-                android:layout_marginTop="16dp" />
+                android:visibility="gone" />
 
-            <Button
-                android:id="@+id/btnGroupChat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Chat di gruppo"
-                android:layout_marginTop="16dp" />
         </LinearLayout>
     </ScrollView>
-    <!-- Menu inferiore -->
+
+    <!-- Buttons above the menu -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/menuLayout"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:padding="16dp"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/bottoneIscrizione"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Iscriviti"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnGroupChat"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Chat di gruppo"
+            android:backgroundTint="@color/primaryColor"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- Bottom Menu -->
     <include
         android:id="@+id/menuLayout"
         layout="@layout/menu_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
+
 </RelativeLayout>

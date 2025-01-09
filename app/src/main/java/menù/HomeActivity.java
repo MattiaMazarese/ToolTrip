@@ -3,6 +3,7 @@ package menù;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -114,11 +115,22 @@ public class HomeActivity extends AppCompatActivity {
                 itemList.clear(); // Svuota la lista corrente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Item item = snapshot.getValue(Item.class);
-                    if (item != null && item.isPubblico()) {
+
+                    if (item != null) {
+                        Log.d("HomeActivity", "Elemento trovato: " + item.getNome() + ", Categoria: " + item.getCategoriaId());
+                    } else {
+                        Log.e("HomeActivity", "Elemento null trovato nel database.");
+                    }
+
+                    // Aggiungi solo gli oggetti pubblici non limitati ai gruppi
+                    if (item != null && item.isPubblico() && !item.getVisualizzaSoloGruppi()) {
                         itemList.add(item);
+                        Log.d("HomeActivity", "Elemento aggiunto: " + item.getNome());
+                    } else if (item != null) {
+                        Log.d("HomeActivity", "Elemento escluso: " + item.getNome());
                     }
                 }
-                toolAdapter.notifyDataSetChanged(); // Notifica all'adattatore
+                toolAdapter.notifyDataSetChanged(); // Notifica all'adattatore che i dati sono cambiati
             }
 
             @Override
@@ -127,4 +139,5 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+
 }
