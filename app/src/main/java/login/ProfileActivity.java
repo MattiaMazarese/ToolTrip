@@ -57,20 +57,16 @@ public class ProfileActivity extends AppCompatActivity {
         editTextCAP = findViewById(R.id.editTextCAP);
         editLayout = findViewById(R.id.editLayout);
 
-        // Imposta il titolo della pagina
         txtProfilo.setText("Profilo");
 
         imgIconaProfilo = findViewById(R.id.imgIconaProfilo);
 
-        // Inizializzazione di Firebase Auth e Database
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Recupero dell'ID utente corrente
         String userId = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : null;
 
         if (userId != null) {
-            // Recupero delle informazioni dall'utente nella tabella "Users"
             mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -83,27 +79,18 @@ public class ProfileActivity extends AppCompatActivity {
                     String provincia = dataSnapshot.child("address").child("provincia").getValue(String.class);
                     String cap = dataSnapshot.child("address").child("cap").getValue(String.class);
 
-                    // Imposta i dati nel layout
-                    if (nome != null && cognome != null) {
-                        txtNomeCognome.setText("Nome: " + nome + " Cognome: " + cognome);
-                    } else {
-                        txtNomeCognome.setText("Nome utente non trovato.");
-                    }
+                    // Imposta i dati nei TextView
+                    txtNomeCognome.setText("Nome: " + (nome != null ? nome : "") + " Cognome: " + (cognome != null ? cognome : ""));
+                    txtNumeroTelefono.setText("Telefono: " + (telefono != null ? telefono : "Non disponibile"));
+                    txtIndirizzo.setText("Indirizzo: " + (via != null && civico != null && citta != null && provincia != null ? via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap : "Non disponibile"));
 
-                    if (telefono != null) {
-                        txtNumeroTelefono.setText("Telefono: " + telefono);
-                    } else {
-                        txtNumeroTelefono.setText("Telefono non disponibile.");
-                    }
-
-                    if (via != null && civico != null && citta != null && provincia != null) {
-                        String indirizzo = via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap;
-                        txtIndirizzo.setText("Indirizzo: " + indirizzo);
-                    } else {
-                        txtIndirizzo.setText("Indirizzo non disponibile.");
-                    }
-
-                    Log.d("Firebase", "Utente trovato: " + nome + " " + cognome);
+                    // Imposta i dati nei campi EditText
+                    editTextTelefono.setText(telefono != null ? telefono : "");
+                    editTextVia.setText(via != null ? via : "");
+                    editTextCivico.setText(civico != null ? civico : "");
+                    editTextCitta.setText(citta != null ? citta : "");
+                    editTextProvincia.setText(provincia != null ? provincia : "");
+                    editTextCAP.setText(cap != null ? cap : "");
                 }
 
                 @Override
@@ -116,18 +103,16 @@ public class ProfileActivity extends AppCompatActivity {
             txtNomeCognome.setText("Utente non autenticato.");
         }
 
-        // Aggiungi comportamento al pulsante Modifica
         btnModifica.setOnClickListener(v -> {
             if (editLayout.getVisibility() == View.GONE) {
-                editLayout.setVisibility(View.VISIBLE); // Mostra il layout di modifica
-                btnModifica.setText("Annulla Modifiche"); // Cambia il testo del pulsante
+                editLayout.setVisibility(View.VISIBLE);
+                btnModifica.setText("Annulla Modifiche");
             } else {
-                editLayout.setVisibility(View.GONE); // Nascondi il layout di modifica
-                btnModifica.setText("Modifica"); // Ripristina il testo originale del pulsante
+                editLayout.setVisibility(View.GONE);
+                btnModifica.setText("Modifica");
             }
         });
 
-        // Aggiungi comportamento per il salvataggio delle modifiche
         btnSalva.setOnClickListener(v -> {
             String nuovoTelefono = editTextTelefono.getText().toString();
             String nuovoCivico = editTextCivico.getText().toString();
@@ -136,14 +121,11 @@ public class ProfileActivity extends AppCompatActivity {
             String nuovoCAP = editTextCAP.getText().toString();
             String nuovaVia = editTextVia.getText().toString();
 
-            // Verifica che almeno uno dei campi non sia vuoto
-            if (!nuovoTelefono.isEmpty() ||
-                    (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty())) {
-
+            if (!nuovoTelefono.isEmpty() || (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty())) {
                 if (userId != null) {
                     if (!nuovoTelefono.isEmpty()) {
                         mDatabase.child(userId).child("numTelefono").setValue(nuovoTelefono);
-                        txtNumeroTelefono.setText("Telefono: " + nuovoTelefono); // Aggiorna la UI
+                        txtNumeroTelefono.setText("Telefono: " + nuovoTelefono);
                     }
 
                     if (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty()) {
@@ -153,12 +135,11 @@ public class ProfileActivity extends AppCompatActivity {
                         mDatabase.child(userId).child("address").child("provincia").setValue(nuovaProvincia);
                         mDatabase.child(userId).child("address").child("cap").setValue(nuovoCAP);
 
-                        String nuovoIndirizzo = nuovaVia + ", " + nuovoCivico + ", " + nuovaCitta + " (" + nuovaProvincia + ") " + nuovoCAP;
-                        txtIndirizzo.setText("Indirizzo: " + nuovoIndirizzo); // Aggiorna la UI
+                        txtIndirizzo.setText("Indirizzo: " + nuovaVia + ", " + nuovoCivico + ", " + nuovaCitta + " (" + nuovaProvincia + ") " + nuovoCAP);
                     }
 
                     Toast.makeText(ProfileActivity.this, "Modifiche salvate!", Toast.LENGTH_SHORT).show();
-                    editLayout.setVisibility(View.GONE); // Nascondi il layout di modifica dopo il salvataggio
+                    editLayout.setVisibility(View.GONE);
                 }
             } else {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
@@ -166,7 +147,6 @@ public class ProfileActivity extends AppCompatActivity {
             btnModifica.setText("Modifica");
         });
 
-        // Aggiungi comportamento per il pulsante Logout
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
@@ -174,83 +154,30 @@ public class ProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        // Aggiungi comportamento per il pulsante "Cancella Account"
         btnDeleteAccount.setOnClickListener(v -> {
             if (userId != null) {
                 new AlertDialog.Builder(ProfileActivity.this)
                         .setTitle("Conferma Eliminazione Account")
                         .setMessage("Sei sicuro di voler cancellare il tuo account? Questa operazione è irreversibile.")
                         .setPositiveButton("Elimina", (dialog, which) -> {
-                            // 1. Rimuovi i dati dell'utente dal database (Users, tools, groups, ecc.)
-                            mDatabase.child("Users").child(userId).removeValue()
-                                    .addOnCompleteListener(task1 -> {
+                            mDatabase.child(userId).removeValue().addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    mAuth.getCurrentUser().delete().addOnCompleteListener(task1 -> {
                                         if (task1.isSuccessful()) {
-                                            // Rimuovi altri dati relativi all'utente (tools, groups, address, recensioni)
-                                            mDatabase.child("tools").child(userId).removeValue()
-                                                    .addOnCompleteListener(task2 -> {
-                                                        if (task2.isSuccessful()) {
-                                                            mDatabase.child("groups").child(userId).removeValue()
-                                                                    .addOnCompleteListener(task3 -> {
-                                                                        if (task3.isSuccessful()) {
-                                                                            mDatabase.child("Addresses").child(userId).removeValue()
-                                                                                    .addOnCompleteListener(task4 -> {
-                                                                                        if (task4.isSuccessful()) {
-                                                                                            mDatabase.child("Recensioni").child(userId).removeValue()
-                                                                                                    .addOnCompleteListener(task5 -> {
-                                                                                                        if (task5.isSuccessful()) {
-                                                                                                            // 2. Elimina l'utente da Firebase Authentication
-                                                                                                            mAuth.getCurrentUser().delete()
-                                                                                                                    .addOnCompleteListener(task6 -> {
-                                                                                                                        if (task6.isSuccessful()) {
-                                                                                                                            // 3. Effettua il logout
-                                                                                                                            FirebaseAuth.getInstance().signOut();
-
-                                                                                                                            // Mostra un messaggio di successo
-                                                                                                                            Toast.makeText(ProfileActivity.this, "Account eliminato con successo", Toast.LENGTH_SHORT).show();
-
-                                                                                                                            // Reindirizza l'utente alla schermata di login
-                                                                                                                            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                                                                                                                            startActivity(intent);
-                                                                                                                            finish(); // Chiudi questa Activity
-                                                                                                                        } else {
-                                                                                                                            Log.e("FirebaseError", "Errore nell'eliminazione dell'account da Firebase Auth: " + task6.getException().getMessage());
-                                                                                                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione dell'account", Toast.LENGTH_SHORT).show();
-                                                                                                                        }
-                                                                                                                    });
-                                                                                                        } else {
-                                                                                                            Log.e("FirebaseError", "Errore nell'eliminazione delle recensioni: " + task5.getException().getMessage());
-                                                                                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione delle recensioni", Toast.LENGTH_SHORT).show();
-                                                                                                        }
-                                                                                                    });
-                                                                                        } else {
-                                                                                            Log.e("FirebaseError", "Errore nell'eliminazione dell'indirizzo: " + task4.getException().getMessage());
-                                                                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione dell'indirizzo", Toast.LENGTH_SHORT).show();
-                                                                                        }
-                                                                                    });
-                                                                        } else {
-                                                                            Log.e("FirebaseError", "Errore nell'eliminazione dei gruppi: " + task3.getException().getMessage());
-                                                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione dei gruppi", Toast.LENGTH_SHORT).show();
-                                                                        }
-                                                                    });
-                                                        } else {
-                                                            Log.e("FirebaseError", "Errore nell'eliminazione degli strumenti: " + task2.getException().getMessage());
-                                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione degli strumenti", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                        } else {
-                                            Log.e("FirebaseError", "Errore nell'eliminazione dei dati dell'utente: " + task1.getException().getMessage());
-                                            Toast.makeText(ProfileActivity.this, "Errore nell'eliminazione dei dati dell'utente", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(ProfileActivity.this, "Account eliminato con successo", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                                            startActivity(intent);
+                                            finish();
                                         }
                                     });
+                                }
+                            });
                         })
                         .setNegativeButton("Annulla", null)
                         .show();
-            } else {
-                Toast.makeText(ProfileActivity.this, "Utente non autenticato", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Configurazione del menu tramite MenuHandler
         MenuHandler menuHandler = new MenuHandler(this);
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
@@ -258,6 +185,5 @@ public class ProfileActivity extends AppCompatActivity {
                 findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
-
     }
 }
