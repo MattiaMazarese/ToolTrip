@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tooltrip.R;
@@ -47,6 +49,30 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Riferimento all'icona "+" in alto a destra
+        ImageView iconAddTool = findViewById(R.id.iconAddTool);
+
+        // Imposta il listener per il click
+        iconAddTool.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, item.AggiungiToolActivity.class);
+            startActivity(intent);
+        });
+
+        // Riferimenti aggiuntivi
+        Button btnExploreGroups = findViewById(R.id.btnExploreGroups);
+        Button btnAddTool = findViewById(R.id.btnAddTool);
+
+        // Listener pulsanti
+        btnExploreGroups.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, group.SearchGroupActivity.class);
+            startActivity(intent);
+        });
+
+        btnAddTool.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, item.AggiungiToolActivity.class);
+            startActivity(intent);
+        });
+
         // Inizializzazione Firebase
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("items");
@@ -55,8 +81,9 @@ public class HomeActivity extends AppCompatActivity {
         txtWelcome = findViewById(R.id.txtWelcome);
         recyclerViewTools = findViewById(R.id.recyclerViewTools);
 
-        // Imposta layout manager per RecyclerView
-        recyclerViewTools.setLayoutManager(new GridLayoutManager(this, 2));
+        // Imposta LayoutManager orizzontale
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewTools.setLayoutManager(layoutManager);
 
         // Configura adattatore
         itemList = new ArrayList<>();

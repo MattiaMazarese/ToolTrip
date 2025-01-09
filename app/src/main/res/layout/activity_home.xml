@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/background">
 
     <!-- Toolbar superiore -->
@@ -15,6 +15,8 @@
         android:elevation="4dp"
         android:layout_alignParentTop="true"
         android:padding="16dp">
+
+        <!-- Titolo della Toolbar -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,9 +30,9 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/toolbar"
-        android:layout_above="@id/menuLayout"
+        android:layout_above="@id/suggestionsSection"
         android:fillViewport="true">
 
         <LinearLayout
@@ -52,6 +54,17 @@
                 android:text="Bentornato!"
                 android:gravity="center" />
 
+            <TextView
+                android:id="@+id/txtRecentAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aggiunti di Recente"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textColor="@android:color/black" />
+
+            <!-- Lista dei Tool -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewTools"
                 android:layout_width="match_parent"
@@ -59,23 +72,85 @@
                 android:padding="8dp"
                 android:clipToPadding="false"
                 android:layout_marginBottom="16dp"
-                android:scrollbars="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                android:scrollbars="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_tool" />
 
         </LinearLayout>
 
     </ScrollView>
 
-    <!-- Pulsante Azione Fluttuante -->
+    <!-- Sezione Interattiva sopra il menu -->
+    <LinearLayout
+        android:id="@+id/suggestionsSection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/menuLayout"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/bg_card"
+        android:elevation="4dp">
+
+        <!-- Titolo -->
+        <TextView
+            android:id="@+id/tvSectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Suggerimenti per te"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Suggerimenti -->
+        <TextView
+            android:id="@+id/tvSuggestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Condividi più tool per ottenere più visibilità!"
+            android:padding="8dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif" />
+
+        <!-- Pulsanti -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp">
+
+            <Button
+                android:id="@+id/btnExploreGroups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scopri gruppi"
+                android:backgroundTint="@color/primaryColor"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btnAddTool"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aggiungi un Tool"
+                android:backgroundTint="@color/primaryColor"
+                android:textColor="@android:color/white"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Icona "+" --> <!-- Pulsante Azione Fluttuante -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
+        android:id="@+id/iconAddTool"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_button"
-        android:backgroundTint="?attr/colorPrimary"
+        android:src="@drawable/ic_add"
+        android:background="@drawable/bg_rounded_square"
         android:elevation="6dp" />
 
     <!-- Menu fisso incluso in basso -->

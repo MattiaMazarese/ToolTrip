@@ -1,51 +1,67 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="16dp"
-    android:background="@drawable/item_background"
-    android:layout_marginBottom="8dp">
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp">
 
-    <!-- ImageView for Category Image -->
-    <ImageView
-        android:id="@+id/imageViewCategory"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="Category Image"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center"/>
-
-    <!-- Vertical Layout for Name, Description, and Category -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-        <TextView
-            android:id="@+id/textViewNome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#4CAF50" />
+        <!-- ImageView for Category Image -->
+        <ImageView
+            android:id="@+id/imageViewCategory"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="Category Image"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_placeholder" />
 
-        <TextView
-            android:id="@+id/textViewDescrizione"
-            android:layout_width="wrap_content"
+        <!-- Vertical Layout for Name, Description, and Button -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#555"
-            android:layout_marginTop="4dp"/>
+            android:orientation="vertical"
+            android:layout_weight="1">
 
-        <!-- Button under Name, Description, and Category -->
-        <Button
-            android:id="@+id/btnVisualizza"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Approfondisci" />
+            <!-- Nome del Tool -->
+            <TextView
+                android:id="@+id/textViewNome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#4CAF50"
+                android:text="Nome Tool" />
+
+            <!-- Descrizione -->
+            <TextView
+                android:id="@+id/textViewDescrizione"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:layout_marginTop="4dp"
+                android:text="Descrizione breve del tool" />
+
+            <!-- Pulsante Azione -->
+            <Button
+                android:id="@+id/btnVisualizza"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Approfondisci"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/primaryColor"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="8dp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
-
-
+</androidx.cardview.widget.CardView>

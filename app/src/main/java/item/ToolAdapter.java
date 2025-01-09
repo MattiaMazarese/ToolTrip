@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tooltrip.R;
@@ -28,32 +30,28 @@ public class ToolAdapter extends RecyclerView.Adapter<ToolAdapter.ToolViewHolder
     }
 
     @Override
-    public void onBindViewHolder(ToolViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ToolViewHolder holder, int position) {
         Item item = itemList.get(position);
+
+        // Imposta i dati della card
         holder.textViewNome.setText(item.getNome());
         holder.textViewDescrizione.setText(item.getDescrizione());
 
-        // Verifica che la categoria non sia null o vuota
-        String category = item.getCategoriaId(); // Usa il metodo corretto della classe Item
-        if (category == null || category.isEmpty()) {
-            category = "Altro"; // Imposta un valore predefinito
-        }
-
-        final String finalCategory = category;
-
-        int categoryImage = getCategoryImage(category);
+        // Imposta immagine categoria (placeholder o immagine specifica)
+        int categoryImage = getCategoryImage(item.getCategoriaId());
         holder.imageViewCategory.setImageResource(categoryImage);
 
+        // Listener per il pulsante "Approfondisci"
         holder.btnVisualizza.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), VisualizzaProdottoSingoloActivity.class);
             intent.putExtra("itemNome", item.getNome());
             intent.putExtra("itemDescrizione", item.getDescrizione());
-            intent.putExtra("itemCategoria", finalCategory); // Usa la variabile locale "category"
+            intent.putExtra("itemCategoria", item.getCategoriaId());
             intent.putExtra("itemID", item.getItemId());
-            intent.putExtra("possessoreID", item.getPossesore().getUserID());
             holder.itemView.getContext().startActivity(intent);
         });
     }
+
 
     @Override
     public int getItemCount() {
