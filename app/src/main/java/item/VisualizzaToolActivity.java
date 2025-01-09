@@ -142,7 +142,7 @@ public class VisualizzaToolActivity extends AppCompatActivity {
                     // Aggiungi solo gli oggetti validi
                     if (item != null && item.getCategoriaId() != null) {
                         if (categoryId.equals("all") || categoryId.equals(item.getCategoriaId())) {
-                            if (item.isPubblico()) {
+                            if (item.isPubblico() && !item.getVisualizzaSoloGruppi()) {
                                 itemList.add(item);
                                 Log.d("VisualizzaToolActivity", "Elemento aggiunto: " + item.getNome());
                             } else {

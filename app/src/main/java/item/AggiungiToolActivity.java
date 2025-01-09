@@ -25,7 +25,7 @@ import java.util.List;
 public class AggiungiToolActivity extends AppCompatActivity {
     private EditText editTextNome, editTextDescrizione;
     private AutoCompleteTextView autoCompleteCategoria;
-    private Switch switchPubblico;
+    private Switch switchPubblico,switchVisualizzaGruppi;
     private Button buttonAggiungi;
     private DatabaseReference mDatabase;
 
@@ -43,6 +43,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
         autoCompleteCategoria = findViewById(R.id.autoCompleteCategoria);
         switchPubblico = findViewById(R.id.switchPubblico);
         buttonAggiungi = findViewById(R.id.buttonAggiungi);
+        switchVisualizzaGruppi = findViewById(R.id.switchVisualizzazioneGruppi);
 
         // Load categories from database
         loadCategoriesFromDatabase();
@@ -98,6 +99,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
         String descrizione = editTextDescrizione.getText().toString().trim();
         String categoriaNome = autoCompleteCategoria.getText().toString().trim();
         boolean pubblico = switchPubblico.isChecked();
+        boolean visualizzazioneGruppo=switchVisualizzaGruppi.isChecked();
 
         // Validate input fields
         if (nome.isEmpty()) {
@@ -139,7 +141,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
                     String itemId = mDatabase.push().getKey();
 
                     // Create a new Item object
-                    Item newItem = new Item(itemId, nome, descrizione, categoriaId, possesore, pubblico);
+                    Item newItem = new Item(itemId, nome, descrizione, categoriaId, possesore, pubblico,visualizzazioneGruppo);
 
                     // Save the item to Firebase Realtime Database
                     if (itemId != null) {

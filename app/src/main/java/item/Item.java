@@ -13,6 +13,8 @@ public class Item {
     private String categoriaId; // Cambiato da "categoria" a "categoriaId"
     private User possesore;
     private Boolean pubblico;
+
+    private Boolean visualizzaSoloGruppi;
     private List<Review> recensioni;
 
     public Item() {
@@ -20,14 +22,23 @@ public class Item {
     }
 
     // Costruttore con tutti i parametri
-    public Item(String itemId, String nome, String descrizione, String categoriaId, User possesore, Boolean pubblico) {
+    public Item(String itemId, String nome, String descrizione, String categoriaId, User possesore, Boolean pubblico,boolean visualizzaSoloGruppi) {
         this.itemId = itemId;
         this.nome = nome;
         this.descrizione = descrizione;
         this.categoriaId = categoriaId;
         this.possesore = possesore;
         this.pubblico = pubblico;
+        this.visualizzaSoloGruppi=visualizzaSoloGruppi;
         this.recensioni = new ArrayList<>();
+    }
+
+    public Boolean getVisualizzaSoloGruppi() {
+        return visualizzaSoloGruppi;
+    }
+
+    public void setVisualizzaSoloGruppi(Boolean visualizzaSoloGruppi) {
+        this.visualizzaSoloGruppi = visualizzaSoloGruppi;
     }
 
     // Getter e Setter per itemId

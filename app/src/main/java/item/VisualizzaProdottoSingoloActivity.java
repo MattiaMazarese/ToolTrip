@@ -31,10 +31,9 @@ import java.util.Objects;
 public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
 
     private TextView textViewNome, textViewDescrizione, textViewCategoria;
-    private Button buttonPrestito,buttonInvisibile;
+    private Button buttonPrestito,buttonInvisibile,buttonVisualizzaGruppo;
     private RecyclerView recyclerViewRecensione;
     private List<Recensione> recensioneList;
-
     private RecensioneAdapter recensioneAdapter;
     private DatabaseReference mDatabase;
     private String prestitoId = null;
@@ -55,6 +54,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         buttonPrestito = findViewById(R.id.buttonPrestito);
         buttonInvisibile=findViewById(R.id.buttonInvisibile);
         recyclerViewRecensione=findViewById(R.id.recyclerViewRecensione);
+        buttonVisualizzaGruppo=findViewById(R.id.buttonVisualizzaGruppo);
 
         recyclerViewRecensione.setLayoutManager(new LinearLayoutManager(this));
         recensioneList = new ArrayList<>();
@@ -172,10 +172,29 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                         Boolean valorePubblico = task.getResult().getValue(Boolean.class);
                         if(valorePubblico.equals(true)){
                             buttonPrestito.setText("Rendi tool privato");
-                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(false));
+                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(false,"pubblico"));
                         }else{
                             buttonPrestito.setText("Rendi tool pubblico");
-                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(true));
+                            buttonPrestito.setOnClickListener(v -> rendiToolPrivato(true,"pubblico"));
+                        }
+                    } else {
+                        Log.e("Error", "Errore nel recupero del valore", task.getException());
+                    }
+                });
+                databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child("visualizzaSoloGruppi");
+                databaseReference.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Boolean valoreVisualizzaPubblico = task.getResult().getValue(Boolean.class);
+                        if(valoreVisualizzaPubblico.equals(true)){
+                            buttonVisualizzaGruppo.setText("Rendi tool visualizzabile ovunque");
+                            buttonVisualizzaGruppo.setOnClickListener(v -> rendiToolPrivato(false,"visualizzaSoloGruppi"));
+                            buttonVisualizzaGruppo.setVisibility(View.VISIBLE);
+                            buttonVisualizzaGruppo.setClickable(true);
+                        }else{
+                            buttonVisualizzaGruppo.setText("Rendi tool visualizzabile solo sui gruppi");
+                            buttonVisualizzaGruppo.setOnClickListener(v -> rendiToolPrivato(true,"visualizzaSoloGruppi"));
+                            buttonVisualizzaGruppo.setVisibility(View.VISIBLE);
+                            buttonVisualizzaGruppo.setClickable(true);
                         }
                     } else {
                         Log.e("Error", "Errore nel recupero del valore", task.getException());
@@ -230,11 +249,11 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         });
     }
 
-    private void rendiToolPrivato(boolean val) {
+    private void rendiToolPrivato(boolean val,String path) {
         // Verifica il valore prima di scrivere nel database
         Log.d("RendiToolPrivato", "Valore che stai cercando di settare: " + val);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child("pubblico");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("items").child(itemID).child(path);
         databaseReference.setValue(val).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if(val){

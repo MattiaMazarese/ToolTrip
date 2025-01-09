@@ -46,28 +46,44 @@
         android:layout_marginTop="16dp"
         android:padding="16dp" />
 
+    <!-- Add padding for larger touch target -->
+
     <Switch
         android:id="@+id/switchPubblico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pubblico"
+        android:layout_marginTop="20dp"
+        android:padding="12dp"
+        android:text="Disponibile"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/autoCompleteCategoria"
-        android:layout_marginTop="16dp"
-        android:padding="12dp" /> <!-- Add padding for larger touch target -->
+        app:layout_constraintTop_toBottomOf="@id/autoCompleteCategoria" />
+
+    <!-- Menu ancorato al fondo -->
+    <Switch
+        android:id="@+id/switchVisualizzazioneGruppi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:padding="12dp"
+        android:text="Visualizzabile solo per i miei gruppi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.416"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/autoCompleteCategoria" />
 
     <Button
         android:id="@+id/buttonAggiungi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:text="Aggiungi"
-        app:layout_constraintTop_toBottomOf="@id/switchPubblico"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="32dp" />
+        app:layout_constraintTop_toBottomOf="@id/switchPubblico" />
 
-    <!-- Menu ancorato al fondo -->
     <include
         android:id="@+id/menuLayout"
         layout="@layout/menu_layout"
