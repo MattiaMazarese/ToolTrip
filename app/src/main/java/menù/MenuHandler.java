@@ -126,4 +126,10 @@ public class MenuHandler {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return prefs.getString(PREF_SELECTED_ICON, HOME_SELECTED); // Default è Home
     }
+
+    // Metodo per ripristinare l'icona predefinita al termine dell'app
+    public void resetToDefaultOnAppClose() {
+        saveSelectedIconToPrefs(HOME_SELECTED); // Imposta Home come predefinito
+    }
 }
+

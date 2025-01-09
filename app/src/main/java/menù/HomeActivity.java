@@ -35,10 +35,10 @@ public class HomeActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private TextView txtWelcome;
-    private GridLayout gridPublicObjects;
     private RecyclerView recyclerViewTools;
     private ToolAdapter toolAdapter;
     private List<Item> itemList;
+    private MenuHandler menuHandler; // Aggiungi MenuHandler
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -67,13 +67,22 @@ public class HomeActivity extends AppCompatActivity {
         loadPublicObjects();
 
         // Configura il menu
-        MenuHandler menuHandler = new MenuHandler(this);
+        menuHandler = new MenuHandler(this);
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),
                 findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
+    }
+
+    // Aggiungi il metodo onStop
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (menuHandler != null) {
+            menuHandler.resetToDefaultOnAppClose(); // Ripristina l'icona predefinita (Home)
+        }
     }
 
     private void loadUserData() {
@@ -118,6 +127,4 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
