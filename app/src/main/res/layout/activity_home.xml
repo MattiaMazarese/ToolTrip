@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/background">
 
     <!-- Toolbar superiore -->
@@ -50,13 +52,17 @@
                 android:text="Bentornato!"
                 android:gravity="center" />
 
-            <GridLayout
-                android:id="@+id/gridPublicObjects"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:padding="8dp">
-            </GridLayout>
+                android:padding="8dp"
+                android:clipToPadding="false"
+                android:layout_marginBottom="16dp"
+                android:scrollbars="vertical"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/item_tool" />
+
         </LinearLayout>
 
     </ScrollView>

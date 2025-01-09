@@ -8,9 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tooltrip.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import item.Item;
+import item.ToolAdapter;
 import item.VisualizzaProdottoSingoloActivity;
 
 public class HomeActivity extends AppCompatActivity {
@@ -32,6 +36,9 @@ public class HomeActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private TextView txtWelcome;
     private GridLayout gridPublicObjects;
+    private RecyclerView recyclerViewTools;
+    private ToolAdapter toolAdapter;
+    private List<Item> itemList;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -45,9 +52,17 @@ public class HomeActivity extends AppCompatActivity {
 
         // Inizializzazione layout
         txtWelcome = findViewById(R.id.txtWelcome);
-        gridPublicObjects = findViewById(R.id.gridPublicObjects);
+        recyclerViewTools = findViewById(R.id.recyclerViewTools);
 
-        // Carica dati utente e oggetti pubblici
+        // Imposta layout manager per RecyclerView
+        recyclerViewTools.setLayoutManager(new GridLayoutManager(this, 2));
+
+        // Configura adattatore
+        itemList = new ArrayList<>();
+        toolAdapter = new ToolAdapter(itemList);
+        recyclerViewTools.setAdapter(toolAdapter);
+
+        // Carica dati utente e strumenti pubblici
         loadUserData();
         loadPublicObjects();
 
@@ -60,8 +75,6 @@ public class HomeActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
     }
-
-
 
     private void loadUserData() {
         String userID = mAuth.getCurrentUser().getUid();
@@ -86,55 +99,24 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadPublicObjects() {
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<Item> publicObjects = new ArrayList<>();
+                itemList.clear(); // Svuota la lista corrente
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    try {
-                        Item item = snapshot.getValue(Item.class);
-                        if (item != null && item.isPubblico()) {
-                            publicObjects.add(item);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    Item item = snapshot.getValue(Item.class);
+                    if (item != null && item.isPubblico()) {
+                        itemList.add(item);
                     }
                 }
-
-                for (Item item : publicObjects) {
-                    addItemToGrid(item);
-                }
+                toolAdapter.notifyDataSetChanged(); // Notifica all'adattatore
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(HomeActivity.this, "Errore nel caricamento degli strumenti.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void addItemToGrid(Item item) {
-        View itemView = LayoutInflater.from(this).inflate(R.layout.item_layout, gridPublicObjects, false);
-
-        TextView txtItemName = itemView.findViewById(R.id.txtItemName);
-        Button btnDiscover = itemView.findViewById(R.id.btnDiscover);
-
-        txtItemName.setText(item.getNome());
-
-        btnDiscover.setOnClickListener(v -> {
-            Intent intent = new Intent(this, VisualizzaProdottoSingoloActivity.class);
-            intent.putExtra("itemNome", item.getNome());
-            intent.putExtra("itemDescrizione", item.getDescrizione());
-            intent.putExtra("itemCategoria", item.getCategoriaId()); // Usa il metodo corretto
-            startActivity(intent);
-        });
-
-        GridLayout.LayoutParams layoutParams = new GridLayout.LayoutParams();
-        layoutParams.width = GridLayout.LayoutParams.MATCH_PARENT;
-        layoutParams.height = GridLayout.LayoutParams.WRAP_CONTENT;
-        layoutParams.setMargins(8, 8, 8, 8);
-
-        itemView.setLayoutParams(layoutParams);
-        gridPublicObjects.addView(itemView);
     }
 
 
