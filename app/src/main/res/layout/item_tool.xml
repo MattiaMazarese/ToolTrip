@@ -5,13 +5,15 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardElevation="4dp"
-    app:cardCornerRadius="12dp">
+    app:cardCornerRadius="12dp"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:background="@color/white">
 
         <!-- ImageView for Category Image -->
         <ImageView
@@ -65,3 +67,4 @@
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+
