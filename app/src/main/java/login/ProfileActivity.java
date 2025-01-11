@@ -227,6 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
             }
             btnModifica.setText("Modifica");
+            btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor));
         });
 
         btnLogout.setOnClickListener(v -> {
