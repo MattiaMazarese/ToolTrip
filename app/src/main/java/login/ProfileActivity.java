@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.core.content.ContextCompat;
+
 import com.example.tooltrip.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +30,7 @@ import menù.MenuHandler;
 public class ProfileActivity extends AppCompatActivity {
 
     private TextView txtProfilo, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
-    private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount;
+    private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount, btnModificaIcona;
     private EditText editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
     private LinearLayout editLayout;
     private FirebaseAuth mAuth;
@@ -60,6 +64,12 @@ public class ProfileActivity extends AppCompatActivity {
         txtProfilo.setText("Profilo");
 
         imgIconaProfilo = findViewById(R.id.imgIconaProfilo);
+
+        btnModificaIcona = findViewById(R.id.btnModificaIcona);
+
+
+
+
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference("Users");
@@ -103,15 +113,21 @@ public class ProfileActivity extends AppCompatActivity {
             txtNomeCognome.setText("Utente non autenticato.");
         }
 
+
         btnModifica.setOnClickListener(v -> {
             if (editLayout.getVisibility() == View.GONE) {
                 editLayout.setVisibility(View.VISIBLE);
                 btnModifica.setText("Annulla Modifiche");
+                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.delete_button_red)); // Rosso
             } else {
                 editLayout.setVisibility(View.GONE);
                 btnModifica.setText("Modifica i tuoi dati");
+                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor)); // Blu
             }
         });
+
+
+
 
         btnSalva.setOnClickListener(v -> {
             String nuovoTelefono = editTextTelefono.getText().toString();
@@ -145,6 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
             }
             btnModifica.setText("Modifica");
+            btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor));
         });
 
         btnLogout.setOnClickListener(v -> {
