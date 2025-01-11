@@ -173,7 +173,7 @@
                 android:text="@string/cancella_account"
                 android:textSize="18sp"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/delete_button_red"
+                android:backgroundTint="@color/darkdelete_button_red"
                 android:layout_marginTop="16dp" />
 
             <!-- Bottone Logout -->
@@ -183,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:text="Logout"
                 android:textSize="18sp"
-                android:backgroundTint="@color/delete_button_red"
+                android:backgroundTint="@color/darkdelete_button_red"
                 android:textColor="@color/white"
                 android:layout_marginTop="16dp" />
 

@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/iconHammer"
+        android:title="Martello"
+        android:icon="@drawable/hammer" />
+    <item
+        android:id="@+id/iconPC"
+        android:title="PC"
+        android:icon="@drawable/pc" />
+    <item
+        android:id="@+id/iconBox"
+        android:title="Scatola"
+        android:icon="@drawable/box" />
+</menu>

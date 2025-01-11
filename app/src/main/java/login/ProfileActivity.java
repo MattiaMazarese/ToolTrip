@@ -2,8 +2,10 @@ package login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.ContextCompat;
 
+
+
 import com.example.tooltrip.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +29,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import menù.MenuHandler;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -68,7 +76,20 @@ public class ProfileActivity extends AppCompatActivity {
         btnModificaIcona = findViewById(R.id.btnModificaIcona);
 
 
+        // Recupera la SharedPreferences
+        SharedPreferences getPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+        String selectedIcon = getPreferences.getString("selectedIcon", "default");  // Default se non esiste
 
+        // Imposta l'icona iniziale
+        if ("Martello".equals(selectedIcon)) {
+            imgIconaProfilo.setImageResource(R.drawable.hammer);
+        } else if ("Pc".equals(selectedIcon)) {
+            imgIconaProfilo.setImageResource(R.drawable.pc);
+        } else if ("Scatola".equals(selectedIcon)) {
+            imgIconaProfilo.setImageResource(R.drawable.box);
+        } else {
+            imgIconaProfilo.setImageResource(R.drawable.hammer);  // Imposta un'icona di default
+        }
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -112,6 +133,51 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             txtNomeCognome.setText("Utente non autenticato.");
         }
+
+        btnModificaIcona.setOnClickListener(v -> {
+            PopupMenu popupMenu = new PopupMenu(ProfileActivity.this, btnModificaIcona);
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.icon_selection_menu, popupMenu.getMenu());
+
+            try {
+                Field field = PopupMenu.class.getDeclaredField("mPopup");
+                field.setAccessible(true);
+                Object menuPopupHelper = field.get(popupMenu);
+                Method setForceShowIcon = menuPopupHelper.getClass().getDeclaredMethod("setForceShowIcon", boolean.class);
+                setForceShowIcon.invoke(menuPopupHelper, true);
+
+                // Evita l'interferenza con il layout
+                Method setOffset = menuPopupHelper.getClass().getDeclaredMethod("setOffset", int.class, int.class);
+                setOffset.invoke(menuPopupHelper, 0, 0);
+
+                // Set gravity to center
+                Method setGravity = menuPopupHelper.getClass().getDeclaredMethod("setGravity", int.class);
+                setGravity.invoke(menuPopupHelper, Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            popupMenu.setOnMenuItemClickListener(item -> {
+                int id = item.getItemId();
+                if (id == R.id.iconHammer) {
+                    imgIconaProfilo.setImageResource(R.drawable.hammer); // hammer.xml
+                } else if (id == R.id.iconPC) {
+                    imgIconaProfilo.setImageResource(R.drawable.pc); // pc.xml
+                } else if (id == R.id.iconBox) {
+                    imgIconaProfilo.setImageResource(R.drawable.box); // box.xml
+                } else {
+                    return false;
+                }
+                return true;
+            });
+
+            popupMenu.show();
+
+        });
+
+
+
+
 
 
         btnModifica.setOnClickListener(v -> {
@@ -161,7 +227,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
             }
             btnModifica.setText("Modifica");
-            btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor));
         });
 
         btnLogout.setOnClickListener(v -> {
