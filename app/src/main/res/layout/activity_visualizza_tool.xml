@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="@color/background"
     tools:context="item.AggiungiToolActivity">
 
     <!-- Two buttons at the top with better spacing and style -->
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/i_miei_tool"
-        android:backgroundTint="@color/primaryColor"
+        android:backgroundTint="@color/primary"
         android:textColor="@color/white"
         android:elevation="4dp"
         app:layout_constraintEnd_toStartOf="@id/buttonCreateTool"
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/crea_nuovo_tool"
-        android:backgroundTint="@color/primaryColor"
+        android:backgroundTint="@color/primary"
         android:textColor="@color/white"
         android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +40,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/lightGray"
+        android:backgroundTint="@color/grayLight"
         android:spinnerMode="dropdown"
         android:popupBackground="@color/white"
         app:layout_constraintEnd_toEndOf="parent"

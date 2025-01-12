@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
     private List<Recensione> recensioneList;
     private RecensioneAdapter recensioneAdapter;
     private DatabaseReference mDatabase;
+    private DatabaseReference categoryDatabase;
     private String prestitoId = null;
     private String recensioneId =null;
     private String prestitoUserID = null;
@@ -52,28 +54,48 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         textViewDescrizione = findViewById(R.id.textViewDescrizione);
         textViewCategoria = findViewById(R.id.textViewCategoria);
         buttonPrestito = findViewById(R.id.buttonPrestito);
-        buttonInvisibile=findViewById(R.id.buttonInvisibile);
-        recyclerViewRecensione=findViewById(R.id.recyclerViewRecensione);
-        buttonVisualizzaGruppo=findViewById(R.id.buttonVisualizzaGruppo);
+        buttonInvisibile = findViewById(R.id.buttonInvisibile);
+        recyclerViewRecensione = findViewById(R.id.recyclerViewRecensione);
+        buttonVisualizzaGruppo = findViewById(R.id.buttonVisualizzaGruppo);
 
         recyclerViewRecensione.setLayoutManager(new LinearLayoutManager(this));
         recensioneList = new ArrayList<>();
-        mDatabase = FirebaseDatabase.getInstance().getReference("Recensioni");
         recensioneAdapter = new RecensioneAdapter(recensioneList);
         recyclerViewRecensione.setAdapter(recensioneAdapter);
 
+        // Inizializzazione di mDatabase
+        mDatabase = FirebaseDatabase.getInstance().getReference("Recensioni");
+
+        // Carica recensioni dal database
         loadRecensioniFromDatabase();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        categoryDatabase = FirebaseDatabase.getInstance().getReference("categories");
 
         // Ottieni i dati passati dall'intent
         String nome = getIntent().getStringExtra("itemNome");
         String descrizione = getIntent().getStringExtra("itemDescrizione");
-        String categoria = getIntent().getStringExtra("itemCategoria");
+        String categoriaId = getIntent().getStringExtra("itemCategoria");
         itemID = getIntent().getStringExtra("itemID");
-        possessoreID=getIntent().getStringExtra("possessoreID");
+        possessoreID = getIntent().getStringExtra("possessoreID");
 
+        // Recupera il nome della categoria
+        categoryDatabase.child(categoriaId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String categoriaNome = dataSnapshot.child("nome").getValue(String.class);
+                    textViewCategoria.setText(categoriaNome != null ? categoriaNome : "Categoria sconosciuta");
+                } else {
+                    textViewCategoria.setText("Categoria non trovata");
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                textViewCategoria.setText("Errore nel caricamento della categoria");
+            }
+        });
 
         // Ottieni il prestito dal database
         DatabaseReference prestitoRef = FirebaseDatabase.getInstance().getReference("Prestito");
@@ -103,7 +125,6 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         // Imposta i dati nelle TextView
         textViewNome.setText(nome);
         textViewDescrizione.setText(descrizione);
-        textViewCategoria.setText(categoria);
 
         // Configurazione del menu tramite MenuHandler
         MenuHandler menuHandler = new MenuHandler(this);
