@@ -78,18 +78,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Recupera la SharedPreferences
         SharedPreferences getPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-        String selectedIcon = getPreferences.getString("selectedIcon", "default");  // Default se non esiste
+        String selectedIcon = getPreferences.getString("selectedIcon", "");
 
         // Imposta l'icona iniziale
-        if ("Martello".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.hammer);
-        } else if ("Pc".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.pc);
-        } else if ("Scatola".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.box);
-        } else {
-            imgIconaProfilo.setImageResource(R.drawable.hammer);  // Imposta un'icona di default
+        switch (selectedIcon) {
+            case "Martello":
+                imgIconaProfilo.setImageResource(R.drawable.hammer);
+                break;
+            case "Pc":
+                imgIconaProfilo.setImageResource(R.drawable.pc);
+                break;
+            case "Scatola":
+                imgIconaProfilo.setImageResource(R.drawable.box);
+                break;
+            default:
+                imgIconaProfilo.setImageResource(R.drawable.hammer);  // Un'icona di default diversa
+                break;
         }
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -134,6 +140,9 @@ public class ProfileActivity extends AppCompatActivity {
             txtNomeCognome.setText("Utente non autenticato.");
         }
 
+
+
+
         btnModificaIcona.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(ProfileActivity.this, btnModificaIcona);
             MenuInflater inflater = getMenuInflater();
@@ -158,20 +167,30 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             popupMenu.setOnMenuItemClickListener(item -> {
+                SharedPreferences preferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+
                 int id = item.getItemId();
                 if (id == R.id.iconHammer) {
-                    imgIconaProfilo.setImageResource(R.drawable.hammer); // hammer.xml
+                    imgIconaProfilo.setImageResource(R.drawable.hammer);
+                    editor.putString("selectedIcon", "Martello");  // Salva "Martello"
                 } else if (id == R.id.iconPC) {
-                    imgIconaProfilo.setImageResource(R.drawable.pc); // pc.xml
+                    imgIconaProfilo.setImageResource(R.drawable.pc);
+                    editor.putString("selectedIcon", "Pc");  // Salva "Pc"
                 } else if (id == R.id.iconBox) {
-                    imgIconaProfilo.setImageResource(R.drawable.box); // box.xml
+                    imgIconaProfilo.setImageResource(R.drawable.box);
+                    editor.putString("selectedIcon", "Scatola");  // Salva "Scatola"
                 } else {
                     return false;
                 }
+
+                editor.apply();  // Applica e salva le modifiche
+                Toast.makeText(ProfileActivity.this, "Icona aggiornata!", Toast.LENGTH_SHORT).show();
                 return true;
             });
 
             popupMenu.show();
+
 
         });
 
