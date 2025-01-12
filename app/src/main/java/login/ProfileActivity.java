@@ -37,7 +37,7 @@ import menù.MenuHandler;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView txtProfilo, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
+    private TextView txtProfilo,txtEmail, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
     private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount, btnModificaIcona;
     private EditText editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
     private LinearLayout editLayout;
@@ -53,6 +53,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Collegamento delle TextView, EditText e Button dal layout
         txtProfilo = findViewById(R.id.txtProfilo);
+        txtEmail = findViewById(R.id.txtEmail);
         txtNomeCognome = findViewById(R.id.txtNomeCognome);
         txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
         txtIndirizzo = findViewById(R.id.txtIndirizzo);
@@ -107,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String email = mAuth.getCurrentUser().getEmail();
                     String nome = dataSnapshot.child("nome").getValue(String.class);
                     String cognome = dataSnapshot.child("cognome").getValue(String.class);
                     String telefono = dataSnapshot.child("numTelefono").getValue(String.class);
@@ -117,6 +119,7 @@ public class ProfileActivity extends AppCompatActivity {
                     String cap = dataSnapshot.child("address").child("cap").getValue(String.class);
 
                     // Imposta i dati nei TextView
+                    txtEmail.setText("Email: "+ (email != null ? email : ""));
                     txtNomeCognome.setText("Nome: " + (nome != null ? nome : "") + " Cognome: " + (cognome != null ? cognome : ""));
                     txtNumeroTelefono.setText("Telefono: " + (telefono != null ? telefono : "Non disponibile"));
                     txtIndirizzo.setText("Indirizzo: " + (via != null && civico != null && citta != null && provincia != null ? via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap : "Non disponibile"));
