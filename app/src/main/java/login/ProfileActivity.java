@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView txtProfilo,txtEmail, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
     private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount, btnModificaIcona;
-    private EditText editTextPassword,editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
+    private EditText editEmail,editTextPassword,editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
     private LinearLayout editLayout;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -68,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity {
         btnModifica = findViewById(R.id.btnModifica);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
 
+        editEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         editTextTelefono = findViewById(R.id.editTextTelefono);
         editTextVia = findViewById(R.id.editTextIndirizzo);
@@ -132,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
                     txtIndirizzo.setText("Indirizzo: " + (via != null && civico != null && citta != null && provincia != null ? via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap : "Non disponibile"));
 
                     // Imposta i dati nei campi EditText
+                    editEmail.setText(email);
                     editTextPassword.setText("");
                     editTextTelefono.setText(telefono != null ? telefono : "");
                     editTextVia.setText(via != null ? via : "");
@@ -225,6 +227,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         btnSalva.setOnClickListener(v -> {
+            String email = editEmail.getText().toString();
             String passswordNuova = editTextPassword.getText().toString();
             String nuovoTelefono = editTextTelefono.getText().toString();
             String nuovoCivico = editTextCivico.getText().toString();
@@ -235,6 +238,15 @@ public class ProfileActivity extends AppCompatActivity {
 
             if (!nuovoTelefono.isEmpty() || (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty())) {
                 if (userId != null) {
+
+                    if (!email.isEmpty()){
+
+
+                    }
+
+
+
+
                     if (!passswordNuova.isEmpty()) {
                         // Creazione dell'AlertDialog senza layout personalizzato
                         final EditText editTextPasswordPrecedente = new EditText(ProfileActivity.this);
@@ -306,6 +318,12 @@ public class ProfileActivity extends AppCompatActivity {
             btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor));
         });
 
+
+
+
+
+
+
         btnLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
@@ -345,4 +363,7 @@ public class ProfileActivity extends AppCompatActivity {
                 findViewById(R.id.iconProfile)
         );
     }
+
+
+
 }
