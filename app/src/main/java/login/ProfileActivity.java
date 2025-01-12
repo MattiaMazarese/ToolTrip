@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuInflater;
@@ -23,7 +24,10 @@ import androidx.core.content.ContextCompat;
 
 
 import com.example.tooltrip.R;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView txtProfilo,txtEmail, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
     private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount, btnModificaIcona;
-    private EditText editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
+    private EditText editTextPassword,editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
     private LinearLayout editLayout;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -58,10 +62,13 @@ public class ProfileActivity extends AppCompatActivity {
         txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
         txtIndirizzo = findViewById(R.id.txtIndirizzo);
         txtModifica = findViewById(R.id.txtModifica);
+
         btnLogout = findViewById(R.id.btnLogout);
         btnSalva = findViewById(R.id.btnSalva);
         btnModifica = findViewById(R.id.btnModifica);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+
+        editTextPassword = findViewById(R.id.editTextPassword);
         editTextTelefono = findViewById(R.id.editTextTelefono);
         editTextVia = findViewById(R.id.editTextIndirizzo);
         editTextCivico = findViewById(R.id.editTextCivico);
@@ -125,6 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
                     txtIndirizzo.setText("Indirizzo: " + (via != null && civico != null && citta != null && provincia != null ? via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap : "Non disponibile"));
 
                     // Imposta i dati nei campi EditText
+                    editTextPassword.setText("");
                     editTextTelefono.setText(telefono != null ? telefono : "");
                     editTextVia.setText(via != null ? via : "");
                     editTextCivico.setText(civico != null ? civico : "");
@@ -216,8 +224,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-
         btnSalva.setOnClickListener(v -> {
+            String passswordNuova = editTextPassword.getText().toString();
             String nuovoTelefono = editTextTelefono.getText().toString();
             String nuovoCivico = editTextCivico.getText().toString();
             String nuovaCitta = editTextCitta.getText().toString();
@@ -227,6 +235,52 @@ public class ProfileActivity extends AppCompatActivity {
 
             if (!nuovoTelefono.isEmpty() || (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty())) {
                 if (userId != null) {
+                    if (!passswordNuova.isEmpty()) {
+                        // Creazione dell'AlertDialog senza layout personalizzato
+                        final EditText editTextPasswordPrecedente = new EditText(ProfileActivity.this);
+                        editTextPasswordPrecedente.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        editTextPasswordPrecedente.setHint("Inserisci la password precedente");
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                        builder.setTitle("Inserisci la tua password precedente")
+                                .setMessage("Per motivi di sicurezza, inserisci la tua password precedente per procedere.")
+                                .setView(editTextPasswordPrecedente)
+                                .setPositiveButton("Conferma", (dialog, which) -> {
+                                    String passwordPrecedente = editTextPasswordPrecedente.getText().toString();
+
+                                    // Verifica che la password precedente non sia vuota
+                                    if (!passwordPrecedente.isEmpty()) {
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                        // Reautenticazione per aggiornare la password
+                                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), passwordPrecedente);
+                                        user.reauthenticate(credential).addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                // Se la reautenticazione ha successo, aggiorna la password
+                                                user.updatePassword(passswordNuova).addOnCompleteListener(updateTask -> {
+                                                    if (updateTask.isSuccessful()) {
+                                                        // Password aggiornata con successo
+                                                        Toast.makeText(ProfileActivity.this, "Password aggiornata con successo", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        // Fallimento nell'aggiornamento della password
+                                                        Toast.makeText(ProfileActivity.this, "Errore durante l'aggiornamento della password", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                // Fallimento nella reautenticazione
+                                                Toast.makeText(ProfileActivity.this, "Reautenticazione fallita", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(ProfileActivity.this, "La password precedente non può essere vuota", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
+                                .show();
+                    }
+
+
+
                     if (!nuovoTelefono.isEmpty()) {
                         mDatabase.child(userId).child("numTelefono").setValue(nuovoTelefono);
                         txtNumeroTelefono.setText("Telefono: " + nuovoTelefono);

@@ -106,6 +106,22 @@
                     android:textStyle="bold"
                     android:gravity="center" />
 
+
+
+                <EditText
+                    android:id="@+id/editTextPasswordPrecedente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password precedente"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nuova Password"
+                    android:inputType="text" />
+
                 <EditText
                     android:id="@+id/editTextTelefono"
                     android:layout_width="match_parent"
