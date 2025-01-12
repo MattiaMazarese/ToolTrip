@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/backgroundColor"
+    android:background="@color/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".group.VisualizzaGruppoSingoloActivity">
+    tools:context="group.VisualizzaGruppoSingoloActivity">
 
     <!-- Group Name as a Large Central Title -->
     <TextView
@@ -48,7 +48,7 @@
                 android:id="@+id/listViewMembri"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="@color/lightGray"
+                android:divider="@color/grayLight"
                 android:dividerHeight="1dp" />
 
             <!-- Tools Label -->
@@ -90,7 +90,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Iscriviti"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="@color/primary"
             android:textColor="@android:color/white"
             android:layout_marginEnd="8dp" />
 
@@ -100,7 +100,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Chat di gruppo"
-            android:backgroundTint="@color/primaryColor"
+            android:backgroundTint="@color/primary"
             android:textColor="@android:color/white"
             android:layout_marginStart="8dp" />
     </LinearLayout>

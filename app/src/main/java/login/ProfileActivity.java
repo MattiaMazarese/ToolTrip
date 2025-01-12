@@ -216,11 +216,11 @@ public class ProfileActivity extends AppCompatActivity {
             if (editLayout.getVisibility() == View.GONE) {
                 editLayout.setVisibility(View.VISIBLE);
                 btnModifica.setText("Annulla Modifiche");
-                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.delete_button_red)); // Rosso
+                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.deleteRed)); // Rosso
             } else {
                 editLayout.setVisibility(View.GONE);
                 btnModifica.setText("Modifica i tuoi dati");
-                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor)); // Blu
+                btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primary)); // Blu
             }
         });
 
@@ -315,7 +315,7 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, "Per favore, inserisci almeno un dato da modificare.", Toast.LENGTH_SHORT).show();
             }
             btnModifica.setText("Modifica");
-            btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primaryColor));
+            btnModifica.setBackgroundTintList(ContextCompat.getColorStateList(ProfileActivity.this, R.color.primary));
         });
 
 

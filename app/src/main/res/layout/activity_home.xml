@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Scopri gruppi"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="@color/primary"
                 android:textColor="@android:color/white"
                 android:layout_marginEnd="8dp" />
 
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Aggiungi un Tool"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="@color/primary"
                 android:textColor="@android:color/white"
                 android:layout_marginStart="8dp" />
         </LinearLayout>

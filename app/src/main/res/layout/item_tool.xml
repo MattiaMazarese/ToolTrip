@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text="Approfondisci"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/primaryColor"
+                android:backgroundTint="@color/primary"
                 android:textColor="@android:color/white"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp" />

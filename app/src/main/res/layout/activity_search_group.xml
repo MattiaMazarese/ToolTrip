@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:padding="16dp">
 
     <!-- Titolo della schermata -->
@@ -11,18 +13,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lista degli elementi"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
+        android:textColor="@color/primary"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:paddingBottom="8dp" />
+        android:paddingBottom="16dp" />
 
-    <!-- RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- Contenitore RecyclerView con CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/recyclerCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:scrollbars="vertical" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_below="@id/Gruppi"
+        android:layout_marginTop="16dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp"
+            android:clipToPadding="false"
+            android:scrollbars="vertical" />
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
