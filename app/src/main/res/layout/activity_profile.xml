@@ -43,6 +43,17 @@
                 android:layout_marginBottom="16dp" />
 
 
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/textSecondary"
+                android:layout_marginBottom="16dp" />
+
+
             <!-- Nome e Cognome -->
             <TextView
                 android:id="@+id/txtNomeCognome"
@@ -94,6 +105,22 @@
                     android:padding="16dp"
                     android:textStyle="bold"
                     android:gravity="center" />
+
+
+
+                <EditText
+                    android:id="@+id/editTextPasswordPrecedente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password precedente"
+                    android:inputType="textPassword" />
+
+                <EditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nuova Password"
+                    android:inputType="text" />
 
                 <EditText
                     android:id="@+id/editTextTelefono"

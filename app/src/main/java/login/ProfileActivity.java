@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuInflater;
@@ -23,7 +24,10 @@ import androidx.core.content.ContextCompat;
 
 
 import com.example.tooltrip.R;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,9 +41,9 @@ import menù.MenuHandler;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView txtProfilo, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
+    private TextView txtProfilo,txtEmail, txtNomeCognome, txtNumeroTelefono, txtIndirizzo, txtModifica;
     private Button btnLogout, btnSalva, btnModifica, btnDeleteAccount, btnModificaIcona;
-    private EditText editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
+    private EditText editTextPassword,editTextTelefono, editTextVia, editTextCivico, editTextCitta, editTextProvincia, editTextCAP;
     private LinearLayout editLayout;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
@@ -53,14 +57,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Collegamento delle TextView, EditText e Button dal layout
         txtProfilo = findViewById(R.id.txtProfilo);
+        txtEmail = findViewById(R.id.txtEmail);
         txtNomeCognome = findViewById(R.id.txtNomeCognome);
         txtNumeroTelefono = findViewById(R.id.txtNumeroTelefono);
         txtIndirizzo = findViewById(R.id.txtIndirizzo);
         txtModifica = findViewById(R.id.txtModifica);
+
         btnLogout = findViewById(R.id.btnLogout);
         btnSalva = findViewById(R.id.btnSalva);
         btnModifica = findViewById(R.id.btnModifica);
         btnDeleteAccount = findViewById(R.id.btnDeleteAccount);
+
+        editTextPassword = findViewById(R.id.editTextPassword);
         editTextTelefono = findViewById(R.id.editTextTelefono);
         editTextVia = findViewById(R.id.editTextIndirizzo);
         editTextCivico = findViewById(R.id.editTextCivico);
@@ -78,18 +86,24 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Recupera la SharedPreferences
         SharedPreferences getPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
-        String selectedIcon = getPreferences.getString("selectedIcon", "default");  // Default se non esiste
+        String selectedIcon = getPreferences.getString("selectedIcon", "");
 
         // Imposta l'icona iniziale
-        if ("Martello".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.hammer);
-        } else if ("Pc".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.pc);
-        } else if ("Scatola".equals(selectedIcon)) {
-            imgIconaProfilo.setImageResource(R.drawable.box);
-        } else {
-            imgIconaProfilo.setImageResource(R.drawable.hammer);  // Imposta un'icona di default
+        switch (selectedIcon) {
+            case "Martello":
+                imgIconaProfilo.setImageResource(R.drawable.hammer);
+                break;
+            case "Pc":
+                imgIconaProfilo.setImageResource(R.drawable.pc);
+                break;
+            case "Scatola":
+                imgIconaProfilo.setImageResource(R.drawable.box);
+                break;
+            default:
+                imgIconaProfilo.setImageResource(R.drawable.hammer);  // Un'icona di default diversa
+                break;
         }
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -101,6 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
             mDatabase.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String email = mAuth.getCurrentUser().getEmail();
                     String nome = dataSnapshot.child("nome").getValue(String.class);
                     String cognome = dataSnapshot.child("cognome").getValue(String.class);
                     String telefono = dataSnapshot.child("numTelefono").getValue(String.class);
@@ -111,11 +126,13 @@ public class ProfileActivity extends AppCompatActivity {
                     String cap = dataSnapshot.child("address").child("cap").getValue(String.class);
 
                     // Imposta i dati nei TextView
+                    txtEmail.setText("Email: "+ (email != null ? email : ""));
                     txtNomeCognome.setText("Nome: " + (nome != null ? nome : "") + " Cognome: " + (cognome != null ? cognome : ""));
                     txtNumeroTelefono.setText("Telefono: " + (telefono != null ? telefono : "Non disponibile"));
                     txtIndirizzo.setText("Indirizzo: " + (via != null && civico != null && citta != null && provincia != null ? via + ", " + civico + ", " + citta + " (" + provincia + ") " + cap : "Non disponibile"));
 
                     // Imposta i dati nei campi EditText
+                    editTextPassword.setText("");
                     editTextTelefono.setText(telefono != null ? telefono : "");
                     editTextVia.setText(via != null ? via : "");
                     editTextCivico.setText(civico != null ? civico : "");
@@ -133,6 +150,9 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             txtNomeCognome.setText("Utente non autenticato.");
         }
+
+
+
 
         btnModificaIcona.setOnClickListener(v -> {
             PopupMenu popupMenu = new PopupMenu(ProfileActivity.this, btnModificaIcona);
@@ -158,20 +178,30 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             popupMenu.setOnMenuItemClickListener(item -> {
+                SharedPreferences preferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+
                 int id = item.getItemId();
                 if (id == R.id.iconHammer) {
-                    imgIconaProfilo.setImageResource(R.drawable.hammer); // hammer.xml
+                    imgIconaProfilo.setImageResource(R.drawable.hammer);
+                    editor.putString("selectedIcon", "Martello");  // Salva "Martello"
                 } else if (id == R.id.iconPC) {
-                    imgIconaProfilo.setImageResource(R.drawable.pc); // pc.xml
+                    imgIconaProfilo.setImageResource(R.drawable.pc);
+                    editor.putString("selectedIcon", "Pc");  // Salva "Pc"
                 } else if (id == R.id.iconBox) {
-                    imgIconaProfilo.setImageResource(R.drawable.box); // box.xml
+                    imgIconaProfilo.setImageResource(R.drawable.box);
+                    editor.putString("selectedIcon", "Scatola");  // Salva "Scatola"
                 } else {
                     return false;
                 }
+
+                editor.apply();  // Applica e salva le modifiche
+                Toast.makeText(ProfileActivity.this, "Icona aggiornata!", Toast.LENGTH_SHORT).show();
                 return true;
             });
 
             popupMenu.show();
+
 
         });
 
@@ -194,8 +224,8 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-
         btnSalva.setOnClickListener(v -> {
+            String passswordNuova = editTextPassword.getText().toString();
             String nuovoTelefono = editTextTelefono.getText().toString();
             String nuovoCivico = editTextCivico.getText().toString();
             String nuovaCitta = editTextCitta.getText().toString();
@@ -205,6 +235,52 @@ public class ProfileActivity extends AppCompatActivity {
 
             if (!nuovoTelefono.isEmpty() || (!nuovoCivico.isEmpty() && !nuovaCitta.isEmpty() && !nuovaProvincia.isEmpty() && !nuovoCAP.isEmpty() && !nuovaVia.isEmpty())) {
                 if (userId != null) {
+                    if (!passswordNuova.isEmpty()) {
+                        // Creazione dell'AlertDialog senza layout personalizzato
+                        final EditText editTextPasswordPrecedente = new EditText(ProfileActivity.this);
+                        editTextPasswordPrecedente.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        editTextPasswordPrecedente.setHint("Inserisci la password precedente");
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                        builder.setTitle("Inserisci la tua password precedente")
+                                .setMessage("Per motivi di sicurezza, inserisci la tua password precedente per procedere.")
+                                .setView(editTextPasswordPrecedente)
+                                .setPositiveButton("Conferma", (dialog, which) -> {
+                                    String passwordPrecedente = editTextPasswordPrecedente.getText().toString();
+
+                                    // Verifica che la password precedente non sia vuota
+                                    if (!passwordPrecedente.isEmpty()) {
+                                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                                        // Reautenticazione per aggiornare la password
+                                        AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), passwordPrecedente);
+                                        user.reauthenticate(credential).addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                // Se la reautenticazione ha successo, aggiorna la password
+                                                user.updatePassword(passswordNuova).addOnCompleteListener(updateTask -> {
+                                                    if (updateTask.isSuccessful()) {
+                                                        // Password aggiornata con successo
+                                                        Toast.makeText(ProfileActivity.this, "Password aggiornata con successo", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        // Fallimento nell'aggiornamento della password
+                                                        Toast.makeText(ProfileActivity.this, "Errore durante l'aggiornamento della password", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            } else {
+                                                // Fallimento nella reautenticazione
+                                                Toast.makeText(ProfileActivity.this, "Reautenticazione fallita", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toast.makeText(ProfileActivity.this, "La password precedente non può essere vuota", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("Annulla", (dialog, which) -> dialog.dismiss())
+                                .show();
+                    }
+
+
+
                     if (!nuovoTelefono.isEmpty()) {
                         mDatabase.child(userId).child("numTelefono").setValue(nuovoTelefono);
                         txtNumeroTelefono.setText("Telefono: " + nuovoTelefono);
