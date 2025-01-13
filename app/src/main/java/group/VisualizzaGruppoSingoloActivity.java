@@ -83,14 +83,16 @@ public class VisualizzaGruppoSingoloActivity extends AppCompatActivity {
         // Load group tools
         loadGroupTools();
 
-        // Configure menu
-        MenuHandler menuHandler = new MenuHandler(this);
+        MenuHandler menuHandler = new MenuHandler(this,"viewTool");
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),
                 findViewById(R.id.iconGroup),
                 findViewById(R.id.iconProfile)
         );
+
+
+
 
         // Set button actions
         setButtonAction();

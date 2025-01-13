@@ -15,6 +15,8 @@ import com.example.tooltrip.R;
 
 public class MenuHandler {
 
+
+
     private Context context;
     private ImageView homeIcon, addToolIcon, viewToolIcon, profileIcon;
 
@@ -32,6 +34,16 @@ public class MenuHandler {
         this.context = context;
     }
 
+    private String activeSection;
+
+    public MenuHandler(Context context, String activeSection) {
+        this.context = context;
+        this.activeSection = activeSection;
+    }
+
+
+
+
     public void setUpMenuListeners(View homeIcon, View addToolIcon, View viewToolIcon, View profileIcon) {
         this.homeIcon = (ImageView) homeIcon;
         this.addToolIcon = (ImageView) addToolIcon;
@@ -40,6 +52,12 @@ public class MenuHandler {
 
         // Recupera lo stato di selezione salvato
         String selectedIcon = getSelectedIconFromPrefs();
+
+        if(activeSection == "viewTool"){
+            selectedIcon = VIEW_TOOL_SELECTED;
+        }else {
+            selectedIcon = getSelectedIconFromPrefs();
+        }
 
         // Imposta l'icona selezionata in base al valore recuperato
         if (selectedIcon != null) {
@@ -58,6 +76,9 @@ public class MenuHandler {
                     break;
             }
         }
+
+
+
 
         // Listener per l'icona Home
         homeIcon.setOnClickListener(v -> {
@@ -127,7 +148,7 @@ public class MenuHandler {
         return prefs.getString(PREF_SELECTED_ICON, HOME_SELECTED); // Default è Home
     }
 
-    // Metodo per ripristinare l'icona predefinita al termine dell'app
+    //Metodo per ripristinare l'icona predefinita al termine dell'app
     public void resetToDefaultOnAppClose() {
         saveSelectedIconToPrefs(HOME_SELECTED); // Imposta Home come predefinito
     }
