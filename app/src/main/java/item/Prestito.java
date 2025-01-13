@@ -7,21 +7,24 @@ public class Prestito {
     private String prestioID;
     private String idUtente;
     private String idOggetto;
-    private LocalDate dataInizio;
-    private LocalDate dataFine;
+    private LocalDate dataRichiestaInizio;
+    private LocalDate dataRichiestaFine;
+    private LocalDate dataInizioEffettiva;
+    private LocalDate dataFineEffettiva;
     private Boolean accettazione;
 
-    public Prestito(){
-
+    public Prestito() {
     }
 
-    public Prestito(String prestioID,String idUtente, String idOggetto) {
-        this.prestioID= prestioID;
+    public Prestito(String prestioID, String idUtente, String idOggetto, LocalDate dataRichiestaInizio, LocalDate dataRichiestaFine) {
+        this.prestioID = prestioID;
         this.idUtente = idUtente;
         this.idOggetto = idOggetto;
-        this.dataInizio = LocalDate.now(); // Data corrente al momento della creazione
-        this.dataFine = dataInizio.plusDays(7);
-        this.accettazione=false;
+        this.dataRichiestaInizio = dataRichiestaInizio;
+        this.dataRichiestaFine = dataRichiestaFine;
+        this.dataInizioEffettiva = null; // Sarà impostata solo quando il proprietario accetta
+        this.dataFineEffettiva = null;
+        this.accettazione = false; // Di default, il prestito è in attesa
     }
 
     public String getPrestitoID() {
@@ -49,20 +52,36 @@ public class Prestito {
         this.idOggetto = idOggetto;
     }
 
-    public LocalDate getDataInizio() {
-        return dataInizio;
+    public LocalDate getDataRichiestaInizio() {
+        return dataRichiestaInizio;
     }
 
-    public void setDataInizio(LocalDate dataInizio) {
-        this.dataInizio = dataInizio;
+    public void setDataRichiestaInizio(LocalDate dataRichiestaInizio) {
+        this.dataRichiestaInizio = dataRichiestaInizio;
     }
 
-    public LocalDate getDataFine() {
-        return dataFine;
+    public LocalDate getDataRichiestaFine() {
+        return dataRichiestaFine;
     }
 
-    public void setDataFine(LocalDate dataFine) {
-        this.dataFine = dataFine;
+    public void setDataRichiestaFine(LocalDate dataRichiestaFine) {
+        this.dataRichiestaFine = dataRichiestaFine;
+    }
+
+    public LocalDate getDataInizioEffettiva() {
+        return dataInizioEffettiva;
+    }
+
+    public void setDataInizioEffettiva(LocalDate dataInizioEffettiva) {
+        this.dataInizioEffettiva = dataInizioEffettiva;
+    }
+
+    public LocalDate getDataFineEffettiva() {
+        return dataFineEffettiva;
+    }
+
+    public void setDataFineEffettiva(LocalDate dataFineEffettiva) {
+        this.dataFineEffettiva = dataFineEffettiva;
     }
 
     public Boolean getAccettazione() {

@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         btnAddTool.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, item.AggiungiToolActivity.class);
+            Intent intent = new Intent(HomeActivity.this, item.ToolPersonaliUtente.class);
             startActivity(intent);
         });
 
