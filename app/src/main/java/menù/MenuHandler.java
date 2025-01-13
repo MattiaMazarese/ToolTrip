@@ -18,7 +18,8 @@ public class MenuHandler {
 
 
     private Context context;
-    private ImageView homeIcon, addToolIcon, viewToolIcon, profileIcon;
+    private ImageView homeIcon, addToolIcon, viewGruopIcon, profileIcon;
+
 
     // Costante per il nome delle SharedPreferences
     private static final String PREFS_NAME = "MenuPrefs";
@@ -27,7 +28,7 @@ public class MenuHandler {
     // Costante per le icone
     private static final String HOME_SELECTED = "home";
     private static final String ADD_TOOL_SELECTED = "addTool";
-    private static final String VIEW_TOOL_SELECTED = "viewTool";
+    private static final String VIEW_GROUP_SELECTED = "viewGroup";
     private static final String PROFILE_SELECTED = "profile";
 
     public MenuHandler(Context context) {
@@ -44,17 +45,18 @@ public class MenuHandler {
 
 
 
-    public void setUpMenuListeners(View homeIcon, View addToolIcon, View viewToolIcon, View profileIcon) {
+
+    public void setUpMenuListeners(View homeIcon, View addToolIcon, View viewGroupIcon, View profileIcon) {
         this.homeIcon = (ImageView) homeIcon;
         this.addToolIcon = (ImageView) addToolIcon;
-        this.viewToolIcon = (ImageView) viewToolIcon;
+        this.viewGruopIcon = (ImageView) viewGroupIcon;
         this.profileIcon = (ImageView) profileIcon;
 
         // Recupera lo stato di selezione salvato
         String selectedIcon = getSelectedIconFromPrefs();
 
         if(activeSection == "viewTool"){
-            selectedIcon = VIEW_TOOL_SELECTED;
+            selectedIcon = VIEW_GROUP_SELECTED;
         }else {
             selectedIcon = getSelectedIconFromPrefs();
         }
@@ -68,8 +70,8 @@ public class MenuHandler {
                 case ADD_TOOL_SELECTED:
                     updateSelectedIcon((ImageView) addToolIcon);
                     break;
-                case VIEW_TOOL_SELECTED:
-                    updateSelectedIcon((ImageView) viewToolIcon);
+                case VIEW_GROUP_SELECTED:
+                    updateSelectedIcon((ImageView) viewGroupIcon);
                     break;
                 case PROFILE_SELECTED:
                     updateSelectedIcon((ImageView) profileIcon);
@@ -95,8 +97,8 @@ public class MenuHandler {
         });
 
         // Listener per l'icona VisualizzaTool
-        viewToolIcon.setOnClickListener(v -> {
-            saveSelectedIconToPrefs(VIEW_TOOL_SELECTED); // Salva la selezione di VisualizzaTool
+        viewGroupIcon.setOnClickListener(v -> {
+            saveSelectedIconToPrefs(VIEW_GROUP_SELECTED); // Salva la selezione di VisualizzaTool
             updateSelectedIcon((ImageView) v); // Aggiorna l'icona di VisualizzaTool
             context.startActivity(new Intent(context, MyGroupActivity.class));
         });
@@ -119,8 +121,8 @@ public class MenuHandler {
             homeIcon.setImageResource(R.drawable.ic_home_selected); // Home rossa
         } else if (selectedIcon == addToolIcon) {
             addToolIcon.setImageResource(R.drawable.ic_tool_selected); // Tool rosso
-        } else if (selectedIcon == viewToolIcon) {
-            viewToolIcon.setImageResource(R.drawable.ic_group_selected); // Group rosso
+        } else if (selectedIcon == viewGruopIcon) {
+            viewGruopIcon.setImageResource(R.drawable.ic_group_selected); // Group rosso
         } else if (selectedIcon == profileIcon) {
             profileIcon.setImageResource(R.drawable.ic_profile_selected); // Profile rosso
         }
@@ -130,7 +132,7 @@ public class MenuHandler {
     private void resetIcons() {
         homeIcon.setImageResource(R.drawable.ic_home); // Home nera
         addToolIcon.setImageResource(R.drawable.ic_tool); // Tool nero
-        viewToolIcon.setImageResource(R.drawable.ic_group); // Group nero
+        viewGruopIcon.setImageResource(R.drawable.ic_group); // Group nero
         profileIcon.setImageResource(R.drawable.ic_profile); // Profile nero
     }
 
