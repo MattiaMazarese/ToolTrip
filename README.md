@@ -3,11 +3,11 @@ Gli utenti possono offrire i propri oggetti per un noleggio temporaneo e scoprir
 
 Funzionalità principali
 
-Creazione di un profilo utente: Gli utenti possono registrarsi, modificare il proprio profilo e visualizzare i propri oggetti condivisi.
-Condivisione oggetti: Gli utenti possono caricare oggetti da condividere.
-Ricerca e filtraggio: Gli utenti possono cercare oggetti disponibili in base alla categoria.
-Sistema di recensioni: Gli utenti possono lasciare recensioni sugli oggetti presi in prestito.
-Gruppi: nei gruppi si possono vedere gli oggetti disponibili in quel gruppo e parlare tramite chat.
+- Creazione di un profilo utente: Gli utenti possono registrarsi, modificare il proprio profilo e visualizzare i propri oggetti condivisi.
+- Condivisione oggetti: Gli utenti possono caricare oggetti da condividere.
+- Ricerca e filtraggio: Gli utenti possono cercare oggetti disponibili in base alla categoria.
+- Sistema di recensioni: Gli utenti possono lasciare recensioni sugli oggetti presi in prestito.
+- Gruppi: nei gruppi si possono vedere gli oggetti disponibili in quel gruppo e parlare tramite chat.
 
 Link del repository -> https://github.com/MattiaMazarese/ToolTrip/
 
