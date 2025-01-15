@@ -29,7 +29,7 @@ Sincronizzare il progetto:
 - Una volta configurato Firebase, sincronizza il progetto per scaricare le dipendenze.
 
 Esegui l'app:
-- Se si possiede un telefono Andorid,lo si può attacare tramite cavo al proprio computer e installare l'app all'interno,in alternativa c'è l'utilizzo di un emulutore.
+- Se si possiede un telefono Andorid,lo si può attacare tramite cavo al proprio computer e installare l'app all'interno,in alternativa c'è l'utilizzo di un emulatore.
 - Quando si è pronti,cliccare sull'icona triangolare verde "Run app".
   
 Tecnologie utilizzate
