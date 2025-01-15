@@ -55,9 +55,11 @@ public class MenuHandler {
         // Recupera lo stato di selezione salvato
         String selectedIcon = getSelectedIconFromPrefs();
 
-        if(activeSection == "viewTool"){
+        if(activeSection == "group"){
             selectedIcon = VIEW_GROUP_SELECTED;
-        }else {
+        }else if(activeSection == "tool") {
+            selectedIcon = ADD_TOOL_SELECTED;
+        }else{
             selectedIcon = getSelectedIconFromPrefs();
         }
 

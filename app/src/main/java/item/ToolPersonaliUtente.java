@@ -61,7 +61,7 @@ public class ToolPersonaliUtente extends AppCompatActivity {
         loadItemsFromDatabase();
 
         // Set up the menu listeners using MenuHandler
-        MenuHandler menuHandler = new MenuHandler(this);
+        MenuHandler menuHandler = new MenuHandler(this,"tool");
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),

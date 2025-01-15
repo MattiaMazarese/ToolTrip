@@ -71,7 +71,7 @@ public class VisualizzaToolActivity extends AppCompatActivity {
         loadItemsFromDatabase();
 
         // Set up menu
-        MenuHandler menuHandler = new MenuHandler(this);
+        MenuHandler menuHandler = new MenuHandler(this,"tool");
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),
