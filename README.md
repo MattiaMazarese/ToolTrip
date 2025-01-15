@@ -11,7 +11,6 @@
 
 ### 2. Condivisione oggetti
 - Gli utenti possono caricare oggetti da condividere, con specifiche categorie.
-- Gestisci gli oggetti condivisi direttamente dal tuo profilo.
 
 ### 3. Ricerca e filtraggio oggetti
 - Gli utenti possono cercare oggetti disponibili per categoria.
