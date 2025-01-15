@@ -42,8 +42,7 @@
 
 ### 3. Configurare Firebase
 - Vai su [Firebase Console](https://console.firebase.google.com/) e crea un nuovo progetto.
-- Aggiungi la tua app Android al progetto Firebase e scarica il file `google-services.json`.
-- Aggiungi il file `google-services.json` nella cartella `app/` del tuo progetto Android Studio.
+- Segui le istruzioni di Firebase per collegare Android Studio.
 
 ### 4. Sincronizzare il progetto
 - Dopo aver configurato Firebase, sincronizza il progetto per scaricare tutte le dipendenze necessarie.
