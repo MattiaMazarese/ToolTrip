@@ -48,6 +48,8 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
     private String possessoreID = null;
     private Boolean accettazionePrestito;
 
+    private String dataFinePrestito;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +120,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
                         prestitoId = prestitoSnapshot.child("prestitoID").getValue(String.class);
                         prestitoUserID = prestitoSnapshot.child("idUtente").getValue(String.class);
                         accettazionePrestito = prestitoSnapshot.child("accettazione").getValue(Boolean.class);
+                        dataFinePrestito=prestitoSnapshot.child("dataRichiestaFine").child("dayOfMonth").getValue(Long.class).toString()+"/"+prestitoSnapshot.child("dataRichiestaFine").child("monthValue").getValue(Long.class).toString()+"/"+prestitoSnapshot.child("dataRichiestaFine").child("year").getValue(Long.class).toString();
                         break;  // Esci dal ciclo una volta trovato il prestito
                     }
                 }
@@ -191,7 +194,20 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
             }
         } else {
             if (itemPrestato() && !accettazionePrestito) {
-                buttonPrestito.setText("Accetta richiesta prestito");
+                DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+                usersRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DataSnapshot dataSnapshot = task.getResult();
+                        for (DataSnapshot uSnapshot : dataSnapshot.getChildren()) {
+                            if (Objects.equals(uSnapshot.child("userID").getValue(String.class), prestitoUserID)) {
+                                buttonPrestito.setText("Accetta di prestare a "+uSnapshot.child("nome").getValue(String.class)+" "+uSnapshot.child("cognome").getValue(String.class)+" fino al "+dataFinePrestito);
+                                break;
+                            }
+                        }
+                    } else {
+                        Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Errore durante il recupero dei dati: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
                 buttonPrestito.setOnClickListener(v -> accettaPrestito());
             } else if (itemPrestato() && accettazionePrestito) {
                 buttonPrestito.setText("Tool attualmente prestato");
@@ -237,6 +253,8 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     private void accettaPrestito() {
         DatabaseReference prestitoRef = FirebaseDatabase.getInstance().getReference("Prestito");
@@ -297,8 +315,8 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
     private void messaggioFinePrestito() {
         // Verifica se il prestitoID è presente prima di accedere a Firebase
         if (prestitoId != null) {
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prestito").child(prestitoId).child("dataFine");
-            Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Il prestito finirà " + databaseReference.toString(), Toast.LENGTH_SHORT).show();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Prestito").child(prestitoId).child("dataRichiestaFine");
+            Toast.makeText(VisualizzaProdottoSingoloActivity.this, "Prestito non concluso", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -421,25 +439,42 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
 
     private void mostraDialogoSelezioneDate(String itemID) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Seleziona le date del prestito");
+        builder.setTitle("Seleziona la data di fine del prestito");
+
+        // Inflating il layout personalizzato del dialogo
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_date_picker, null);
         DatePicker datePickerInizio = dialogView.findViewById(R.id.datePickerInizio);
         DatePicker datePickerFine = dialogView.findViewById(R.id.datePickerFine);
+
+        // Imposta la data di inizio su oggi e disabilita il DatePicker per la data di inizio
+        LocalDate oggi = LocalDate.now();
+        datePickerInizio.updateDate(oggi.getYear(), oggi.getMonthValue() - 1, oggi.getDayOfMonth());
+        datePickerInizio.setEnabled(false);
+
         builder.setView(dialogView);
         builder.setPositiveButton(null, null); // Disabilita il comportamento automatico
         builder.setNegativeButton(null, null);
+
         AlertDialog dialog = builder.create();
         dialog.show();
+
         Button buttonAnnulla = dialog.findViewById(R.id.buttonAnnulla);
         Button buttonConferma = dialog.findViewById(R.id.buttonConferma);
+
         buttonAnnulla.setOnClickListener(v -> dialog.dismiss());
+
         buttonConferma.setOnClickListener(v -> {
-            // Ottieni le date selezionate
-            LocalDate dataInizio = LocalDate.of(datePickerInizio.getYear(), datePickerInizio.getMonth() + 1, datePickerInizio.getDayOfMonth());
+            // Ottieni la data selezionata per la fine
+            LocalDate dataInizio = oggi;
             LocalDate dataFine = LocalDate.of(datePickerFine.getYear(), datePickerFine.getMonth() + 1, datePickerFine.getDayOfMonth());
+
             if (dataFine.isAfter(dataInizio) && dataFine.isBefore(dataInizio.plusDays(60))) {
-                addPrestitoToDatabase(itemID,dataInizio,dataFine);
+                addPrestitoToDatabase(itemID, dataInizio, dataFine);
+                dialog.dismiss();
+            } else {
+                Toast.makeText(this, "La data di fine deve essere entro 60 giorni da oggi.", Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 }
