@@ -10,15 +10,15 @@
 - Gli utenti possono visualizzare gli oggetti condivisi e quelli che stanno cercando di prendere in prestito.
 
 ### 2. Condivisione oggetti
-- Gli utenti possono caricare oggetti da condividere, con specifiche categorie, descrizioni e periodi di disponibilità.
+- Gli utenti possono caricare oggetti da condividere, con specifiche categorie, descrizioni.
 - Gestisci gli oggetti condivisi direttamente dal tuo profilo.
 
 ### 3. Ricerca e filtraggio oggetti
-- Gli utenti possono cercare oggetti disponibili per categoria, posizione e disponibilità.
+- Gli utenti possono cercare oggetti disponibili per categoria.
 - I risultati possono essere filtrati per affinare la ricerca.
 
 ### 4. Sistema di recensioni
-- Gli utenti possono lasciare recensioni sugli oggetti presi in prestito, con un punteggio in stelle e un commento scritto.
+- Gli utenti possono lasciare recensioni sugli oggetti presi in prestito, con un commento scritto.
 
 ### 5. Gruppi
 - Crea o unisciti a gruppi di condivisione per visualizzare oggetti condivisi in quello specifico gruppo.
