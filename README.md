@@ -6,7 +6,7 @@
 
 ### 1. Creazione di un profilo utente
 - Gli utenti possono registrarsi e creare un profilo personalizzato.
-- È possibile aggiornare le informazioni personali (password,icona del profilo).
+- È possibile aggiornare le informazioni personali (password,icona del profilo e etc.).
 - Gli utenti possono visualizzare gli oggetti condivisi e quelli che stanno cercando di prendere in prestito.
 
 ### 2. Condivisione oggetti
