@@ -139,7 +139,7 @@ public class VisualizzaProdottoSingoloActivity extends AppCompatActivity {
         textViewCategoria.setText(categoria);
 
         // Configurazione del menu tramite MenuHandler
-        MenuHandler menuHandler = new MenuHandler(this);
+        MenuHandler menuHandler = new MenuHandler(this,"tool");
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),

@@ -62,7 +62,7 @@ public class AggiungiToolActivity extends AppCompatActivity {
         buttonAggiungi.setOnClickListener(v -> addItemToDatabase());
 
         // Configurazione del menu tramite MenuHandler
-        MenuHandler menuHandler = new MenuHandler(this);
+        MenuHandler menuHandler = new MenuHandler(this,"tool");
         menuHandler.setUpMenuListeners(
                 findViewById(R.id.iconHome),
                 findViewById(R.id.iconAggiungiTool),

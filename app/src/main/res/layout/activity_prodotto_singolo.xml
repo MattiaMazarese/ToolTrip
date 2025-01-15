@@ -104,7 +104,8 @@
                 android:id="@+id/buttonPrestito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="null" />
+                android:text="null"
+                android:backgroundTint="@color/primary"/>
 
             <Button
                 android:id="@+id/buttonVisualizzaGruppo"
