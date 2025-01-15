@@ -12,7 +12,7 @@
     <string name="logout">Logout</string>
     <string name="Porfilo" />
     <string name="Profilo" />
-    <string name="i_miei_tool">I Miei Tool</string>
+    <string name="i_miei_tool">I Miei Tool:</string>
     <string name="crea_nuovo_tool">Crea Nuovo Tool</string>
     <string name="my_tools">My tool</string>
     <string name="cancella_account">Cancella Account</string>
@@ -22,4 +22,5 @@
     <string name="modifica_i_tuoi_dati">modifica i tuoi dati</string>
     <string name="Modifica_i_tuoi_dati">Modifica_i_tuoi_dati</string>
     <string name="email">Email</string>
+    <string name="tool_presi_in_prestito">Tool presi in prestito :</string>
 </resources>
