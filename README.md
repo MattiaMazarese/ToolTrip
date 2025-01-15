@@ -1,44 +1,61 @@
-Tool Trip è un'applicazione Android che consente la condivisione di oggetti tra utenti per un periodo di tempo determinato. 
-Gli utenti possono offrire i propri oggetti per un noleggio temporaneo e scoprire oggetti condivisi da altri, facilitando l'accesso a strumenti e risorse.
+# Tool Trip - Condivisione Oggetti
 
-Funzionalità principali
+**Tool Trip** è un'applicazione Android che permette agli utenti di condividere oggetti tra di loro per un periodo di tempo determinato. L'app facilita l'accesso a strumenti e risorse senza dover acquistare nuovi articoli.
 
-- Creazione di un profilo utente: Gli utenti possono registrarsi, modificare il proprio profilo e visualizzare i propri oggetti condivisi.
-- Condivisione oggetti: Gli utenti possono caricare oggetti da condividere.
-- Ricerca e filtraggio: Gli utenti possono cercare oggetti disponibili in base alla categoria.
-- Sistema di recensioni: Gli utenti possono lasciare recensioni sugli oggetti presi in prestito.
-- Gruppi: nei gruppi si possono vedere gli oggetti disponibili in quel gruppo e parlare tramite chat.
+## Funzionalità principali
 
-Link del repository -> https://github.com/MattiaMazarese/ToolTrip/
+### 1. Creazione di un profilo utente
+- Gli utenti possono registrarsi e creare un profilo personalizzato.
+- È possibile aggiornare le informazioni personali (nome, email, foto del profilo).
+- Gli utenti possono visualizzare gli oggetti condivisi e quelli che stanno cercando di prendere in prestito.
 
-Scaricare IDE Andorid Studio:
-- Link Android Studio -> https://developer.android.com/studio?hl=it
-- Controlla che sia compatibile con l'archittetura del tuo computer e la versione del sistema operativo
-- Scarica l'eseguibile
-- Esegui e Installa
-  
-Importare il progetto in Android Studio:
-- Esegui Android Studio
-- Premi tasto clone repository e inserisci il link del repository
-- Premi clone e aspetta pochi secondi
-  
-Configura Firebase:
-- Vai su Firebase Console, crea un progetto e aggiungi un'app Android.
-- Scarica il file google-services.json e aggiungilo alla cartella app/ del progetto.
-Sincronizzare il progetto:
-- Una volta configurato Firebase, sincronizza il progetto per scaricare le dipendenze.
+### 2. Condivisione oggetti
+- Gli utenti possono caricare oggetti da condividere, con specifiche categorie, descrizioni e periodi di disponibilità.
+- Gestisci gli oggetti condivisi direttamente dal tuo profilo.
 
-Esegui l'app:
-- Se si possiede un telefono Andorid,lo si può attacare tramite cavo al proprio computer e installare l'app all'interno,in alternativa c'è l'utilizzo di un emulatore.
-- Quando si è pronti,cliccare sull'icona triangolare verde "Run app".
-  
-Tecnologie utilizzate
-- Firebase: Per l'autenticazione degli utenti, la gestione dei dati e le notifiche push.
-- Android SDK: Per lo sviluppo dell'interfaccia utente e la logica dell'app.
-- Java: Linguaggio di programmazione principale.
-  
-Struttura del progetto
-- app/: Contiene tutto il codice sorgente e le risorse.
-  
+### 3. Ricerca e filtraggio oggetti
+- Gli utenti possono cercare oggetti disponibili per categoria, posizione e disponibilità.
+- I risultati possono essere filtrati per affinare la ricerca.
 
+### 4. Sistema di recensioni
+- Gli utenti possono lasciare recensioni sugli oggetti presi in prestito, con un punteggio in stelle e un commento scritto.
 
+### 5. Gruppi
+- Crea o unisciti a gruppi di condivisione per visualizzare oggetti condivisi in quello specifico gruppo.
+- Ogni gruppo ha una chat integrata per facilitare la comunicazione tra gli utenti.
+
+## Link del repository
+
+[Tool Trip Repository su GitHub](https://github.com/MattiaMazarese/ToolTrip/)
+
+## Guida per lo sviluppo dell'app
+
+### 1. Scaricare e installare Android Studio
+- Visita il [sito ufficiale di Android Studio](https://developer.android.com/studio?hl=it).
+- Assicurati che la tua macchina supporti l'architettura richiesta e la versione del sistema operativo.
+- Scarica l'eseguibile e segui le istruzioni per installarlo.
+
+### 2. Importare il progetto in Android Studio
+- Avvia Android Studio.
+- Scegli "Clone repository" e inserisci il link del repository GitHub.
+- Dopo aver premuto "Clone", attendi qualche secondo per completare l'operazione.
+
+### 3. Configurare Firebase
+- Vai su [Firebase Console](https://console.firebase.google.com/) e crea un nuovo progetto.
+- Aggiungi la tua app Android al progetto Firebase e scarica il file `google-services.json`.
+- Aggiungi il file `google-services.json` nella cartella `app/` del tuo progetto Android Studio.
+
+### 4. Sincronizzare il progetto
+- Dopo aver configurato Firebase, sincronizza il progetto per scaricare tutte le dipendenze necessarie.
+
+### 5. Eseguire l'app
+- Collega un dispositivo Android al computer via USB, oppure usa un emulatore.
+- Clicca sull'icona verde "Run" in Android Studio per compilare ed eseguire l'app.
+
+## Tecnologie utilizzate
+- **Firebase**: Gestione dell'autenticazione, archiviazione dei dati e invio di notifiche push.
+- **Android SDK**: Per lo sviluppo dell'interfaccia utente e della logica dell'app.
+- **Java**: Linguaggio di programmazione principale.
+
+## Struttura del progetto
+- **app/**: Contiene il codice sorgente, le risorse e gli altri file necessari per l'esecuzione dell'app.
